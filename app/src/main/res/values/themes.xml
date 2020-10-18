@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Sudoku" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/console_bg_dark</item>
+        <item name="colorPrimaryVariant">@color/console_bg_medium</item>
+        <item name="colorOnPrimary">@color/console_fg_light</item>
+
+        <item name="colorSecondary">@color/console_bg_dark</item>
+        <item name="colorSecondaryVariant">@color/console_bg_medium</item>
+        <item name="colorOnSecondary">@color/console_fg_normal</item>
+
+        <item name="colorAccent">@color/console_fg_highlight</item>
+        <item name="android:colorBackground">@color/console_bg_medium</item>
+        <item name="android:textColor">@color/console_fg_normal</item>
+    </style>
+
+    <style name="Theme.Sudoku.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Sudoku.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Sudoku.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.wpvs.sudo_ku">
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Sudoku">
+
+        <!-- Start activity / game menu -->
+        <activity
+            android:name=".menu.StartMenuActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Second activity: Choose type of game -->
+        <activity android:name=".menu.GameTypeActivity" />
+
+        <!-- Third activity: The game itself -->
+        <activity android:name=".game.GameActivity" />
+
+        <!-- Fourth activity: Web browser to show man page of a command -->
+        <activity android:name=".browser.HtmlBrowserActivity" />
+    </application>
+</manifest>

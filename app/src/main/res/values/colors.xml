@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main UI colors, emulating a classical text-mode terminal -->
+    <color name="console_bg_dark">#202020</color>
+    <color name="console_bg_medium">#404040</color>
+    <color name="console_fg_normal">#bbbbbb</color>
+    <color name="console_fg_light">#ffffff</color>
+    <color name="console_fg_highlight">#81c784</color>
+
+    <!-- Additional UI colors used in the game field -->
+    <color name="game_bg_same">#b0bec5</color>
+    <color name="game_fg_same">#29b6f6</color>
+    <color name="game_bg_others">#dec7c1</color>
+    <color name="game_fg_others">#dd2c00</color>
+</resources>
