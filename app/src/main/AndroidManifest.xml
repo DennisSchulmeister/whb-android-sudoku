@@ -13,8 +13,8 @@
 
         <!-- Start activity / game menu -->
         <activity
-            android:name=".menu.StartMenuActivity"
-            android:label="@string/app_name">
+            android:name  = ".activity.menu.StartMenuActivity"
+            android:label = "@string/start_menu_label">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,12 +22,18 @@
         </activity>
 
         <!-- Second activity: Choose type of game -->
-        <activity android:name=".menu.GameTypeActivity" />
+        <activity
+            android:name  = ".activity.menu.GameTypeActivity"
+            android:label = "@string/game_type_label" />
 
         <!-- Third activity: The game itself -->
-        <activity android:name=".game.GameActivity" />
+        <activity
+            android:name  = ".activity.game.GameActivity"
+            android:label = "@string/game_label" />
 
         <!-- Fourth activity: Web browser to show man page of a command -->
-        <activity android:name=".browser.HtmlBrowserActivity" />
+        <activity
+            android:name  = ".activity.browser.HtmlBrowserActivity"
+            android:label = "@string/browser_label" />
     </application>
 </manifest>

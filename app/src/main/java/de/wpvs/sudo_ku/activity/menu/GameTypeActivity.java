@@ -1,4 +1,4 @@
-package de.wpvs.sudo_ku.menu;
+package de.wpvs.sudo_ku.activity.menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import de.wpvs.sudo_ku.R;
@@ -6,10 +6,10 @@ import de.wpvs.sudo_ku.R;
 import android.os.Bundle;
 
 /**
- * First visible activity after starting the app. It shows the logo and the game menu. The menu
- * consists of ongoing games (in the spirit of "ls") plus a floating button to start a new game.
+ * Intermediate activity that will be shown before a new game is started. Here the player is
+ * asked what type of game shall be started.
  */
-public class StartMenuActivity extends AppCompatActivity {
+public class GameTypeActivity extends AppCompatActivity {
 
     /**
      * System callback that will be used to inflate the UI, after the activity has been created.
@@ -20,7 +20,7 @@ public class StartMenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.start_menu_activity);
+        setContentView(R.layout.game_type_activity);
     }
 
 }

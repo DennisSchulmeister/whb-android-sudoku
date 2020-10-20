@@ -1,9 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".menu.StartMenuActivity">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android         = "http://schemas.android.com/apk/res/android"
+    xmlns:app             = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools           = "http://schemas.android.com/tools"
+    android:layout_width  = "match_parent"
+    android:layout_height = "match_parent"
+    tools:context         = ".activity.menu.StartMenuActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Main Content -->
+    <ScrollView
+        android:layout_width  = "match_parent"
+        android:layout_height = "match_parent"
+        android:fillViewport  = "true">
+        <LinearLayout
+            android:layout_width  = "match_parent"
+            android:layout_height = "match_parent"
+            android:orientation   = "vertical">
+
+            <!-- Top Banner with Logo and Slogan -->
+            <LinearLayout
+                android:layout_width  = "match_parent"
+                android:layout_height = "wrap_content"
+                android:background    = "@color/logo_background"
+                android:orientation   = "vertical">
+
+                <ImageView
+                    android:layout_width       = "@dimen/logo_width"
+                    android:layout_height      = "wrap_content"
+                    android:layout_gravity     = "center"
+                    android:layout_margin      = "@dimen/logo_margin"
+                    android:adjustViewBounds   = "true"
+                    android:cropToPadding      = "true"
+                    android:contentDescription = "@string/app_name"
+                    app:srcCompat              = "@drawable/logo" />
+
+                <TextView
+                    android:layout_width        = "match_parent"
+                    android:layout_height       = "wrap_content"
+                    android:layout_gravity      = "center"
+                    android:layout_marginLeft   = "@dimen/logo_margin"
+                    android:layout_marginRight  = "@dimen/logo_margin"
+                    android:layout_marginBottom = "@dimen/logo_margin"
+                    android:text                = "@string/app_slogan"
+                    android:textAlignment       = "center"
+                    android:textColor           = "@color/primaryTextColor"
+                    android:textSize            = "@dimen/slogan_size"
+                    android:textStyle           = "bold" />
+            </LinearLayout>
+
+            <!-- Saved Games -->
+            <TextView
+                android:id             = "@+id/start_menu_no_saved_games_message"
+                android:layout_width   = "match_parent"
+                android:layout_height  = "match_parent"
+                android:layout_weight  = "1"
+                android:gravity        = "center"
+                android:text           = "@string/start_menu_no_saved_games"
+                android:textSize       = "@dimen/message_size"
+                android:textStyle      = "italic" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id            = "@+id/start_menu_saved_games_list"
+                android:layout_width  = "match_parent"
+                android:layout_height = "wrap_content"
+                android:layout_weight = "1"
+                android:layout_margin = "@dimen/activity_padding"
+                app:layoutManager     = "LinearLayoutManager" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Floating Action Button to start a new game -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id                 = "@+id/start_menu_new_game_fab"
+        android:layout_width       = "wrap_content"
+        android:layout_height      = "wrap_content"
+        android:layout_gravity     = "bottom|end"
+        android:layout_margin      = "@dimen/fab_margin"
+        app:srcCompat              = "@android:drawable/ic_input_add"
+        android:tint               = "?attr/colorOnSecondary"
+        android:contentDescription = "@string/start_menu_new_game" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

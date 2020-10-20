@@ -1,4 +1,4 @@
-package de.wpvs.sudo_ku.browser;
+package de.wpvs.sudo_ku.activity.browser;
 
 import androidx.appcompat.app.AppCompatActivity;
 import de.wpvs.sudo_ku.R;

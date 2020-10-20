@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app     = "http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable name="startTime" type="java.text.DateFormat" />
+        <variable name="saveTime" type="java.text.NumberFormat" />
+        <variable name="typeLabel" type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width  = "match_parent"
+        android:layout_height = "wrap_content"
+        android:orientation   = "vertical"
+        android:padding       = "@dimen/listitem_padding"
+        >
+        <TextView
+            android:id             = "@+id/type"
+            android:layout_width   = "wrap_content"
+            android:layout_height  = "wrap_content"
+            android:gravity        = "center_vertical"
+            android:textAppearance = "?attr/textAppearanceListItem"
+            android:text           = "@{typeLabel}"
+        />
+    </LinearLayout>
+</layout>

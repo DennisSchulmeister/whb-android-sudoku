@@ -1,17 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Sudoku" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/console_bg_dark</item>
-        <item name="colorPrimaryVariant">@color/console_bg_medium</item>
-        <item name="colorOnPrimary">@color/console_fg_light</item>
+    <style name="Theme.Sudoku" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
 
-        <item name="colorSecondary">@color/console_bg_dark</item>
-        <item name="colorSecondaryVariant">@color/console_bg_medium</item>
-        <item name="colorOnSecondary">@color/console_fg_normal</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
 
-        <item name="colorAccent">@color/console_fg_highlight</item>
-        <item name="android:colorBackground">@color/console_bg_medium</item>
-        <item name="android:textColor">@color/console_fg_normal</item>
+        <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
     <style name="Theme.Sudoku.NoActionBar">

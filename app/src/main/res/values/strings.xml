@@ -1,16 +1,19 @@
 <resources>
+    <!-- General -->
     <string name="app_name">sudo -ku</string>
+    <string name="app_slogan">Sudoku for system administrators</string>
 
+    <!-- Start Menu Activity -->
+    <string name="start_menu_label">Main Menu</string>
+    <string name="start_menu_new_game">Start New Game</string>
+    <string name="start_menu_no_saved_games">There are no saved games, yet.\nPress the plus sign to start a new game.</string>
 
+    <!-- Game Type Activity -->
+    <string name="game_type_label">Game Type</string>
 
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <!-- Game Activity -->
+    <string name="game_label">@string/app_name</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="title_activity_html_browser">HtmlBrowserActivity</string>
+    <!-- Browser Activity -->
+    <string name="browser_label">Man Page</string>
 </resources>

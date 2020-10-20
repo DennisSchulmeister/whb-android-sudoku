@@ -1,4 +1,4 @@
-package de.wpvs.sudo_ku.game;
+package de.wpvs.sudo_ku.activity.game;
 
 import androidx.appcompat.app.AppCompatActivity;
 import de.wpvs.sudo_ku.R;
