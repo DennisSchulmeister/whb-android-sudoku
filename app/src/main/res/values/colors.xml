@@ -7,7 +7,8 @@
   <color name="secondaryColor">#dd2c00</color>
   <color name="secondaryLightColor">#ff6434</color>
   <color name="secondaryDarkColor">#a30000</color>
-  <color name="primaryTextColor">#ffffff</color>
+  <color name="primaryTextColor">#303030</color>
   <color name="secondaryTextColor">#ffffff</color>
   <color name="logo_background">#282828</color>
+  <color name="list_field_label">#909090</color>
 </resources>

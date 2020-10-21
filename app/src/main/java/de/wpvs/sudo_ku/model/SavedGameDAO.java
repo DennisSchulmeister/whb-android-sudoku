@@ -17,6 +17,7 @@ import androidx.room.Update;
 public interface SavedGameDAO {
     /**
      * Insert a new game, replace existing on conflict.
+     *
      * @param savedGame Record to insert
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -24,6 +25,7 @@ public interface SavedGameDAO {
 
     /**
      * Update an existing game.
+     *
      * @param savedGame Record to update
      */
     @Update
@@ -31,6 +33,7 @@ public interface SavedGameDAO {
 
     /**
      * Delete an existing game.
+     *
      * @param savedGame Record to delete
      */
     @Delete
@@ -38,13 +41,23 @@ public interface SavedGameDAO {
 
     /**
      * Selects all saved games.
+     *
      * @return All saved games ordered by save data descending
      */
     @Query("SELECT * FROM SavedGame ORDER BY saveDate DESC")
     public LiveData<List<SavedGame>> selectAll();
 
     /**
+     * The same as selectAll() but without wrapping the result in a LiveData object.
+     *
+     * @return All saved games ordered by save data descending
+     */
+    @Query("SELECT * FROM SavedGame ORDER BY saveDate DESC")
+    public List<SavedGame> selectAllSynchronously();
+
+    /**
      * Selects a single saved game via its ID.
+     *
      * @param id ID of the searched game.
      * @return Found record or null
      */
@@ -52,9 +65,26 @@ public interface SavedGameDAO {
     public LiveData<SavedGame> selectSingle(String id);
 
     /**
+     * The same as selectSingle() but without wrapping the result in a LiveData object.
+     *
+     * @return Found record or null
+     */
+    @Query("SELECT * FROM SavedGame WHERE id = :id")
+    public SavedGame selectSingleSynchronously(String id);
+
+    /**
      * Selects to total amount of saved games
+     *
      * @returns Number of saved games
      */
     @Query("SELECT COUNT(*) FROM SavedGame")
     LiveData<Integer> getRowCount();
+
+    /**
+     * The same as getRowCount() but without wrapping the result in a LiveData object.
+     *
+     * @returns Number of saved games
+     */
+    @Query("SELECT COUNT(*) FROM SavedGame")
+    Integer getRowCountSynchronously();
 }

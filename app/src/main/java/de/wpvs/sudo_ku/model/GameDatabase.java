@@ -11,7 +11,7 @@ import androidx.room.TypeConverters;
  * Main database class which acts as an entry point for all database access objects, which can
  * be used for database access.
  */
-@Database(entities = {SavedGame.class}, version = 1)
+@Database(entities = {SavedGame.class}, version = 3)
 @TypeConverters({DatabaseTypeConverters.class})
 public abstract class GameDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "game_database";
@@ -24,14 +24,14 @@ public abstract class GameDatabase extends RoomDatabase {
      */
     public static GameDatabase getInstance(Context context) {
         if (singleton == null) {
-            singleton = Room.databaseBuilder(context, GameDatabase.class, DATABASE_NAME).build();
+            singleton = Room.databaseBuilder(context, GameDatabase.class, DATABASE_NAME).fallbackToDestructiveMigration().build();
         }
 
         return singleton;
     }
 
     /**
-     * @return DAO for saved games
+     * @return Data access object for saved games
      */
-    public abstract  SavedGameDAO savedGameDAO();
+    public abstract SavedGameDAO savedGameDAO();
 }

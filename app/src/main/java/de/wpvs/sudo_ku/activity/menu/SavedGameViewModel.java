@@ -1,4 +1,4 @@
-package de.wpvs.sudo_ku.model;
+package de.wpvs.sudo_ku.activity.menu;
 
 import android.app.Application;
 
@@ -7,6 +7,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.room.Room;
+import de.wpvs.sudo_ku.model.GameDatabase;
+import de.wpvs.sudo_ku.model.SavedGame;
 
 /**
  *  ViewModel for persistent saved games, that will remain in memory even if the parent
@@ -25,6 +28,7 @@ public class SavedGameViewModel extends AndroidViewModel {
      */
     public SavedGameViewModel(@NonNull Application application) {
         super(application);
+
         this.gameDatabase = GameDatabase.getInstance(application);
     }
 

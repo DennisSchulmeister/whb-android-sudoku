@@ -1,27 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android = "http://schemas.android.com/apk/res/android"
-    xmlns:app     = "http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app     = "http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="startTime" type="java.text.DateFormat" />
-        <variable name="saveTime" type="java.text.NumberFormat" />
-        <variable name="typeLabel" type="String" />
+        <import type="android.text.format.DateUtils" />
+        <variable name="savedGame" type="de.wpvs.sudo_ku.model.SavedGame" />
+        <variable name="gameTypeNumberVisibility" type="int" />
+        <variable name="gameTypeLetterVisibility" type="int" />
+        <variable name="boardSize" type="String" />
+        <variable name="elapsedTime" type="String" />
+        <variable name="progress" type="String" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width  = "match_parent"
         android:layout_height = "wrap_content"
-        android:orientation   = "vertical"
         android:padding       = "@dimen/listitem_padding"
-        >
+        android:background    = "?attr/selectableItemBackground"
+        android:clickable     = "true">
+
+        <!-- Line 1: Board size, game type and start date -->
+        <LinearLayout
+            android:id            = "@+id/start_game_listitem_gametype"
+            android:layout_width  = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:orientation   = "horizontal">
+
+            <TextView
+                android:id                 = "@+id/start_game_listitem_board_size"
+                android:layout_width       = "wrap_content"
+                android:layout_height      = "wrap_content"
+                android:layout_marginRight = "@dimen/small_gap"
+                android:textAppearance     = "?attr/textAppearanceListItem"
+                android:textStyle          = "bold"
+                android:text               = "@{boardSize}" />
+
+            <TextView
+                android:id             = "@+id/start_game_listitem_gametype_number"
+                android:layout_width   = "wrap_content"
+                android:layout_height  = "wrap_content"
+                android:visibility     = "@{gameTypeNumberVisibility}"
+                android:textAppearance = "?attr/textAppearanceListItem"
+                android:textStyle      = "bold"
+                android:text           = "@string/game_type_number" />
+
+            <TextView
+                android:id             = "@+id/start_game_listitem_gametype_letter"
+                android:layout_width   = "wrap_content"
+                android:layout_height  = "wrap_content"
+                android:visibility     = "@{gameTypeLetterVisibility}"
+                android:textAppearance = "?attr/textAppearanceListItem"
+                android:text           = "@string/game_type_letter" />
+        </LinearLayout>
+
         <TextView
-            android:id             = "@+id/type"
-            android:layout_width   = "wrap_content"
-            android:layout_height  = "wrap_content"
-            android:gravity        = "center_vertical"
-            android:textAppearance = "?attr/textAppearanceListItem"
-            android:text           = "@{typeLabel}"
-        />
-    </LinearLayout>
+            android:id                      = "@+id/start_game_listitem_start_date"
+            android:layout_width            = "wrap_content"
+            android:layout_height           = "wrap_content"
+            android:layout_alignTop         = "@id/start_game_listitem_gametype"
+            android:layout_alignParentRight = "true"
+            android:textAppearance          = "?attr/textAppearanceListItem"
+            android:text                    = "@{DateUtils.getRelativeTimeSpanString(savedGame.startDate.getTime())}" />
+
+        <!-- Line 2: Save date -->
+        <TextView
+            android:id                      = "@+id/start_game_listitem_save_date_label"
+            android:layout_width            = "wrap_content"
+            android:layout_height           = "wrap_content"
+            android:layout_below            = "@id/start_game_listitem_gametype"
+            android:layout_marginTop        = "@dimen/large_gap"
+            android:textAppearance          = "?attr/textAppearanceListItemSmall"
+            android:textColor               = "@color/list_field_label"
+            android:text                    = "@string/label_save_date" />
+
+        <TextView
+            android:id                      = "@+id/start_game_listitem_save_date_value"
+            android:layout_width            = "wrap_content"
+            android:layout_height           = "wrap_content"
+            android:layout_alignTop         = "@+id/start_game_listitem_save_date_label"
+            android:layout_toRightOf        = "@+id/start_game_listitem_save_date_label"
+            android:layout_marginLeft       = "@dimen/small_gap"
+            android:textAppearance          = "?attr/textAppearanceListItemSmall"
+            android:text                    = "@{DateUtils.getRelativeTimeSpanString(savedGame.saveDate.getTime())}" />
+
+        <!-- Line 3: Elapsed Time -->
+        <TextView
+            android:id                      = "@+id/start_game_listitem_elapsed_time_label"
+            android:layout_width            = "wrap_content"
+            android:layout_height           = "wrap_content"
+            android:layout_below            = "@id/start_game_listitem_save_date_label"
+            android:layout_alignRight       = "@id/start_game_listitem_save_date_label"
+            android:textAppearance          = "?attr/textAppearanceListItemSmall"
+            android:textColor               = "@color/list_field_label"
+            android:text                    = "@string/label_elapsed_time" />
+
+        <TextView
+            android:id                      = "@+id/start_game_listitem_elapsed_time_value"
+            android:layout_width            = "wrap_content"
+            android:layout_height           = "wrap_content"
+            android:layout_alignTop         = "@+id/start_game_listitem_elapsed_time_label"
+            android:layout_toRightOf        = "@+id/start_game_listitem_elapsed_time_label"
+            android:layout_marginLeft       = "@dimen/small_gap"
+            android:textAppearance          = "?attr/textAppearanceListItemSmall"
+            android:text                    = "@{elapsedTime}" />
+
+        <!-- Line 4: Progress -->
+        <TextView
+            android:id                      = "@+id/start_game_listitem_progress_label"
+            android:layout_width            = "wrap_content"
+            android:layout_height           = "wrap_content"
+            android:layout_below            = "@id/start_game_listitem_elapsed_time_label"
+            android:layout_alignRight       = "@id/start_game_listitem_elapsed_time_label"
+            android:textAppearance          = "?attr/textAppearanceListItemSmall"
+            android:textColor               = "@color/list_field_label"
+            android:text                    = "@string/label_progress" />
+
+        <TextView
+            android:id                      = "@+id/start_game_listitem_progress_value"
+            android:layout_width            = "wrap_content"
+            android:layout_height           = "wrap_content"
+            android:layout_alignTop         = "@+id/start_game_listitem_progress_label"
+            android:layout_toRightOf        = "@+id/start_game_listitem_progress_label"
+            android:layout_marginLeft       = "@dimen/small_gap"
+            android:textAppearance          = "?attr/textAppearanceListItemSmall"
+            android:text                    = "@{progress}" />
+    </RelativeLayout>
 </layout>

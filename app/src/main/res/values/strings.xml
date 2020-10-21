@@ -3,10 +3,19 @@
     <string name="app_name">sudo -ku</string>
     <string name="app_slogan">Sudoku for system administrators</string>
 
+    <string name="game_type_number">Number Puzzle</string>
+    <string name="game_type_letter">Letter Puzzle</string>
+    <string name="label_save_date">Last Played:</string>
+    <string name="label_progress">Progress:</string>
+    <string name="label_elapsed_time">Duration:</string>
+
     <!-- Start Menu Activity -->
     <string name="start_menu_label">Main Menu</string>
     <string name="start_menu_new_game">Start New Game</string>
     <string name="start_menu_no_saved_games">There are no saved games, yet.\nPress the plus sign to start a new game.</string>
+
+    <string name="start_menu_debug_create_game">Create Dummy Game</string>
+    <string name="start_menu_debug_delete_all">Delete All Games</string>
 
     <!-- Game Type Activity -->
     <string name="game_type_label">Game Type</string>

@@ -6,7 +6,7 @@ import androidx.room.TypeConverter;
 
 /**
  * Utility class automatically used by the Room database to convert serialize and deserialize
- * complex datatypes during the OR-mapping. See e.g.: https://stackoverflow.com/a/58259703
+ * complex data types during the OR-mapping. See e.g.: https://stackoverflow.com/a/58259703
  */
 public class DatabaseTypeConverters {
     /**
@@ -32,24 +32,56 @@ public class DatabaseTypeConverters {
     }
 
     /**
-     * Serialize a GameType value into a string.
+     * Serialize a GameType enum into a string value.
      *
-     * @param gameType GameType enum value
-     * @return Serialized string value
+     * @param gameType GameType value to serialize
+     * @return Name of the GameType value
      */
     @TypeConverter
-    public static String gameTypeToString(GameType gameType) {
+    public String gameTypeToString(GameType gameType) {
         return gameType == null ? null : gameType.name();
     }
 
     /**
-     * Deserialize a string value into a GameType enum.
+     * Deserialize a string back into a GameType enum.
      *
-     * @param value Serialized string value
-     * @return Deserialized GameType enum
+     * @param name Serialized name of the GameType
+     * @return Deserialized GameType enum value
      */
     @TypeConverter
-    public static GameType stringToGameType(String value) {
-        return value == null ? null : GameType.valueOf(value);
+    public GameType stringToGameType(String name) {
+        return name == null ? null : GameType.valueOf(name);
+    }
+
+    /**
+     * Serialize a string array into a single string, using the zero character to split values.
+     *
+     * @param array String array
+     * @return Serialized string
+     */
+    @TypeConverter
+    public static String stringArrayToString(String[] array) {
+        String joined = "";
+
+        for (String value : array) {
+            if (joined.isEmpty()) {
+                joined = value;
+            } else {
+                joined += "\0" + value;
+            }
+        }
+
+        return joined;
+    }
+
+    /**
+     * Deserialize a string with zero characters back into a string array.
+     *
+     * @param joined Seralized string
+     * @return Deserialized array
+     */
+    @TypeConverter
+    public String[] stringToStringArray(String joined) {
+        return joined.split("\0");
     }
 }

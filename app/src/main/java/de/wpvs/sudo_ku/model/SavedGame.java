@@ -1,6 +1,7 @@
 package de.wpvs.sudo_ku.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
@@ -14,59 +15,22 @@ import androidx.room.PrimaryKey;
 public class SavedGame {
     @NonNull
     @PrimaryKey
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
-    private Date startDate;
-    private Date saveDate;
-    private GameType gameType;
-    private float difficulty;
-    private float progress;
-    private String serializedGameBoard;
+    private Date startDate = new Date();
+    private Date saveDate = new Date();
+    private GameType gameType = GameType.NUMBER_QUIZ;
+    private int size = 3;
+    private String[] characters = new String[0];
+    private float difficulty = 0.5f;
+    private float progress = 0.0f;
+    private long seconds = 0;
+    private String serializedGameBoard = "";
 
     /**
      * Default constructor.
      */
     public SavedGame() {
-    }
-
-    /**
-     * Constructor for quick creation of new records.
-     *
-     * @param startDate Time, when the game was started
-     * @param saveDate Time, when the game was last saved
-     * @param gameType Variant/type of game
-     * @param difficulty Difficulty in percent from 0 to 1
-     * @param progress Game progress in percent from 0 to 1
-     * @param serializedGameBoard Serialized game board content
-     */
-    public SavedGame(Date startDate, Date saveDate, GameType gameType, float difficulty, float progress, String serializedGameBoard) {
-        this.startDate = startDate;
-        this.saveDate = saveDate;
-        this.gameType = gameType;
-        this.difficulty = difficulty;
-        this.progress = progress;
-        this.serializedGameBoard = serializedGameBoard;
-    }
-
-    /**
-     * Constructor for recreating saved records.
-     *
-     * @param id Record ID
-     * @param startDate Time, when the game was started
-     * @param saveDate Time, when the game was last saved
-     * @param gameType Variant/type of game
-     * @param difficulty Difficulty in percent from 0 to 1
-     * @param progress Game progress in percent from 0 to 1
-     * @param serializedGameBoard Serialized game board content
-     */
-    public SavedGame(@NonNull String id, Date startDate, Date saveDate, GameType gameType, float difficulty, float progress, String serializedGameBoard) {
-        this.id = id;
-        this.startDate = startDate;
-        this.saveDate = saveDate;
-        this.gameType = gameType;
-        this.difficulty = difficulty;
-        this.progress = progress;
-        this.serializedGameBoard = serializedGameBoard;
     }
 
     @NonNull
@@ -102,6 +66,22 @@ public class SavedGame {
         this.gameType = gameType;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public String[] getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(String[] characters) {
+        this.characters = characters;
+    }
+
     public float getDifficulty() {
         return difficulty;
     }
@@ -116,6 +96,14 @@ public class SavedGame {
 
     public void setProgress(float progress) {
         this.progress = progress;
+    }
+
+    public long getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(long seconds) {
+        this.seconds = seconds;
     }
 
     public String getSerializedGameBoard() {
