@@ -2,7 +2,7 @@
     <dimen name="activity_padding">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="listitem_padding">16dp</dimen>
-    <dimen name="small_gap">3sp</dimen>
+    <dimen name="small_gap">4sp</dimen>
     <dimen name="large_gap">16sp</dimen>
 
     <dimen name="logo_width">200dp</dimen>

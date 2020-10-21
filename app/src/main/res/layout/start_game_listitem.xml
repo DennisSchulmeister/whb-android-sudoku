@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android = "http://schemas.android.com/apk/res/android"
-    xmlns:app     = "http://schemas.android.com/apk/res-auto">
+<layout xmlns:android = "http://schemas.android.com/apk/res/android">
     <data>
         <import type="android.text.format.DateUtils" />
         <variable name="savedGame" type="de.wpvs.sudo_ku.model.SavedGame" />
-        <variable name="gameTypeNumberVisibility" type="int" />
-        <variable name="gameTypeLetterVisibility" type="int" />
-        <variable name="boardSize" type="String" />
+        <variable name="gameType" type="String" />
         <variable name="elapsedTime" type="String" />
         <variable name="progress" type="String" />
     </data>
@@ -20,38 +16,13 @@
         android:clickable     = "true">
 
         <!-- Line 1: Board size, game type and start date -->
-        <LinearLayout
-            android:id            = "@+id/start_game_listitem_gametype"
-            android:layout_width  = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:orientation   = "horizontal">
-
-            <TextView
-                android:id                 = "@+id/start_game_listitem_board_size"
-                android:layout_width       = "wrap_content"
-                android:layout_height      = "wrap_content"
-                android:layout_marginRight = "@dimen/small_gap"
-                android:textAppearance     = "?attr/textAppearanceListItem"
-                android:textStyle          = "bold"
-                android:text               = "@{boardSize}" />
-
-            <TextView
-                android:id             = "@+id/start_game_listitem_gametype_number"
-                android:layout_width   = "wrap_content"
-                android:layout_height  = "wrap_content"
-                android:visibility     = "@{gameTypeNumberVisibility}"
-                android:textAppearance = "?attr/textAppearanceListItem"
-                android:textStyle      = "bold"
-                android:text           = "@string/game_type_number" />
-
-            <TextView
-                android:id             = "@+id/start_game_listitem_gametype_letter"
-                android:layout_width   = "wrap_content"
-                android:layout_height  = "wrap_content"
-                android:visibility     = "@{gameTypeLetterVisibility}"
-                android:textAppearance = "?attr/textAppearanceListItem"
-                android:text           = "@string/game_type_letter" />
-        </LinearLayout>
+        <TextView
+            android:id             = "@+id/start_game_listitem_gametype"
+            android:layout_width   = "wrap_content"
+            android:layout_height  = "wrap_content"
+            android:textAppearance = "?attr/textAppearanceListItem"
+            android:textStyle      = "bold"
+            android:text           = "@{gameType}" />
 
         <TextView
             android:id                      = "@+id/start_game_listitem_start_date"

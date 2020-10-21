@@ -1,5 +1,6 @@
 package de.wpvs.sudo_ku.activity.menu;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.databinding.StartGameListitemBinding;
 import de.wpvs.sudo_ku.model.SavedGame;
 
@@ -22,14 +24,18 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
      * object for the corresponding list item instead of any view references.
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public final Context context;
         public final StartGameListitemBinding binding;
 
         /**
          * Constructor
+         *
          * @param binding View binding object
          */
-        public ViewHolder(@NonNull StartGameListitemBinding binding) {
+        public ViewHolder(@NonNull Context context, @NonNull StartGameListitemBinding binding) {
             super(binding.getRoot());
+
+            this.context = context;
             this.binding = binding;
         }
     }
@@ -40,6 +46,7 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
     public static interface ClickListener {
         /**
          * Handle click on a saved game.
+         *
          * @param savedGame Clicked SavedGame entity.
          */
         void onItemClicked(SavedGame savedGame);
@@ -62,6 +69,7 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
 
     /**
      * Set or change the callback object for clicked items.
+     *
      * @param clickListener Click listener callback
      */
     public void setClickListener(ClickListener clickListener) {
@@ -70,6 +78,7 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
 
     /**
      * This method is required so that the RecyclerView knows how many list items it needs to show.
+     *
      * @returns the amount of items to display.
      */
     @Override
@@ -98,7 +107,7 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
             }
         });
 
-        return new ViewHolder(binding);
+        return new ViewHolder(parent.getContext(), binding);
     }
 
     /**
@@ -111,21 +120,20 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         SavedGame savedGame = this.savedGames.get(position);
-
         holder.binding.setSavedGame(savedGame);
+
+        String gameType = savedGame.getSize() + "×" + savedGame.getSize();
 
         switch (savedGame.getGameType()) {
             case NUMBER_QUIZ:
-                holder.binding.setGameTypeNumberVisibility(View.VISIBLE);
-                holder.binding.setGameTypeLetterVisibility(View.GONE);
+                gameType +=  " " + holder.context.getString(R.string.game_type_number);
                 break;
             case LETTER_QUIZ:
-                holder.binding.setGameTypeNumberVisibility(View.GONE);
-                holder.binding.setGameTypeLetterVisibility(View.VISIBLE);
+                gameType +=  " " + holder.context.getString(R.string.game_type_letter);
                 break;
         }
 
-        holder.binding.setBoardSize(savedGame.getSize() + "×" + savedGame.getSize());
+        holder.binding.setGameType(gameType);
         holder.binding.setElapsedTime((int) Math.floor(savedGame.getSeconds() / 60) + ":" + (savedGame.getSeconds() % 60));
         holder.binding.setProgress((int) (savedGame.getProgress() * 100) + "%");
 
