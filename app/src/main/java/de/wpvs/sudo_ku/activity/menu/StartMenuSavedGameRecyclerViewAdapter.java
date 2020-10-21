@@ -1,6 +1,5 @@
 package de.wpvs.sudo_ku.activity.menu;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,12 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.wpvs.sudo_ku.databinding.StartGameListitemBinding;
-import de.wpvs.sudo_ku.model.GameType;
 import de.wpvs.sudo_ku.model.SavedGame;
 
 /**
  * Adapter class to display SavedGame instances in a RecyclerView.
  */
-public class SavedGameRecyclerViewAdapter extends RecyclerView.Adapter<SavedGameRecyclerViewAdapter.ViewHolder> {
+public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<StartMenuSavedGameRecyclerViewAdapter.ViewHolder> {
     /**
      * ViewHolder class that is used by the RecyclerView to hold a reference to the view elements
      * of one list item. Since we are using view bindings, this is does only contain the binding

@@ -9,7 +9,6 @@ import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.game.GameActivity;
 import de.wpvs.sudo_ku.model.DebugUtils;
 import de.wpvs.sudo_ku.model.GameDatabase;
-import de.wpvs.sudo_ku.model.SavedGame;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,9 +20,6 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Date;
-import java.util.List;
-
 /**
  * First visible activity after starting the app. It shows the logo and the game menu. The menu
  * consists of ongoing games (in the spirit of "ls") plus a floating button to start a new game.
@@ -33,8 +29,8 @@ public class StartMenuActivity extends AppCompatActivity {
     private RecyclerView savedGamesList;
     private FloatingActionButton floatingActionButton;
 
-    private SavedGameViewModel savedGameViewModel;
-    private SavedGameRecyclerViewAdapter savedGameRecyclerViewAdapter;
+    private StartMenuSavedGameViewModel startMenuSavedGameViewModel;
+    private StartMenuSavedGameRecyclerViewAdapter startMenuSavedGameRecyclerViewAdapter;
 
     /**
      * System callback that will be used to inflate the UI, after the activity has been created.
@@ -53,24 +49,24 @@ public class StartMenuActivity extends AppCompatActivity {
         this.floatingActionButton = this.findViewById(R.id.start_menu_new_game_fab);
 
         // Retrieve the ViewModel for saved games and create RecyclerView.Adapter
-        this.savedGameRecyclerViewAdapter = new SavedGameRecyclerViewAdapter();
-        this.savedGamesList.setAdapter(this.savedGameRecyclerViewAdapter);
+        this.startMenuSavedGameRecyclerViewAdapter = new StartMenuSavedGameRecyclerViewAdapter();
+        this.savedGamesList.setAdapter(this.startMenuSavedGameRecyclerViewAdapter);
         this.savedGamesList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         // Toggle between list or message depending on the amount of saved games
-        this.savedGameViewModel = new ViewModelProvider(this).get(SavedGameViewModel.class);
+        this.startMenuSavedGameViewModel = new ViewModelProvider(this).get(StartMenuSavedGameViewModel.class);
 
-        this.savedGameViewModel.getCount().observe(this, count -> {
+        this.startMenuSavedGameViewModel.getCount().observe(this, count -> {
             this.noSavedGamesMessage.setVisibility(count > 0 ? View.GONE : View.VISIBLE);
             this.savedGamesList.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
         });
 
-        this.savedGameViewModel.getSavedGames().observe(this, savedGames -> {
-            this.savedGameRecyclerViewAdapter.setSavedGames(savedGames);
+        this.startMenuSavedGameViewModel.getSavedGames().observe(this, savedGames -> {
+            this.startMenuSavedGameRecyclerViewAdapter.setSavedGames(savedGames);
         });
 
         // Start existing game on click on the list
-        this.savedGameRecyclerViewAdapter.setClickListener(savedGame -> {
+        this.startMenuSavedGameRecyclerViewAdapter.setClickListener(savedGame -> {
             Intent intent = new Intent(this, GameActivity.class);
             intent.putExtra("SavedGameId", savedGame.getId());
             this.startActivity(intent);
@@ -118,7 +114,7 @@ public class StartMenuActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        GameDatabase gameDatabase = this.savedGameViewModel.getGameDatabase();
+        GameDatabase gameDatabase = this.startMenuSavedGameViewModel.getGameDatabase();
 
         switch (item.getItemId()) {
             case R.id.action_debug_create_game:

@@ -18,7 +18,7 @@ import de.wpvs.sudo_ku.model.SavedGame;
  *  object is automagically provided by a Room database, which also takes care to run the query
  *  in a background task.
  */
-public class SavedGameViewModel extends AndroidViewModel {
+public class StartMenuSavedGameViewModel extends AndroidViewModel {
     private GameDatabase gameDatabase;
     private LiveData<List<SavedGame>> savedGames = null;
     private LiveData<Integer> count = null;
@@ -26,7 +26,7 @@ public class SavedGameViewModel extends AndroidViewModel {
     /**
      * Constructor
      */
-    public SavedGameViewModel(@NonNull Application application) {
+    public StartMenuSavedGameViewModel(@NonNull Application application) {
         super(application);
 
         this.gameDatabase = GameDatabase.getInstance(application);
