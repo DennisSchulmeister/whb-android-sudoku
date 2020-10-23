@@ -1,6 +1,9 @@
 package de.wpvs.sudo_ku.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import androidx.room.TypeConverter;
 
@@ -54,16 +57,16 @@ public class DatabaseTypeConverters {
     }
 
     /**
-     * Serialize a string array into a single string, using the zero character to split values.
+     * Serialize a string list into a single string, using the zero character to split values.
      *
-     * @param array String array
+     * @param list String listy
      * @return Serialized string
      */
     @TypeConverter
-    public static String stringArrayToString(String[] array) {
+    public static String stringLostToString(List<String> list) {
         String joined = "";
 
-        for (String value : array) {
+        for (String value : list) {
             if (joined.isEmpty()) {
                 joined = value;
             } else {
@@ -75,13 +78,13 @@ public class DatabaseTypeConverters {
     }
 
     /**
-     * Deserialize a string with zero characters back into a string array.
+     * Deserialize a string with zero characters back into a string list.
      *
      * @param joined Seralized string
-     * @return Deserialized array
+     * @return Deserialized list
      */
     @TypeConverter
-    public String[] stringToStringArray(String joined) {
-        return joined.split("\0");
+    public List<String> stringToStringList(String joined) {
+        return new ArrayList<String>(Arrays.asList(joined.split("\0")));
     }
 }

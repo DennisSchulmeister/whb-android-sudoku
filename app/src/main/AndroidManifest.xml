@@ -23,17 +23,26 @@
 
         <!-- Second activity: Choose type of game -->
         <activity
-            android:name  = ".activity.menu.GameTypeActivity"
-            android:label = "@string/game_type_label" />
+            android:name  = ".activity.menu.NewGameActivity"
+            android:label = "@string/new_game_label">
+
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".activity.menu.StartMenuActivity"/>
+        </activity>
 
         <!-- Third activity: The game itself -->
         <activity
             android:name  = ".activity.game.GameActivity"
-            android:label = "@string/game_label" />
+            android:label = "@string/game_label">
+
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".activity.menu.StartMenuActivity"/>
+        </activity>
 
         <!-- Fourth activity: Web browser to show man page of a command -->
         <activity
             android:name  = ".activity.browser.HtmlBrowserActivity"
-            android:label = "@string/browser_label" />
+            android:label = "@string/browser_label">
+
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".activity.menu.GameActivity"/>
+        </activity>
     </application>
 </manifest>

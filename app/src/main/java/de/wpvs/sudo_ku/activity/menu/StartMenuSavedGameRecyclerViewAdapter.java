@@ -2,7 +2,6 @@ package de.wpvs.sudo_ku.activity.menu;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -125,10 +124,10 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
         String gameType = savedGame.getSize() + "×" + savedGame.getSize();
 
         switch (savedGame.getGameType()) {
-            case NUMBER_QUIZ:
+            case NUMBER_GAME:
                 gameType +=  " " + holder.context.getString(R.string.game_type_number);
                 break;
-            case LETTER_QUIZ:
+            case LETTER_GAME:
                 gameType +=  " " + holder.context.getString(R.string.game_type_letter);
                 break;
         }

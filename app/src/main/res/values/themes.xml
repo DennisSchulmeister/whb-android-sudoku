@@ -12,6 +12,23 @@
         <item name="android:textColorSecondary">@color/secondaryTextColor</item>
 
         <item name="colorAccent">@color/secondaryColor</item>
+
+        <!-- Application title bar -->
+        <item name="titleTextColor">@color/secondaryTextColor</item>
+        <item name="subtitleTextColor">@color/secondaryTextColor</item>
+        <item name="actionOverflowButtonStyle">@style/Theme.Sudoku.ActionOverflowButton</item>
+        <item name="toolbarNavigationButtonStyle">@style/Theme.Sudoku.ToolbarButtonNavigation</item>
+    </style>
+
+    <style name="Theme.Sudoku.ActionOverflowButton" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="tint">@color/secondaryTextColor</item>
+    </style>
+    <style name="Theme.Sudoku.ToolbarButtonNavigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">@color/secondaryTextColor</item>
+    </style>
+
+    <style name="Theme.Sudoku.Preferences" parent="Theme.Sudoku">
+        <item name="android:textColorSecondary">@color/list_field_label</item>
     </style>
 
     <style name="Theme.Sudoku.NoActionBar">
@@ -19,7 +36,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Sudoku.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Sudoku.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
 
     <style name="Theme.Sudoku.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

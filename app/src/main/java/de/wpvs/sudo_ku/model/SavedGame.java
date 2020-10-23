@@ -1,6 +1,8 @@
 package de.wpvs.sudo_ku.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import androidx.annotation.NonNull;
@@ -19,9 +21,9 @@ public class SavedGame {
 
     private Date startDate = new Date();
     private Date saveDate = new Date();
-    private GameType gameType = GameType.NUMBER_QUIZ;
-    private int size = 3;
-    private String[] characters = new String[0];
+    private GameType gameType = GameType.NUMBER_GAME;
+    private int size = 9;
+    private List<String> characterSet = new ArrayList<>();
     private float difficulty = 0.5f;
     private float progress = 0.0f;
     private long seconds = 0;
@@ -74,12 +76,12 @@ public class SavedGame {
         this.size = size;
     }
 
-    public String[] getCharacters() {
-        return characters;
+    public List<String> getCharacterSet() {
+        return characterSet;
     }
 
-    public void setCharacters(String[] characters) {
-        this.characters = characters;
+    public void setCharacterSet(List<String> characterSet) {
+        this.characterSet = characterSet;
     }
 
     public float getDifficulty() {

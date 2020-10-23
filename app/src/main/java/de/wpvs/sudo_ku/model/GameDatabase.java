@@ -11,7 +11,7 @@ import androidx.room.TypeConverters;
  * Main database class which acts as an entry point for all database access objects, which can
  * be used for database access.
  */
-@Database(entities = {SavedGame.class}, version = 3)
+@Database(entities = {SavedGame.class}, version = 4)
 @TypeConverters({DatabaseTypeConverters.class})
 public abstract class GameDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "game_database";

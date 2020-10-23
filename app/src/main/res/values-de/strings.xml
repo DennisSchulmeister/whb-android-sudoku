@@ -19,7 +19,19 @@
     <string name="start_menu_debug_delete_all">Alle Spiele löschen</string>
 
     <!-- Game Type Activity -->
-    <string name="game_type_label">Spieltyp</string>
+    <string name="new_game_label">Neues Spiel</string>
+
+    <string name="new_game_param_game_type">Spieltyp</string>
+    <string name="new_game_param_board_size">Spielfeldgröße</string>
+    <string name="new_game_param_character_set_numbers">Zahlenvorrat</string>
+    <string name="new_game_param_character_set_letters">Buchstabenvorrat</string>
+    <string name="new_game_param_character_set_none_selected">Keine ausgewählt</string>
+    <string name="new_game_param_character_difficulty">Schwierigkeit</string>
+    <string name="new_game_action_start_game">Spiel starten</string>
+
+    <string name="new_game_error_wrong_amount_of_numbers">Wählen Sie exakt %d Zahlen aus</string>
+    <string name="new_game_error_wrong_amount_of_letters">Wählen Sie exakt %d Buchstaben aus</string>
+    <string name="new_game_error_wrong_amount_fix">Neue Auswahl</string>
 
     <!-- Game Activity -->
     <string name="game_label">@string/app_name</string>

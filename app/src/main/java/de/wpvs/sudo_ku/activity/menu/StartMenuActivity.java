@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import de.wpvs.sudo_ku.R;
+import de.wpvs.sudo_ku.activity.NavigationUtils;
 import de.wpvs.sudo_ku.activity.game.GameActivity;
 import de.wpvs.sudo_ku.model.DebugUtils;
 import de.wpvs.sudo_ku.model.GameDatabase;
@@ -67,15 +68,12 @@ public class StartMenuActivity extends AppCompatActivity {
 
         // Start existing game on click on the list
         this.startMenuSavedGameRecyclerViewAdapter.setClickListener(savedGame -> {
-            Intent intent = new Intent(this, GameActivity.class);
-            intent.putExtra("SavedGameId", savedGame.getId());
-            this.startActivity(intent);
+            NavigationUtils.gotoSavedGame(this, savedGame.getId());
         });
 
         // Start new game on click on the floating action button
         this.floatingActionButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, GameTypeActivity.class);
-            this.startActivity(intent);
+            NavigationUtils.gotoNewGame(this);
         });
     }
 

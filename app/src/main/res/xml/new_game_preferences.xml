@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key   = "CATEGORY_GAME_SETTINGS">
+
+        <ListPreference
+            android:key          = "PARAM_GAME_TYPE"
+            android:title        = "@string/new_game_param_game_type"
+            android:dialogTitle  = "@string/new_game_param_game_type"
+            android:icon         = "@drawable/ic_game_type"
+            android:entries      = "@array/game_type_labels"
+            android:entryValues  = "@array/game_type_keys"
+            android:defaultValue = "NUMBER_GAME"
+            android:summary      = "%s"
+            android:persistent   = "false"/>
+
+        <ListPreference
+            android:key          = "PARAM_BOARD_SIZE"
+            android:title        = "@string/new_game_param_board_size"
+            android:dialogTitle  = "@string/new_game_param_board_size"
+            android:icon         = "@drawable/ic_board_size"
+            android:entries      = "@array/board_size_labels"
+            android:entryValues  = "@array/board_size_keys"
+            android:defaultValue = "9"
+            android:summary      = "%s"
+            android:persistent   = "false"/>
+
+        <MultiSelectListPreference
+            android:key          = "PARAM_CHARACTER_SET_NUMBERS"
+            android:title        = "@string/new_game_param_character_set_numbers"
+            android:dialogTitle  = "@string/new_game_param_character_set_numbers"
+            android:icon         = "@drawable/ic_character_set"
+            android:entries      = "@array/character_set_numbers"
+            android:entryValues  = "@array/character_set_numbers"
+            android:persistent   = "false"/>
+
+        <MultiSelectListPreference
+            android:key          = "PARAM_CHARACTER_SET_LETTERS"
+            android:title        = "@string/new_game_param_character_set_letters"
+            android:dialogTitle  = "@string/new_game_param_character_set_letters"
+            android:icon         = "@drawable/ic_character_set"
+            android:entries      = "@array/character_set_letters"
+            android:entryValues  = "@array/character_set_letters"
+            android:persistent   = "false"/>
+
+        <SeekBarPreference
+            android:key          = "PARAM_DIFFICULTY"
+            android:title        = "@string/new_game_param_character_difficulty"
+            android:icon         = "@drawable/ic_difficulty"
+            android:min          = "33"
+            android:max          = "100"
+            android:defaultValue = "75"
+            android:persistent   = "false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key = "CATEGORY_ACTIONS">
+
+        <Preference
+            android:key          = "ACTION_START_GAME"
+            android:title        = "@string/new_game_action_start_game"
+            android:icon         = "@drawable/ic_start_game" />
+    </PreferenceCategory>
+</PreferenceScreen>
