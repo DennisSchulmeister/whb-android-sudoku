@@ -24,21 +24,8 @@
             android:summary      = "%s" />
 
         <MultiSelectListPreference
-            android:key          = "PARAM_CHARACTER_SET_NUMBERS"
-            android:title        = "@string/new_game_param_character_set_numbers"
-            android:dialogTitle  = "@string/new_game_param_character_set_numbers"
+            android:key          = "PARAM_CHARACTER_SET"
             android:icon         = "@drawable/ic_character_set"
-            android:entries      = "@array/character_set_numbers"
-            android:entryValues  = "@array/character_set_numbers"
-            android:persistent   = "false"/>
-
-        <MultiSelectListPreference
-            android:key          = "PARAM_CHARACTER_SET_LETTERS"
-            android:title        = "@string/new_game_param_character_set_letters"
-            android:dialogTitle  = "@string/new_game_param_character_set_letters"
-            android:icon         = "@drawable/ic_character_set"
-            android:entries      = "@array/character_set_letters"
-            android:entryValues  = "@array/character_set_letters"
             android:persistent   = "false"/>
 
         <SeekBarPreference

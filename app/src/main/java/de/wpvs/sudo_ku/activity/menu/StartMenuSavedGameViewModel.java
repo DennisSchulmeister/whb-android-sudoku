@@ -29,7 +29,7 @@ public class StartMenuSavedGameViewModel extends AndroidViewModel {
     public StartMenuSavedGameViewModel(@NonNull Application application) {
         super(application);
 
-        this.gameDatabase = GameDatabase.getInstance(application);
+        this.gameDatabase = GameDatabase.getInstance();
     }
 
     /**

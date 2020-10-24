@@ -6,6 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import de.wpvs.sudo_ku.MyApplication;
 
 /**
  * Main database class which acts as an entry point for all database access objects, which can
@@ -19,12 +20,12 @@ public abstract class GameDatabase extends RoomDatabase {
 
     /**
      * Create and return singleton instance of the database.
-     * @param context The current activity context, from which the database is accessed.
+     *
      * @return Singleton instance of the database
      */
-    public static GameDatabase getInstance(Context context) {
+    public static GameDatabase getInstance() {
         if (singleton == null) {
-            singleton = Room.databaseBuilder(context, GameDatabase.class, DATABASE_NAME).fallbackToDestructiveMigration().build();
+            singleton = Room.databaseBuilder(MyApplication.getInstance(), GameDatabase.class, DATABASE_NAME).fallbackToDestructiveMigration().build();
         }
 
         return singleton;

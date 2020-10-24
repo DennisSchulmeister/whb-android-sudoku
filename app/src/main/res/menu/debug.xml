@@ -1,9 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id    = "@+id/action_debug_create_game"
-        android:title = "@string/start_menu_debug_create_game" />
-
-    <item
-        android:id    = "@+id/action_debug_delete_all"
-        android:title = "@string/start_menu_debug_delete_all" />
-</menu>

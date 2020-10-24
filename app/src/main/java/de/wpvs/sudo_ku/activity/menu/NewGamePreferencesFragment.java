@@ -1,20 +1,17 @@
 package de.wpvs.sudo_ku.activity.menu;
 
 import android.os.Bundle;
-import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.preference.ListPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
@@ -22,9 +19,11 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.NavigationUtils;
-import de.wpvs.sudo_ku.model.GameDatabase;
 import de.wpvs.sudo_ku.model.GameType;
 import de.wpvs.sudo_ku.model.SavedGame;
+import de.wpvs.sudo_ku.model.ModelUtils;
+import de.wpvs.sudo_ku.thread.database.DatabaseThread;
+import de.wpvs.sudo_ku.thread.database.SaveOrDeleteGame;
 
 /**
  * Fragment which holds the actual preferences view with the settings for a new game.
@@ -32,8 +31,7 @@ import de.wpvs.sudo_ku.model.SavedGame;
 public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
     private static final String PARAMETER_GAME_TYPE = "PARAM_GAME_TYPE";
     private static final String PARAMETER_BOARD_SIZE = "PARAM_BOARD_SIZE";
-    private static final String PARAMETER_CHARACTER_SET_NUMBERS = "PARAM_CHARACTER_SET_NUMBERS";
-    private static final String PARAMETER_CHARACTER_SET_LETTERS = "PARAM_CHARACTER_SET_LETTERS";
+    private static final String PARAMETER_CHARACTER_SET = "PARAM_CHARACTER_SET";
     private static final String PARAMETER_DIFFICULTY = "PARAM_DIFFICULTY";
     private static final String ACTION_START_GAME = "ACTION_START_GAME";
 
@@ -42,12 +40,11 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
 
     private ListPreference preferenceGameType;
     private ListPreference preferenceBoardSize;
-    private MultiSelectListPreference preferenceCharacterSetNumbers;
-    private MultiSelectListPreference preferenceCharacterSetLetters;
+    private MultiSelectListPreference preferenceCharacterSet;
     private SeekBarPreference preferenceDifficulty;
 
     /**
-     * Load prefernces definition from the corresponding XML resource.
+     * Load preferences definition from the corresponding XML resource.
      * @param savedInstanceState The saved instance state of the activity
      * @param rootKey Not used
      */
@@ -59,32 +56,33 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
         // Get references to each preference, so that we can latter access their values
         this.preferenceGameType = this.findPreference(PARAMETER_GAME_TYPE);
         this.preferenceBoardSize = this.findPreference(PARAMETER_BOARD_SIZE);
-        this.preferenceCharacterSetNumbers = this.findPreference(PARAMETER_CHARACTER_SET_NUMBERS);
-        this.preferenceCharacterSetLetters = this.findPreference(PARAMETER_CHARACTER_SET_LETTERS);
+        this.preferenceCharacterSet = this.findPreference(PARAMETER_CHARACTER_SET);
         this.preferenceDifficulty = this.findPreference(PARAMETER_DIFFICULTY);
 
         // Toggle character sets when game type or board size are changed
         this.preferenceGameType.setOnPreferenceChangeListener((preference, newValue) -> {
             this.toggleVisibleCharacterSet(newValue.toString());
-            this.shuffleAvailableCharacterSet(newValue.toString(), this.preferenceBoardSize.getValue());
+            this.shuffleCharacterSet(newValue.toString(), this.preferenceBoardSize.getValue());
             return true;
         });
 
         this.preferenceBoardSize.setOnPreferenceChangeListener((preference, newValue) -> {
-            this.shuffleAvailableCharacterSet(this.preferenceGameType.getValue(), newValue.toString());
+            this.shuffleCharacterSet(this.preferenceGameType.getValue(), newValue.toString());
             return true;
         });
 
         this.toggleVisibleCharacterSet(this.preferenceGameType.getValue());
-        this.shuffleAvailableCharacterSet(this.preferenceGameType.getValue(), this.preferenceBoardSize.getValue());
+        this.shuffleCharacterSet(this.preferenceGameType.getValue(), this.preferenceBoardSize.getValue());
 
         // Show selected characters in their summary
-        Preference.SummaryProvider characterSetSummaryProvider = preference -> {
-            String gameType = this.preferenceGameType.getValue();
-            List<String> valueList = this.getSelectedCharacters((MultiSelectListPreference) preference, gameType);
+        this.preferenceCharacterSet.setSummaryProvider(preference -> {
+            MultiSelectListPreference listPreference = (MultiSelectListPreference) preference;
+            List<String> characterSet = new ArrayList<>(listPreference.getValues());
             String summary = "";
 
-            for (String value : valueList) {
+            ModelUtils.sortCharacterSet(characterSet, GameType.valueOf(this.preferenceGameType.getValue()));
+
+            for (String value : characterSet) {
                 if (summary.isEmpty()) {
                     summary = value;
                 } else {
@@ -93,10 +91,7 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
             }
 
             return !summary.isEmpty() ? summary : this.getString(R.string.new_game_param_character_set_none_selected);
-        };
-
-        this.preferenceCharacterSetNumbers.setSummaryProvider(characterSetSummaryProvider);
-        this.preferenceCharacterSetLetters.setSummaryProvider(characterSetSummaryProvider);
+        });
 
         // Show difficulty value in its summary
         // NOTE: Using a SummaryProvider doesn't reliably update the summary, when the
@@ -122,7 +117,7 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
         super.onPreferenceTreeClick(preference);
 
         if (preference.getKey().equals(ACTION_START_GAME)) {
-            this.checkSettingsAndStartGame();
+            this.startGame();
         }
 
         return true;
@@ -137,12 +132,16 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
         // Show the correct character set preference, depending on the game type
         switch (selectedGameType) {
             case GAME_TYPE_NUMBER:
-                this.preferenceCharacterSetLetters.setVisible(false);
-                this.preferenceCharacterSetNumbers.setVisible(true);
+                this.preferenceCharacterSet.setTitle(R.string.new_game_param_character_set_numbers);
+                this.preferenceCharacterSet.setDialogTitle(R.string.new_game_param_character_set_numbers);
+                this.preferenceCharacterSet.setEntries(R.array.character_set_numbers);
+                this.preferenceCharacterSet.setEntryValues(R.array.character_set_numbers);
                 break;
             case GAME_TYPE_LETTER:
-                this.preferenceCharacterSetLetters.setVisible(true);
-                this.preferenceCharacterSetNumbers.setVisible(false);
+                this.preferenceCharacterSet.setTitle(R.string.new_game_param_character_set_letters);
+                this.preferenceCharacterSet.setDialogTitle(R.string.new_game_param_character_set_letters);
+                this.preferenceCharacterSet.setEntries(R.array.character_set_letters);
+                this.preferenceCharacterSet.setEntryValues(R.array.character_set_letters);
                 break;
         }
     }
@@ -153,106 +152,64 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
      * @param gameType Selected game type
      * @param boardSize Selected board size
      */
-    private void shuffleAvailableCharacterSet(String gameType, String boardSize) {
-        MultiSelectListPreference preference;
+    private void shuffleCharacterSet(String gameType, String boardSize) {
         int iBoardSize = Integer.parseInt(boardSize);
-        List<String> availableCharacters;
-        List<String> chosenCharacters = new ArrayList<>();
+        GameType eGameType = GameType.valueOf(gameType);
 
-        switch (gameType) {
-            case GAME_TYPE_NUMBER:
-                preference = (MultiSelectListPreference) this.preferenceCharacterSetNumbers;
-                availableCharacters = new ArrayList<String>(Arrays.asList(this.getResources().getStringArray(R.array.character_set_numbers)));
-                break;
-            case GAME_TYPE_LETTER:
-                preference = (MultiSelectListPreference) this.preferenceCharacterSetLetters;
-                availableCharacters = new ArrayList<String>(Arrays.asList(this.getResources().getStringArray(R.array.character_set_letters)));
-                Collections.shuffle(availableCharacters);
-                break;
-            default:
-                return;
-        }
-
-        for (int i = 0; i < iBoardSize; i++) {
-            String character = availableCharacters.get(i);
-            chosenCharacters.add(character);
-        }
-
-        preference.setValues(new HashSet<>(chosenCharacters));
-    }
-
-    /**
-     * Utility method to get a sorted list of the chosen characters.
-     *
-     * @param preference The preference object for available numbers or letters
-     * @param gameType The currently selected game type
-     * @returns a sorted list of Strings
-     */
-    private List<String> getSelectedCharacters(MultiSelectListPreference preference, String gameType) {
-        Set<String> valueSet = preference.getValues();
-        List<String> valueList = new ArrayList<>(valueSet);
-
-        switch (gameType) {
-            case GAME_TYPE_NUMBER:
-                Collections.sort(valueList, (o1, o2) -> Integer.compare(Integer.parseInt(o1), Integer.parseInt(o2)));
-                break;
-            case GAME_TYPE_LETTER:
-                Collections.sort(valueList);
-                break;
-        }
-
-        return valueList;
+        Collection<String> characterSet = ModelUtils.createCharacterSet(eGameType, iBoardSize);
+        this.preferenceCharacterSet.setValues(new HashSet<>(characterSet));
     }
 
     /**
      * Check all values for plausibility and start the game if all is good. Otherwise present a
      * snack bar with a hint on the erroneous value.
      */
-    private void checkSettingsAndStartGame() {
+    private void startGame() {
         // Get all parameters
-        String gameType = this.preferenceGameType.getValue();
-        String boardSize = this.preferenceBoardSize.getValue();
-        int iBoardSize = Integer.parseInt(boardSize);
+        GameType gameType = GameType.valueOf(this.preferenceGameType.getValue());
+        int boardSize = Integer.parseInt(this.preferenceBoardSize.getValue());
         float difficulty = this.preferenceDifficulty.getValue() / 100.0f;
+        Set<String> characterSet = this.preferenceCharacterSet.getValues();
 
-        List<String> characterSet = new ArrayList<>();
-        String wrongAmountOfCharacters = "";
-
-        switch (gameType) {
-            case GAME_TYPE_NUMBER:
-                characterSet = this.getSelectedCharacters(this.preferenceCharacterSetNumbers, gameType);
-                wrongAmountOfCharacters = this.getString(R.string.new_game_error_wrong_amount_of_numbers, iBoardSize);
-                break;
-            case GAME_TYPE_LETTER:
-                characterSet = this.getSelectedCharacters(this.preferenceCharacterSetLetters, gameType);
-                wrongAmountOfCharacters = this.getString(R.string.new_game_error_wrong_amount_of_letters, iBoardSize);
-                break;
-        }
-
-        // Check amount of selected characters
-        if (characterSet.size() != iBoardSize) {
-            Snackbar snackbar = Snackbar.make(this.getView(), wrongAmountOfCharacters, Snackbar.LENGTH_LONG);
-
-            snackbar.setAction(R.string.new_game_error_wrong_amount_fix, v -> {
-                // Automatically pick new characters if the user wishes
-                this.shuffleAvailableCharacterSet(gameType, boardSize);
-            });
-
-            snackbar.show();
-            return;
-        }
-
-        // Start new game
+        // Try to save and start game
         SavedGame savedGame = new SavedGame();
-        savedGame.setGameType(GameType.valueOf(gameType));
-        savedGame.setSize(iBoardSize);
-        savedGame.setCharacterSet(characterSet);
+        savedGame.setGameType(gameType);
+        savedGame.setSize(boardSize);
         savedGame.setDifficulty(difficulty);
-        // TODO: Game board
+        savedGame.setCharacterSet(new ArrayList<String>(characterSet));
 
-        new Thread(() -> {
-            GameDatabase.getInstance(this.getContext()).savedGameDAO().insert(savedGame);
-            NavigationUtils.gotoSavedGame(this.getActivity(), savedGame.getId());
-        }).start();
+        SaveOrDeleteGame task = new SaveOrDeleteGame(savedGame, SaveOrDeleteGame.Operation.INSERT);
+
+        task.setCallback(new SaveOrDeleteGame.Callback() {
+            @Override
+            public void onUpdatePerformed() {
+                NavigationUtils.gotoSavedGame(NewGamePreferencesFragment.this.getActivity(), savedGame.getId());
+            }
+
+            @Override
+            public void onErrorsFound(Map<SavedGame.Error, String> errors) {
+                if (errors.containsKey(SavedGame.Error.ERROR_CHARSET_SIZE)) {
+                    // Snackbar to shuffle character set, in case not enough characters were selected
+                    String message = errors.get(SavedGame.Error.ERROR_CHARSET_SIZE);
+                    Snackbar snackbar = Snackbar.make(NewGamePreferencesFragment.this.getView(), message, Snackbar.LENGTH_LONG);
+
+                    snackbar.setAction(R.string.new_game_error_wrong_amount_fix, v -> {
+                        // Automatically pick new characters if the user wishes
+                        NewGamePreferencesFragment.this.shuffleCharacterSet(gameType.name(), Integer.toString(boardSize));
+                    });
+
+                    snackbar.show();
+                } else {
+                    // Toast otherwise
+                    for (String message : errors.values()) {
+                        Toast.makeText(NewGamePreferencesFragment.this.getContext(), message, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+            }
+        });
+
+        DatabaseThread.getInstance().post(task);
     }
+
 }

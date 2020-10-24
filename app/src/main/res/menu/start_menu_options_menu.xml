@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id    = "@+id/action_start_menu_create_random"
+        android:title = "@string/start_menu_create_random_label" />
+
+    <item
+        android:id    = "@+id/action_start_menu_delete_all"
+        android:title = "@string/start_menu_delete_all_label" />
+</menu>

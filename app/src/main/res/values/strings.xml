@@ -14,8 +14,8 @@
     <string name="start_menu_new_game">Start New Game</string>
     <string name="start_menu_no_saved_games">There are no saved games, yet.\nPress the plus sign to start a new game.</string>
 
-    <string name="start_menu_debug_create_game">Create Dummy Game</string>
-    <string name="start_menu_debug_delete_all">Delete All Games</string>
+    <string name="start_menu_create_random_label">Start Random Game</string>
+    <string name="start_menu_delete_all_label">Delete All Games</string>
 
     <!-- Game Type Activity -->
     <string name="new_game_label">New Game</string>
@@ -37,4 +37,14 @@
 
     <!-- Browser Activity -->
     <string name="browser_label">Man Page</string>
+
+    <!-- Background tasks -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="undo">Undo</string>
+
+    <string name="task_deleteAllGames_none_found">There are no saved games to delete, yet</string>
+    <string name="task_deleteAllGames_confirm_message">Do you really want to delete all saved games?</string>
+    <string name="task_deleteAllGames_success">All saved games have been deleted</string>
+    <string name="task_deleteAllGames_undone">Luckily we found an old backup copy. Let\'s hope it\'s still good.</string>
 </resources>
