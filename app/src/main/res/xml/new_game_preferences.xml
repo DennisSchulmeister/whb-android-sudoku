@@ -11,8 +11,7 @@
             android:entries      = "@array/game_type_labels"
             android:entryValues  = "@array/game_type_keys"
             android:defaultValue = "NUMBER_GAME"
-            android:summary      = "%s"
-            android:persistent   = "false"/>
+            android:summary      = "%s" />
 
         <ListPreference
             android:key          = "PARAM_BOARD_SIZE"
@@ -22,8 +21,7 @@
             android:entries      = "@array/board_size_labels"
             android:entryValues  = "@array/board_size_keys"
             android:defaultValue = "9"
-            android:summary      = "%s"
-            android:persistent   = "false"/>
+            android:summary      = "%s" />
 
         <MultiSelectListPreference
             android:key          = "PARAM_CHARACTER_SET_NUMBERS"
@@ -49,8 +47,7 @@
             android:icon         = "@drawable/ic_difficulty"
             android:min          = "33"
             android:max          = "100"
-            android:defaultValue = "75"
-            android:persistent   = "false"/>
+            android:defaultValue = "75" />
     </PreferenceCategory>
 
     <PreferenceCategory
