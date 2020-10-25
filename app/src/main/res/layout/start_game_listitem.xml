@@ -2,7 +2,7 @@
 <layout xmlns:android = "http://schemas.android.com/apk/res/android">
     <data>
         <import type="android.text.format.DateUtils" />
-        <variable name="gameEntity" type="de.wpvs.sudo_ku.storage.GameEntity" />
+        <variable name="gameEntity" type="de.wpvs.sudo_ku.model.game.GameEntity" />
         <variable name="gameType" type="String" />
         <variable name="elapsedTime" type="String" />
         <variable name="progress" type="String" />

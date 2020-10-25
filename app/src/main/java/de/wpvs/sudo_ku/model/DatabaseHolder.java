@@ -1,10 +1,16 @@
-package de.wpvs.sudo_ku.storage;
+package de.wpvs.sudo_ku.model;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import de.wpvs.sudo_ku.MyApplication;
+import de.wpvs.sudo_ku.model.dictionary.KnownWordDao;
+import de.wpvs.sudo_ku.model.dictionary.KnownWordEntity;
+import de.wpvs.sudo_ku.model.game.CharacterFieldEntity;
+import de.wpvs.sudo_ku.model.game.GameDao;
+import de.wpvs.sudo_ku.model.game.GameEntity;
+import de.wpvs.sudo_ku.model.game.WordEntity;
 
 /**
  * Main database class which acts as an entry point for all database access objects, which can

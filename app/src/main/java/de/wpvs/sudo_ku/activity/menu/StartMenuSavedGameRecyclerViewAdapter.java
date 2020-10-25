@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.databinding.StartGameListitemBinding;
-import de.wpvs.sudo_ku.storage.GameEntity;
+import de.wpvs.sudo_ku.model.game.GameEntity;
 
 /**
  * Adapter class to display GameEntity instances in a RecyclerView.

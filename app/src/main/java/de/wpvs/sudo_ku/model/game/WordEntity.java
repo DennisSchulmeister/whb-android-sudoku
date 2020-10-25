@@ -1,4 +1,4 @@
-package de.wpvs.sudo_ku.storage;
+package de.wpvs.sudo_ku.model.game;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;

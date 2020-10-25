@@ -1,13 +1,11 @@
-package de.wpvs.sudo_ku.storage;
+package de.wpvs.sudo_ku.model.game;
 
 import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.wpvs.sudo_ku.MyApplication;
 import de.wpvs.sudo_ku.R;

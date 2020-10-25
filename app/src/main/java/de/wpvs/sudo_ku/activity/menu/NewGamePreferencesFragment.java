@@ -19,9 +19,9 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.NavigationUtils;
-import de.wpvs.sudo_ku.storage.GameEntity;
-import de.wpvs.sudo_ku.storage.GameState;
-import de.wpvs.sudo_ku.storage.GameUtils;
+import de.wpvs.sudo_ku.model.game.GameEntity;
+import de.wpvs.sudo_ku.model.game.GameState;
+import de.wpvs.sudo_ku.model.game.GameUtils;
 import de.wpvs.sudo_ku.thread.database.DatabaseThread;
 import de.wpvs.sudo_ku.thread.database.SaveOrDeleteGame;
 

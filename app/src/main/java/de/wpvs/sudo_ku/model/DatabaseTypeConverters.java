@@ -1,4 +1,4 @@
-package de.wpvs.sudo_ku.storage;
+package de.wpvs.sudo_ku.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.room.TypeConverter;
+import de.wpvs.sudo_ku.model.game.GameEntity;
 
 /**
  * Utility class automatically used by the Room database to convert serialize and deserialize

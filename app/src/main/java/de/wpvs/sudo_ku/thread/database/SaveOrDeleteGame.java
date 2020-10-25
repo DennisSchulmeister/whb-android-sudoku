@@ -2,10 +2,9 @@ package de.wpvs.sudo_ku.thread.database;
 
 import java.util.Map;
 
-import de.wpvs.sudo_ku.storage.DatabaseHolder;
-import de.wpvs.sudo_ku.storage.GameDao;
-import de.wpvs.sudo_ku.storage.GameState;
-import de.wpvs.sudo_ku.storage.GameUtils;
+import de.wpvs.sudo_ku.model.DatabaseHolder;
+import de.wpvs.sudo_ku.model.game.GameDao;
+import de.wpvs.sudo_ku.model.game.GameState;
 
 /**
  * Background operation to perform a database operation on a GameEntity instance. This can either

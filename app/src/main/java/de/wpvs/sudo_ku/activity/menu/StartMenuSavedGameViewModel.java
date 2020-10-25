@@ -7,8 +7,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import de.wpvs.sudo_ku.storage.DatabaseHolder;
-import de.wpvs.sudo_ku.storage.GameEntity;
+import de.wpvs.sudo_ku.model.DatabaseHolder;
+import de.wpvs.sudo_ku.model.game.GameEntity;
 
 /**
  *  ViewModel for persistent saved games, that will remain in memory even if the parent

@@ -10,9 +10,9 @@ import java.io.InputStreamReader;
 
 import de.wpvs.sudo_ku.MyApplication;
 import de.wpvs.sudo_ku.R;
-import de.wpvs.sudo_ku.storage.DatabaseHolder;
-import de.wpvs.sudo_ku.storage.KnownWordDao;
-import de.wpvs.sudo_ku.storage.KnownWordEntity;
+import de.wpvs.sudo_ku.model.DatabaseHolder;
+import de.wpvs.sudo_ku.model.dictionary.KnownWordDao;
+import de.wpvs.sudo_ku.model.dictionary.KnownWordEntity;
 
 /**
  * Background operation to load the list of known words from the asset file raw/knownwords.txt

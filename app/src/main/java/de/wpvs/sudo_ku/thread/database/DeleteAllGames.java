@@ -12,8 +12,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.AppDialogFragmentBuilder;
-import de.wpvs.sudo_ku.storage.DatabaseHolder;
-import de.wpvs.sudo_ku.storage.GameDao;
+import de.wpvs.sudo_ku.model.DatabaseHolder;
+import de.wpvs.sudo_ku.model.game.GameDao;
 import de.wpvs.sudo_ku.thread.BackgroundThread;
 import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
 

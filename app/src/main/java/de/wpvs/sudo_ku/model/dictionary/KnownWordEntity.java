@@ -1,4 +1,4 @@
-package de.wpvs.sudo_ku.storage;
+package de.wpvs.sudo_ku.model.dictionary;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
