@@ -17,6 +17,8 @@
 
     <string name="start_menu_create_random_label">Zufälliges Spiel starten</string>
     <string name="start_menu_delete_all_label">Alle Spiele löschen</string>
+    <string name="start_menu_visit_website_label">Webseite besuchen</string>
+    <string name="start_menu_man_sudo_label">Sudo Handbuchseite</string>
 
     <!-- Game Type Activity -->
     <string name="new_game_label">Neues Spiel</string>

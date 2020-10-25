@@ -3,8 +3,12 @@ package de.wpvs.sudo_ku.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 
-import de.wpvs.sudo_ku.activity.browser.HtmlBrowserActivity;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
+import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.game.GameActivity;
 import de.wpvs.sudo_ku.activity.menu.NewGameActivity;
 import de.wpvs.sudo_ku.activity.menu.StartMenuActivity;
@@ -48,12 +52,19 @@ public class NavigationUtils {
     /**
      * Go to the browser activity to display a given website.
      *
-     * @param activity Calling activity
+     * @param context Calling context
      * @param url URL of the website to show
      */
-    public static void gotoHtmlBrowser(Activity activity, String url) {
-        Intent intent = new Intent(activity, HtmlBrowserActivity.class);
-        intent.putExtra("url", url);
-        activity.startActivity(intent);
+    public static void gotoWebsite(Context context, String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(ContextCompat.getColor(context, R.color.primaryColor));
+
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(context, Uri.parse(url));
+
+    }
+
+    public static void gotoManPage(Context context, String command) {
+        gotoWebsite(context, "http://man.he.net/?topic=" + command + "&section=all");
     }
 }
