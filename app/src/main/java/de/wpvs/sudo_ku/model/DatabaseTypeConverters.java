@@ -59,7 +59,7 @@ public class DatabaseTypeConverters {
     /**
      * Serialize a string list into a single string, using the zero character to split values.
      *
-     * @param list String listy
+     * @param list String list
      * @return Serialized string
      */
     @TypeConverter
