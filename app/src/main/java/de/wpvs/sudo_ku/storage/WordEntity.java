@@ -1,6 +1,7 @@
 package de.wpvs.sudo_ku.storage;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 
 /**
  * Data transfer object for a word on the game board. This is part of the data model used to
@@ -16,9 +17,20 @@ import androidx.room.Entity;
  * unique word number and will the stored separately in the list. This way a word can simply be
  * removed from the list without further checks, when the user erases a letter.
  */
-@Entity(tableName = "Word", primaryKeys = {"gameUid", "wordNumber"})
+@Entity(
+        tableName   = "Word",
+        primaryKeys = {"gameUid", "wordNumber"},
+        foreignKeys = {
+                @ForeignKey(
+                        entity       = GameEntity.class,
+                        parentColumns = "uid",
+                        childColumns  = "gameUid",
+                        onDelete      = ForeignKey.CASCADE,
+                        onUpdate      = ForeignKey.CASCADE
+                )
+        })
 public class WordEntity {
-    public int gameUid = -1;
+    public long gameUid = -1;
     public int wordNumber = -1;
 
     public String word = "";

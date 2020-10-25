@@ -15,36 +15,7 @@ import de.wpvs.sudo_ku.R;
 /**
  * Static utility method to simplify or outsource some often needed functions.
  */
-public class StorageUtils {
-    /**
-     * Error codes, why a game is inconsistent and should not be saved.
-     */
-    public enum Error {
-        ERROR_CHARSET_SIZE,
-    }
-
-    /**
-     * Factory method for a new game with random configuration. The returned object can directly
-     * be saved.
-     *
-     * @return new game with random parameters
-     */
-    public static GameEntity createRandomGame() {
-        Context context     = MyApplication.getInstance();
-        String[] gameTypes  = context.getResources().getStringArray(R.array.game_type_keys);
-        String[] boardSizes = context.getResources().getStringArray(R.array.board_size_keys);
-
-        int gameTypeIndex  = (int) Math.floor(Math.random() * gameTypes.length);
-        int boardSizeIndex = (int) Math.floor(Math.random() * boardSizes.length);
-
-        GameEntity gameEntity   = new GameEntity();
-        gameEntity.gameType     = GameEntity.GameType.valueOf(gameTypes[gameTypeIndex]);
-        gameEntity.size         = Integer.parseInt(boardSizes[boardSizeIndex]);
-        gameEntity.characterSet = createCharacterSet(gameEntity.gameType, gameEntity.size);
-        gameEntity.difficulty   = Math.max(0.33f, (float) Math.random());
-        return gameEntity;
-    }
-
+public class GameUtils {
     /**
      * Create a new character set for a game. In case of a number game, this simply contains
      * all numbers [1, size]. In case of a letter game random letters will be chosen.
@@ -99,33 +70,34 @@ public class StorageUtils {
     }
 
     /**
-     * Check that all parameters are consistent and the game is safe to be saved. Note, that this
-     * currently only checks that the amount of available characters matches the game board size.
-     * Especially it is not checked, that every parameters has a value, since each parameter has
-     * an assigned default value, that is set when the new GameEntity object is created.
+     * Create a new list for character fields for a game, making sure the indices are set correctly
+     * and the list is sorted.
      *
-     * @return A list of all found errors
-     * @param gameEntity
+     * @param size Size of the game board
+     * @return New sorted list of character fields
      */
-    public static Map<Error, String> checkGameConsistency(GameEntity gameEntity) {
-        Map<Error, String> errors = new HashMap<>();
-        Context context = MyApplication.getInstance();
+    public static List<CharacterFieldEntity> createCharacterFields(int size) {
+        List<CharacterFieldEntity> characterFieldEntities = new ArrayList<>(size * size);
 
-        if (gameEntity.characterSet == null || gameEntity.characterSet.size() != gameEntity.size) {
-            String message = "";
+        for (int xPos = 0; xPos < size; xPos++) {
+            for (int yPos = 0; yPos < size; yPos++) {
+                CharacterFieldEntity characterFieldEntity = new CharacterFieldEntity();
+                characterFieldEntity.xPos = xPos;
+                characterFieldEntity.yPos = yPos;
 
-            switch (gameEntity.gameType) {
-                case NUMBER_GAME:
-                    message = context.getString(R.string.new_game_error_wrong_amount_of_numbers, gameEntity.size);
-                    break;
-                case LETTER_GAME:
-                    message = context.getString(R.string.new_game_error_wrong_amount_of_letters, gameEntity.size);
-                    break;
+                characterFieldEntities.add(characterFieldEntity);
             }
-
-            errors.put(Error.ERROR_CHARSET_SIZE, message);
         }
 
-        return errors;
+        return characterFieldEntities;
+    }
+
+    /**
+     * When a new game is started, prepopulate hte character fields with characters, according
+     * to the chosen difficulty. The difficulty here simply is the percentage of fields that are
+     * not tried to be filled.
+     */
+    public static void prepopulateCharacterFields(GameState gameState) {
+        // TODO
     }
 }

@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentActivity;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.AppDialogFragmentBuilder;
 import de.wpvs.sudo_ku.storage.DatabaseHolder;
-import de.wpvs.sudo_ku.storage.GameEntity;
 import de.wpvs.sudo_ku.storage.GameDao;
 import de.wpvs.sudo_ku.thread.BackgroundThread;
 import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
@@ -85,7 +84,7 @@ public class DeleteAllGames implements Runnable {
     @Override
     public void run() {
         // Check, if there are any saved games at all
-        int count = this.dao.getRowCountSynchronously();
+        int count = this.dao.selectGameCountSynchronously();
 
         if (count == 0) {
             Toast.makeText(this.activity, R.string.task_deleteAllGames_none_found, Toast.LENGTH_SHORT).show();
@@ -138,10 +137,10 @@ public class DeleteAllGames implements Runnable {
         }
 
         // Finally delete all games
-        List<GameEntity> gameEntities = this.dao.selectAllSynchronously();
+        List<Long> gameIds = this.dao.selectAllGameIdsSynchronously();
 
-        for (GameEntity gameEntity : gameEntities) {
-            this.dao.delete(gameEntity.uid);
+        for (long uid : gameIds) {
+            this.dao.delete(uid);
         }
 
         if (this.callback != null) {

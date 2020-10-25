@@ -10,8 +10,7 @@
             android:icon         = "@drawable/ic_game_type"
             android:entries      = "@array/game_type_labels"
             android:entryValues  = "@array/game_type_keys"
-            android:defaultValue = "NUMBER_GAME"
-            android:summary      = "%s" />
+            android:defaultValue = "NUMBER_GAME" />
 
         <ListPreference
             android:key          = "PARAM_BOARD_SIZE"
@@ -20,8 +19,7 @@
             android:icon         = "@drawable/ic_board_size"
             android:entries      = "@array/board_size_labels"
             android:entryValues  = "@array/board_size_keys"
-            android:defaultValue = "9"
-            android:summary      = "%s" />
+            android:defaultValue = "9" />
 
         <MultiSelectListPreference
             android:key          = "PARAM_CHARACTER_SET"

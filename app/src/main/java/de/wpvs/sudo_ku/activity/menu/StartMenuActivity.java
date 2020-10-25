@@ -23,7 +23,8 @@ import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.NavigationUtils;
 import de.wpvs.sudo_ku.storage.DatabaseHolder;
 import de.wpvs.sudo_ku.storage.GameEntity;
-import de.wpvs.sudo_ku.storage.StorageUtils;
+import de.wpvs.sudo_ku.storage.GameState;
+import de.wpvs.sudo_ku.storage.GameUtils;
 import de.wpvs.sudo_ku.thread.database.DatabaseThread;
 import de.wpvs.sudo_ku.thread.database.DeleteAllGames;
 import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
@@ -150,18 +151,17 @@ public class StartMenuActivity extends AppCompatActivity {
      * Save a new random game in the database and launch it.
      */
     private void startRandomGame() {
-        GameEntity gameEntity = StorageUtils.createRandomGame();
-        SaveOrDeleteGame task = new SaveOrDeleteGame(gameEntity, SaveOrDeleteGame.Operation.INSERT);
+        GameState gameState = GameState.createRandomGame();
+        SaveOrDeleteGame task = new SaveOrDeleteGame(gameState, SaveOrDeleteGame.Operation.INSERT);
 
         task.setCallback(new SaveOrDeleteGame.Callback() {
-
             @Override
             public void onUpdatePerformed() {
-                NavigationUtils.gotoSavedGame(StartMenuActivity.this, gameEntity.uid);
+                NavigationUtils.gotoSavedGame(StartMenuActivity.this, gameState.game.uid);
             }
 
             @Override
-            public void onErrorsFound(Map<StorageUtils.Error, String> errors) {
+            public void onErrorsFound(Map<GameState.Error, String> errors) {
                 // Shouldn't happen, but anyway …
                 String messages = "";
 

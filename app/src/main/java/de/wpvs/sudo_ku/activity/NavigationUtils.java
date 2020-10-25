@@ -43,7 +43,7 @@ public class NavigationUtils {
      * @param activity Calling activity
      * @param gameUid Database ID of the game (the game must already exist in the database)
      */
-    public static void gotoSavedGame(Activity activity, int gameUid) {
+    public static void gotoSavedGame(Activity activity, long gameUid) {
         Intent intent = new Intent(activity, GameActivity.class);
         intent.putExtra("gameUid", gameUid);
         activity.startActivity(intent);

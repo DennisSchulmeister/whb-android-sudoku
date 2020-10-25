@@ -20,7 +20,8 @@ import androidx.preference.SeekBarPreference;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.NavigationUtils;
 import de.wpvs.sudo_ku.storage.GameEntity;
-import de.wpvs.sudo_ku.storage.StorageUtils;
+import de.wpvs.sudo_ku.storage.GameState;
+import de.wpvs.sudo_ku.storage.GameUtils;
 import de.wpvs.sudo_ku.thread.database.DatabaseThread;
 import de.wpvs.sudo_ku.thread.database.SaveOrDeleteGame;
 
@@ -73,13 +74,24 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
         this.toggleVisibleCharacterSet(this.preferenceGameType.getValue());
         this.shuffleCharacterSet(this.preferenceGameType.getValue(), this.preferenceBoardSize.getValue());
 
+        // Show selected values in their respective summary
+        this.preferenceGameType.setSummaryProvider(preference -> {
+            ListPreference listPreference = (ListPreference) preference;
+            return listPreference.getEntry();
+        });
+
+        this.preferenceBoardSize.setSummaryProvider(preference -> {
+            ListPreference listPreference = (ListPreference) preference;
+            return listPreference.getEntry();
+        });
+
         // Show selected characters in their summary
         this.preferenceCharacterSet.setSummaryProvider(preference -> {
             MultiSelectListPreference listPreference = (MultiSelectListPreference) preference;
             List<String> characterSet = new ArrayList<>(listPreference.getValues());
             String summary = "";
 
-            StorageUtils.sortCharacterSet(characterSet, GameEntity.GameType.valueOf(this.preferenceGameType.getValue()));
+            GameUtils.sortCharacterSet(characterSet, GameEntity.GameType.valueOf(this.preferenceGameType.getValue()));
 
             for (String value : characterSet) {
                 if (summary.isEmpty()) {
@@ -155,7 +167,7 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
         int iBoardSize = Integer.parseInt(boardSize);
         GameEntity.GameType eGameType = GameEntity.GameType.valueOf(gameType);
 
-        Collection<String> characterSet = StorageUtils.createCharacterSet(eGameType, iBoardSize);
+        Collection<String> characterSet = GameUtils.createCharacterSet(eGameType, iBoardSize);
         this.preferenceCharacterSet.setValues(new HashSet<>(characterSet));
     }
 
@@ -177,7 +189,8 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
         gameEntity.difficulty = difficulty;
         gameEntity.characterSet = new ArrayList<String>(characterSet);
 
-        SaveOrDeleteGame task = new SaveOrDeleteGame(gameEntity, SaveOrDeleteGame.Operation.INSERT);
+        GameState gameState = GameState.createParametrizedGame(gameEntity);
+        SaveOrDeleteGame task = new SaveOrDeleteGame(gameState, SaveOrDeleteGame.Operation.INSERT);
 
         task.setCallback(new SaveOrDeleteGame.Callback() {
             @Override
@@ -186,10 +199,10 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
             }
 
             @Override
-            public void onErrorsFound(Map<StorageUtils.Error, String> errors) {
-                if (errors.containsKey(StorageUtils.Error.ERROR_CHARSET_SIZE)) {
+            public void onErrorsFound(Map<GameState.Error, String> errors) {
+                if (errors.containsKey(GameState.Error.ERROR_CHARSET_SIZE)) {
                     // Snackbar to shuffle character set, in case not enough characters were selected
-                    String message = errors.get(StorageUtils.Error.ERROR_CHARSET_SIZE);
+                    String message = errors.get(GameState.Error.ERROR_CHARSET_SIZE);
                     Snackbar snackbar = Snackbar.make(NewGamePreferencesFragment.this.getView(), message, Snackbar.LENGTH_LONG);
 
                     snackbar.setAction(R.string.new_game_error_wrong_amount_fix, v -> {

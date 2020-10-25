@@ -11,7 +11,7 @@ import de.wpvs.sudo_ku.MyApplication;
  * be used for database access.
  */
 @Database(
-        version = 6,
+        version = 7,
         entities = {
                 CharacterFieldEntity.class,
                 GameEntity.class,

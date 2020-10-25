@@ -8,14 +8,12 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 /**
- * Data transfer object for a saved game. This is used to persist a started game in the database,
- * so that it can be resumed even days or weeks after the game has started. It is also the data
- * structure used internally by the game logic to represent the game state.
+ * Data transfer object for head data of a saved game.
  */
 @Entity(tableName = "Game")
 public class GameEntity {
     @PrimaryKey(autoGenerate = true)
-    public int uid;
+    public long uid;
 
     public Date startDate = new Date();
     public Date saveDate = new Date();

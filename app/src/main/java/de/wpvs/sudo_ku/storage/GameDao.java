@@ -1,5 +1,6 @@
 package de.wpvs.sudo_ku.storage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -8,85 +9,74 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 /**
  * Data access object that defines all database queries for saved games.
  */
 @Dao
-public interface GameDao {
-    /**
-     * Insert a new game, replace existing on conflict.
-     *
-     * @param gameEntity Record to insert
-     */
+public abstract class GameDao {
+    @Transaction
+    public void insert(GameState... gameStates) {
+        for (GameState gameState : gameStates) {
+            gameState.game.uid = this.insertGameEntity(gameState.game);
+
+            for (CharacterFieldEntity characterFieldEntity : gameState.characterFields) {
+                characterFieldEntity.gameUid = gameState.game.uid;
+                this.insertCharacterField(characterFieldEntity);
+            }
+
+            for (WordEntity wordEntity : gameState.words) {
+                wordEntity.gameUid = gameState.game.uid;
+                this.insertWord(wordEntity);
+            }
+        }
+    }
+
+    @Transaction
+    public void update(GameState... gameStates) {
+        for (GameState gameState : gameStates) {
+            this.delete(gameState.game.uid);
+            this.insert(gameState);
+        }
+    }
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(GameEntity gameEntity);
+    protected abstract long insertGameEntity(GameEntity gameEntity);
 
-    /**
-     * Update an existing game.
-     *
-     * @param gameEntity Record to update
-     */
-    @Update
-    void update(GameEntity gameEntity);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    protected abstract void insertCharacterField(CharacterFieldEntity characterFieldEntity);
 
-    /**
-     * Delete an existing game.
-     *
-     @param uid ID of the game to delete.
-     */
-    //@Delete
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    protected abstract void insertWord(WordEntity wordEntity);
+
     @Query("DELETE FROM Game WHERE uid = :uid")
-    void delete(int uid);
+    public abstract void delete(long uid);
 
-    /**
-     * Selects all saved games.
-     *
-     * @return All saved games ordered by save data descending
-     */
-    @Query("SELECT * FROM Game ORDER BY saveDate DESC")
-    LiveData<List<GameEntity>> selectAll();
-
-    /**
-     * The same as selectAll() but without wrapping the result in a LiveData object.
-     *
-     * @return All saved games ordered by save data descending
-     */
-    @Query("SELECT * FROM Game ORDER BY saveDate DESC")
-    List<GameEntity> selectAllSynchronously();
-
-    /**
-     * Selects a single saved game via its ID.
-     *
-     * @param uid ID of the searched game.
-     * @return Found record or null
-     */
+    @Transaction
     @Query("SELECT * FROM Game WHERE uid = :uid")
-    LiveData<GameEntity> selectSingle(int uid);
+    public abstract LiveData<GameState> selectSingleGameState(int uid);
 
-    /**
-     * The same as selectSingle() but without wrapping the result in a LiveData object.
-     *
-     * @param uid ID of the searched game.
-     * @return Found record or null
-     */
+    @Transaction
     @Query("SELECT * FROM Game WHERE uid = :uid")
-    GameEntity selectSingleSynchronously(int uid);
+    public abstract GameState selectSingleGameStateSynchronously(int uid);
 
-    /**
-     * Selects to total amount of saved games
-     *
-     * @returns Number of saved games
-     */
-    @Query("SELECT COUNT(*) FROM Game")
-    LiveData<Integer> getRowCount();
+    @Query("SELECT * FROM Game ORDER BY saveDate DESC")
+    public abstract LiveData<List<GameEntity>> selectAllGameEntities();
 
-    /**
-     * The same as getRowCount() but without wrapping the result in a LiveData object.
-     *
-     * @returns Number of saved games
-     */
+    @Query("SELECT * FROM Game ORDER BY saveDate DESC")
+    public abstract List<GameEntity> selectAllGameEntitiesSynchronously();
+
+    @Query("SELECT uid FROM Game")
+    public abstract LiveData<List<Long>> selectAllGameIds();
+
+    @Query("SELECT uid FROM Game")
+    public abstract List<Long> selectAllGameIdsSynchronously();
+
     @Query("SELECT COUNT(*) FROM Game")
-    Integer getRowCountSynchronously();
+    public abstract LiveData<Integer> selectGameCount();
+
+    @Query("SELECT COUNT(*) FROM Game")
+    public abstract Integer selectGameCountSynchronously();
 }

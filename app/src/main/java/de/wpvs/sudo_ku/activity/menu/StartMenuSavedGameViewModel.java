@@ -48,7 +48,7 @@ public class StartMenuSavedGameViewModel extends AndroidViewModel {
      */
     public LiveData<List<GameEntity>> getGameEntities() {
         if (this.gameEntities == null) {
-            this.gameEntities = this.databaseHolder.gameDao().selectAll();
+            this.gameEntities = this.databaseHolder.gameDao().selectAllGameEntities();
         }
 
         return this.gameEntities;
@@ -60,7 +60,7 @@ public class StartMenuSavedGameViewModel extends AndroidViewModel {
      */
     public LiveData<Integer> getCount() {
         if (this.count == null) {
-            this.count = this.databaseHolder.gameDao().getRowCount();
+            this.count = this.databaseHolder.gameDao().selectGameCount();
         }
 
         return this.count;
