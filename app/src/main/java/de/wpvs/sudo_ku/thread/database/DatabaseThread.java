@@ -14,7 +14,7 @@ import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
  * operations of the app.
  */
 public class DatabaseThread extends BackgroundThread {
-    private static String NAME = "database";
+    private static final String NAME = "database";
 
     /**
      * Don't allow direct instantiation of this class from clients. We rather want to use the
