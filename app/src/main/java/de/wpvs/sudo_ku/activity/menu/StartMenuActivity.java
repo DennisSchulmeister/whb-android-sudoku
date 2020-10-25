@@ -21,9 +21,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.NavigationUtils;
-import de.wpvs.sudo_ku.model.GameDatabase;
-import de.wpvs.sudo_ku.model.SavedGame;
-import de.wpvs.sudo_ku.model.ModelUtils;
+import de.wpvs.sudo_ku.storage.DatabaseHolder;
+import de.wpvs.sudo_ku.storage.GameEntity;
+import de.wpvs.sudo_ku.storage.StorageUtils;
 import de.wpvs.sudo_ku.thread.database.DatabaseThread;
 import de.wpvs.sudo_ku.thread.database.DeleteAllGames;
 import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
@@ -37,12 +37,12 @@ public class StartMenuActivity extends AppCompatActivity {
     private Bundle savedInstanceState;
 
     private TextView noSavedGamesMessage;
-    private RecyclerView savedGamesList;
+    private RecyclerView gameEntityList;
     private FloatingActionButton floatingActionButton;
 
     private StartMenuSavedGameViewModel startMenuSavedGameViewModel;
     private StartMenuSavedGameRecyclerViewAdapter startMenuSavedGameRecyclerViewAdapter;
-    private List<SavedGame> savedGames = null;
+    private List<GameEntity> gameEntities = null;
 
     /**
      * System callback that will be used to inflate the UI, after the activity has been created.
@@ -59,30 +59,30 @@ public class StartMenuActivity extends AppCompatActivity {
 
         // Retrieve often needed view instances
         this.noSavedGamesMessage = this.findViewById(R.id.start_menu_no_saved_games_message);
-        this.savedGamesList = this.findViewById(R.id.start_menu_saved_games_list);
+        this.gameEntityList = this.findViewById(R.id.start_menu_game_entity_list);
         this.floatingActionButton = this.findViewById(R.id.start_menu_new_game_fab);
 
         // Retrieve the ViewModel for saved games and create RecyclerView.Adapter
         this.startMenuSavedGameRecyclerViewAdapter = new StartMenuSavedGameRecyclerViewAdapter();
-        this.savedGamesList.setAdapter(this.startMenuSavedGameRecyclerViewAdapter);
-        this.savedGamesList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        this.gameEntityList.setAdapter(this.startMenuSavedGameRecyclerViewAdapter);
+        this.gameEntityList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         // Toggle between list or message depending on the amount of saved games
         this.startMenuSavedGameViewModel = new ViewModelProvider(this).get(StartMenuSavedGameViewModel.class);
 
         this.startMenuSavedGameViewModel.getCount().observe(this, count -> {
             this.noSavedGamesMessage.setVisibility(count > 0 ? View.GONE : View.VISIBLE);
-            this.savedGamesList.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
+            this.gameEntityList.setVisibility(count > 0 ? View.VISIBLE : View.GONE);
         });
 
-        this.startMenuSavedGameViewModel.getSavedGames().observe(this, savedGames -> {
-            this.savedGames = savedGames;
-            this.startMenuSavedGameRecyclerViewAdapter.setSavedGames(savedGames);
+        this.startMenuSavedGameViewModel.getGameEntities().observe(this, savedGames -> {
+            this.gameEntities = savedGames;
+            this.startMenuSavedGameRecyclerViewAdapter.setGameEntities(savedGames);
         });
 
         // Start existing game on click on the list
         this.startMenuSavedGameRecyclerViewAdapter.setClickListener(savedGame -> {
-            NavigationUtils.gotoSavedGame(this, savedGame.getId());
+            NavigationUtils.gotoSavedGame(this, savedGame.id);
         });
 
         // Start new game on click on the floating action button
@@ -124,7 +124,7 @@ public class StartMenuActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        GameDatabase gameDatabase = this.startMenuSavedGameViewModel.getGameDatabase();
+        DatabaseHolder databaseHolder = this.startMenuSavedGameViewModel.getDatabaseHolder();
 
         switch (item.getItemId()) {
             case R.id.action_start_menu_create_random:
@@ -150,18 +150,18 @@ public class StartMenuActivity extends AppCompatActivity {
      * Save a new random game in the database and launch it.
      */
     private void startRandomGame() {
-        SavedGame savedGame = ModelUtils.createRandomGame();
-        SaveOrDeleteGame task = new SaveOrDeleteGame(savedGame, SaveOrDeleteGame.Operation.INSERT);
+        GameEntity gameEntity = StorageUtils.createRandomGame();
+        SaveOrDeleteGame task = new SaveOrDeleteGame(gameEntity, SaveOrDeleteGame.Operation.INSERT);
 
         task.setCallback(new SaveOrDeleteGame.Callback() {
 
             @Override
             public void onUpdatePerformed() {
-                NavigationUtils.gotoSavedGame(StartMenuActivity.this, savedGame.getId());
+                NavigationUtils.gotoSavedGame(StartMenuActivity.this, gameEntity.id);
             }
 
             @Override
-            public void onErrorsFound(Map<SavedGame.Error, String> errors) {
+            public void onErrorsFound(Map<GameEntity.Error, String> errors) {
                 // Shouldn't happen, but anyway …
                 String messages = "";
 
@@ -184,19 +184,19 @@ public class StartMenuActivity extends AppCompatActivity {
      * Delete all saved games from the database.
      */
     private void deleteAllGames() {
-        DeleteAllGames task = new DeleteAllGames(this, this.savedGamesList, this.savedInstanceState);
+        DeleteAllGames task = new DeleteAllGames(this, this.gameEntityList, this.savedInstanceState);
 
         task.setCallback(new DeleteAllGames.Callback() {
             @Override
             public void beforeDeletion() {
                 // Temporarily clear the list, to make it look like the games have already been deleted
-                startMenuSavedGameRecyclerViewAdapter.setSavedGames(new ArrayList<>());
+                startMenuSavedGameRecyclerViewAdapter.setGameEntities(new ArrayList<>());
             }
 
             @Override
             public void afterDeletion() {
                 // Restore the real list, once the task has been cancelled or completed
-                startMenuSavedGameRecyclerViewAdapter.setSavedGames(savedGames);
+                startMenuSavedGameRecyclerViewAdapter.setGameEntities(gameEntities);
             }
         });
 

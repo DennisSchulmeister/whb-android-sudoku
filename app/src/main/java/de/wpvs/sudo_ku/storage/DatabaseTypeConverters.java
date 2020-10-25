@@ -1,4 +1,4 @@
-package de.wpvs.sudo_ku.model;
+package de.wpvs.sudo_ku.storage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +41,7 @@ public class DatabaseTypeConverters {
      * @return Name of the GameType value
      */
     @TypeConverter
-    public String gameTypeToString(GameType gameType) {
+    public String gameTypeToString(GameEntity.GameType gameType) {
         return gameType == null ? null : gameType.name();
     }
 
@@ -52,8 +52,8 @@ public class DatabaseTypeConverters {
      * @return Deserialized GameType enum value
      */
     @TypeConverter
-    public GameType stringToGameType(String name) {
-        return name == null ? null : GameType.valueOf(name);
+    public GameEntity.GameType stringToGameType(String name) {
+        return name == null ? null : GameEntity.GameType.valueOf(name);
     }
 
     /**

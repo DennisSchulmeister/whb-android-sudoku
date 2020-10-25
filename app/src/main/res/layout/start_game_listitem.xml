@@ -2,7 +2,7 @@
 <layout xmlns:android = "http://schemas.android.com/apk/res/android">
     <data>
         <import type="android.text.format.DateUtils" />
-        <variable name="savedGame" type="de.wpvs.sudo_ku.model.SavedGame" />
+        <variable name="gameEntity" type="de.wpvs.sudo_ku.storage.GameEntity" />
         <variable name="gameType" type="String" />
         <variable name="elapsedTime" type="String" />
         <variable name="progress" type="String" />
@@ -31,7 +31,7 @@
             android:layout_alignTop         = "@id/start_game_listitem_gametype"
             android:layout_alignParentRight = "true"
             android:textAppearance          = "?attr/textAppearanceListItem"
-            android:text                    = "@{DateUtils.getRelativeTimeSpanString(savedGame.startDate.getTime())}" />
+            android:text                    = "@{DateUtils.getRelativeTimeSpanString(gameEntity.startDate.getTime())}" />
 
         <!-- Line 2: Save date -->
         <TextView
@@ -52,7 +52,7 @@
             android:layout_toRightOf        = "@+id/start_game_listitem_save_date_label"
             android:layout_marginLeft       = "@dimen/small_gap"
             android:textAppearance          = "?attr/textAppearanceListItemSmall"
-            android:text                    = "@{DateUtils.getRelativeTimeSpanString(savedGame.saveDate.getTime())}" />
+            android:text                    = "@{DateUtils.getRelativeTimeSpanString(gameEntity.saveDate.getTime())}" />
 
         <!-- Line 3: Elapsed Time -->
         <TextView

@@ -19,9 +19,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.NavigationUtils;
-import de.wpvs.sudo_ku.model.GameType;
-import de.wpvs.sudo_ku.model.SavedGame;
-import de.wpvs.sudo_ku.model.ModelUtils;
+import de.wpvs.sudo_ku.storage.GameEntity;
+import de.wpvs.sudo_ku.storage.StorageUtils;
 import de.wpvs.sudo_ku.thread.database.DatabaseThread;
 import de.wpvs.sudo_ku.thread.database.SaveOrDeleteGame;
 
@@ -80,7 +79,7 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
             List<String> characterSet = new ArrayList<>(listPreference.getValues());
             String summary = "";
 
-            ModelUtils.sortCharacterSet(characterSet, GameType.valueOf(this.preferenceGameType.getValue()));
+            StorageUtils.sortCharacterSet(characterSet, GameEntity.GameType.valueOf(this.preferenceGameType.getValue()));
 
             for (String value : characterSet) {
                 if (summary.isEmpty()) {
@@ -154,9 +153,9 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
      */
     private void shuffleCharacterSet(String gameType, String boardSize) {
         int iBoardSize = Integer.parseInt(boardSize);
-        GameType eGameType = GameType.valueOf(gameType);
+        GameEntity.GameType eGameType = GameEntity.GameType.valueOf(gameType);
 
-        Collection<String> characterSet = ModelUtils.createCharacterSet(eGameType, iBoardSize);
+        Collection<String> characterSet = StorageUtils.createCharacterSet(eGameType, iBoardSize);
         this.preferenceCharacterSet.setValues(new HashSet<>(characterSet));
     }
 
@@ -166,31 +165,31 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
      */
     private void startGame() {
         // Get all parameters
-        GameType gameType = GameType.valueOf(this.preferenceGameType.getValue());
+        GameEntity.GameType gameType = GameEntity.GameType.valueOf(this.preferenceGameType.getValue());
         int boardSize = Integer.parseInt(this.preferenceBoardSize.getValue());
         float difficulty = this.preferenceDifficulty.getValue() / 100.0f;
         Set<String> characterSet = this.preferenceCharacterSet.getValues();
 
         // Try to save and start game
-        SavedGame savedGame = new SavedGame();
-        savedGame.setGameType(gameType);
-        savedGame.setSize(boardSize);
-        savedGame.setDifficulty(difficulty);
-        savedGame.setCharacterSet(new ArrayList<String>(characterSet));
+        GameEntity gameEntity = new GameEntity();
+        gameEntity.gameType = gameType;
+        gameEntity.size = boardSize;
+        gameEntity.difficulty = difficulty;
+        gameEntity.characterSet = new ArrayList<String>(characterSet);
 
-        SaveOrDeleteGame task = new SaveOrDeleteGame(savedGame, SaveOrDeleteGame.Operation.INSERT);
+        SaveOrDeleteGame task = new SaveOrDeleteGame(gameEntity, SaveOrDeleteGame.Operation.INSERT);
 
         task.setCallback(new SaveOrDeleteGame.Callback() {
             @Override
             public void onUpdatePerformed() {
-                NavigationUtils.gotoSavedGame(NewGamePreferencesFragment.this.getActivity(), savedGame.getId());
+                NavigationUtils.gotoSavedGame(NewGamePreferencesFragment.this.getActivity(), gameEntity.id);
             }
 
             @Override
-            public void onErrorsFound(Map<SavedGame.Error, String> errors) {
-                if (errors.containsKey(SavedGame.Error.ERROR_CHARSET_SIZE)) {
+            public void onErrorsFound(Map<GameEntity.Error, String> errors) {
+                if (errors.containsKey(GameEntity.Error.ERROR_CHARSET_SIZE)) {
                     // Snackbar to shuffle character set, in case not enough characters were selected
-                    String message = errors.get(SavedGame.Error.ERROR_CHARSET_SIZE);
+                    String message = errors.get(GameEntity.Error.ERROR_CHARSET_SIZE);
                     Snackbar snackbar = Snackbar.make(NewGamePreferencesFragment.this.getView(), message, Snackbar.LENGTH_LONG);
 
                     snackbar.setAction(R.string.new_game_error_wrong_amount_fix, v -> {

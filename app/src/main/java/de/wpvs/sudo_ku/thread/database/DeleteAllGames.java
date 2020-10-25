@@ -12,9 +12,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.AppDialogFragmentBuilder;
-import de.wpvs.sudo_ku.model.GameDatabase;
-import de.wpvs.sudo_ku.model.SavedGame;
-import de.wpvs.sudo_ku.model.SavedGameDAO;
+import de.wpvs.sudo_ku.storage.DatabaseHolder;
+import de.wpvs.sudo_ku.storage.GameEntity;
+import de.wpvs.sudo_ku.storage.GameDao;
 import de.wpvs.sudo_ku.thread.BackgroundThread;
 import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
 
@@ -31,7 +31,7 @@ public class DeleteAllGames implements Runnable {
     private FragmentActivity activity;
     private View view;
     private Bundle savedInstanceState;
-    private SavedGameDAO dao;
+    private GameDao dao;
 
     private static int DECISION_YES = 1;
     private static int DECISION_NO = 2;
@@ -67,7 +67,7 @@ public class DeleteAllGames implements Runnable {
         this.activity = activity;
         this.view = view;
         this.savedInstanceState = savedInstanceState;
-        this.dao = GameDatabase.getInstance().savedGameDAO();
+        this.dao = DatabaseHolder.getInstance().gameDao();
     }
 
     /**
@@ -138,10 +138,10 @@ public class DeleteAllGames implements Runnable {
         }
 
         // Finally delete all games
-        List<SavedGame> savedGames = this.dao.selectAllSynchronously();
+        List<GameEntity> gameEntities = this.dao.selectAllSynchronously();
 
-        for (SavedGame savedGame : savedGames) {
-            this.dao.delete(savedGame);
+        for (GameEntity gameEntity : gameEntities) {
+            this.dao.delete(gameEntity);
         }
 
         if (this.callback != null) {

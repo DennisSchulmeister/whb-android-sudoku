@@ -11,10 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.databinding.StartGameListitemBinding;
-import de.wpvs.sudo_ku.model.SavedGame;
+import de.wpvs.sudo_ku.storage.GameEntity;
 
 /**
- * Adapter class to display SavedGame instances in a RecyclerView.
+ * Adapter class to display GameEntity instances in a RecyclerView.
  */
 public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<StartMenuSavedGameRecyclerViewAdapter.ViewHolder> {
     /**
@@ -46,12 +46,12 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
         /**
          * Handle click on a saved game.
          *
-         * @param savedGame Clicked SavedGame entity.
+         * @param gameEntity Clicked GameEntity entity.
          */
-        void onItemClicked(SavedGame savedGame);
+        void onItemClicked(GameEntity gameEntity);
     }
 
-    private List<SavedGame> savedGames = new ArrayList<>();
+    private List<GameEntity> gameEntities = new ArrayList<>();
     private ClickListener clickListener;
 
     /**
@@ -59,10 +59,10 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
      * by the owner activity after creation of the adapter object. It can also be called via
      * a LiveData observer to automatically update the visible items once the list has changed.
      *
-     * @param savedGames New list of saved games to display.
+     * @param gameEntities New list of saved games to display.
      */
-    public void setSavedGames(List<SavedGame> savedGames) {
-        this.savedGames = savedGames;
+    public void setGameEntities(List<GameEntity> gameEntities) {
+        this.gameEntities = gameEntities;
         this.notifyDataSetChanged();
     }
 
@@ -82,7 +82,7 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
      */
     @Override
     public int getItemCount() {
-        return this.savedGames.size();
+        return this.gameEntities.size();
     }
 
     /**
@@ -101,8 +101,8 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
 
         binding.getRoot().setOnClickListener(v -> {
             if (this.clickListener != null) {
-                SavedGame savedGame = binding.getSavedGame();
-                this.clickListener.onItemClicked(savedGame);
+                GameEntity gameEntity = binding.getGameEntity();
+                this.clickListener.onItemClicked(gameEntity);
             }
         });
 
@@ -118,12 +118,12 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SavedGame savedGame = this.savedGames.get(position);
-        holder.binding.setSavedGame(savedGame);
+        GameEntity gameEntity = this.gameEntities.get(position);
+        holder.binding.setGameEntity(gameEntity);
 
-        String gameType = savedGame.getSize() + "×" + savedGame.getSize();
+        String gameType = gameEntity.size + "×" + gameEntity.size;
 
-        switch (savedGame.getGameType()) {
+        switch (gameEntity.gameType) {
             case NUMBER_GAME:
                 gameType +=  " " + holder.context.getString(R.string.game_type_number);
                 break;
@@ -133,8 +133,8 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
         }
 
         holder.binding.setGameType(gameType);
-        holder.binding.setElapsedTime((int) Math.floor(savedGame.getSeconds() / 60) + ":" + (savedGame.getSeconds() % 60));
-        holder.binding.setProgress((int) (savedGame.getProgress() * 100) + "%");
+        holder.binding.setElapsedTime((int) Math.floor(gameEntity.seconds / 60) + ":" + (gameEntity.seconds % 60));
+        holder.binding.setProgress((int) Math.floor(gameEntity.progress) + "%");
 
         holder.binding.executePendingBindings();
     }

@@ -1,4 +1,4 @@
-package de.wpvs.sudo_ku.model;
+package de.wpvs.sudo_ku.storage;
 
 import java.util.List;
 
@@ -14,46 +14,46 @@ import androidx.room.Update;
  * Data access object that defines all database queries for saved games.
  */
 @Dao
-public interface SavedGameDAO {
+public interface GameDao {
     /**
      * Insert a new game, replace existing on conflict.
      *
-     * @param savedGame Record to insert
+     * @param gameEntity Record to insert
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insert(SavedGame savedGame);
+    public void insert(GameEntity gameEntity);
 
     /**
      * Update an existing game.
      *
-     * @param savedGame Record to update
+     * @param gameEntity Record to update
      */
     @Update
-    public void update(SavedGame savedGame);
+    public void update(GameEntity gameEntity);
 
     /**
      * Delete an existing game.
      *
-     * @param savedGame Record to delete
+     * @param gameEntity Record to delete
      */
     @Delete
-    public void delete(SavedGame savedGame);
+    public void delete(GameEntity gameEntity);
 
     /**
      * Selects all saved games.
      *
      * @return All saved games ordered by save data descending
      */
-    @Query("SELECT * FROM SavedGame ORDER BY saveDate DESC")
-    public LiveData<List<SavedGame>> selectAll();
+    @Query("SELECT * FROM Game ORDER BY saveDate DESC")
+    public LiveData<List<GameEntity>> selectAll();
 
     /**
      * The same as selectAll() but without wrapping the result in a LiveData object.
      *
      * @return All saved games ordered by save data descending
      */
-    @Query("SELECT * FROM SavedGame ORDER BY saveDate DESC")
-    public List<SavedGame> selectAllSynchronously();
+    @Query("SELECT * FROM Game ORDER BY saveDate DESC")
+    public List<GameEntity> selectAllSynchronously();
 
     /**
      * Selects a single saved game via its ID.
@@ -61,23 +61,23 @@ public interface SavedGameDAO {
      * @param id ID of the searched game.
      * @return Found record or null
      */
-    @Query("SELECT * FROM SavedGame WHERE id = :id")
-    public LiveData<SavedGame> selectSingle(String id);
+    @Query("SELECT * FROM Game WHERE id = :id")
+    public LiveData<GameEntity> selectSingle(String id);
 
     /**
      * The same as selectSingle() but without wrapping the result in a LiveData object.
      *
      * @return Found record or null
      */
-    @Query("SELECT * FROM SavedGame WHERE id = :id")
-    public SavedGame selectSingleSynchronously(String id);
+    @Query("SELECT * FROM Game WHERE id = :id")
+    public GameEntity selectSingleSynchronously(String id);
 
     /**
      * Selects to total amount of saved games
      *
      * @returns Number of saved games
      */
-    @Query("SELECT COUNT(*) FROM SavedGame")
+    @Query("SELECT COUNT(*) FROM Game")
     LiveData<Integer> getRowCount();
 
     /**
@@ -85,6 +85,6 @@ public interface SavedGameDAO {
      *
      * @returns Number of saved games
      */
-    @Query("SELECT COUNT(*) FROM SavedGame")
+    @Query("SELECT COUNT(*) FROM Game")
     Integer getRowCountSynchronously();
 }

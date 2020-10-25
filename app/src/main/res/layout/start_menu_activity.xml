@@ -55,7 +55,7 @@
             android:textStyle      = "italic" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id            = "@+id/start_menu_saved_games_list"
+            android:id            = "@+id/start_menu_game_entity_list"
             android:layout_width  = "match_parent"
             android:layout_height = "match_parent"
             app:layoutManager     = "LinearLayoutManager" />

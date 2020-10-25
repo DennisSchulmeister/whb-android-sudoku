@@ -7,9 +7,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.room.Room;
-import de.wpvs.sudo_ku.model.GameDatabase;
-import de.wpvs.sudo_ku.model.SavedGame;
+import de.wpvs.sudo_ku.storage.DatabaseHolder;
+import de.wpvs.sudo_ku.storage.GameEntity;
 
 /**
  *  ViewModel for persistent saved games, that will remain in memory even if the parent
@@ -19,8 +18,8 @@ import de.wpvs.sudo_ku.model.SavedGame;
  *  in a background task.
  */
 public class StartMenuSavedGameViewModel extends AndroidViewModel {
-    private GameDatabase gameDatabase;
-    private LiveData<List<SavedGame>> savedGames = null;
+    private DatabaseHolder databaseHolder;
+    private LiveData<List<GameEntity>> gameEntities = null;
     private LiveData<Integer> count = null;
 
     /**
@@ -29,30 +28,30 @@ public class StartMenuSavedGameViewModel extends AndroidViewModel {
     public StartMenuSavedGameViewModel(@NonNull Application application) {
         super(application);
 
-        this.gameDatabase = GameDatabase.getInstance();
+        this.databaseHolder = DatabaseHolder.getInstance();
     }
 
     /**
-     * Get the encapsulated GameDatabase-instance so that other database queries than those
+     * Get the encapsulated DatabaseHolder-instance so that other database queries than those
      * directly provided here can be issued. This is especially needed to load a single saved
      * game that the user wants to resume or the modify the database contents.
      *
-     * @returns a GameDatabase instance
+     * @returns a DatabaseHolder instance
      */
-    public GameDatabase getGameDatabase() {
-        return this.gameDatabase;
+    public DatabaseHolder getDatabaseHolder() {
+        return this.databaseHolder;
     }
 
     /**
      * Load all saved games on first access and return the LiveData object wrapping the list.
-     * @returns a LiveData wrapped List of SavedGame instances
+     * @returns a LiveData wrapped List of GameEntity instances
      */
-    public LiveData<List<SavedGame>> getSavedGames() {
-        if (this.savedGames == null) {
-            this.savedGames = this.gameDatabase.savedGameDAO().selectAll();
+    public LiveData<List<GameEntity>> getGameEntities() {
+        if (this.gameEntities == null) {
+            this.gameEntities = this.databaseHolder.gameDao().selectAll();
         }
 
-        return this.savedGames;
+        return this.gameEntities;
     }
 
     /**
@@ -61,7 +60,7 @@ public class StartMenuSavedGameViewModel extends AndroidViewModel {
      */
     public LiveData<Integer> getCount() {
         if (this.count == null) {
-            this.count = this.gameDatabase.savedGameDAO().getRowCount();
+            this.count = this.databaseHolder.gameDao().getRowCount();
         }
 
         return this.count;

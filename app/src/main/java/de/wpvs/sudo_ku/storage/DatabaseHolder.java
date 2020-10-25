@@ -1,6 +1,4 @@
-package de.wpvs.sudo_ku.model;
-
-import android.content.Context;
+package de.wpvs.sudo_ku.storage;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -12,20 +10,20 @@ import de.wpvs.sudo_ku.MyApplication;
  * Main database class which acts as an entry point for all database access objects, which can
  * be used for database access.
  */
-@Database(entities = {SavedGame.class}, version = 4)
+@Database(entities = {GameEntity.class}, version = 4)
 @TypeConverters({DatabaseTypeConverters.class})
-public abstract class GameDatabase extends RoomDatabase {
-    private static final String DATABASE_NAME = "game_database";
-    private static GameDatabase singleton;
+public abstract class DatabaseHolder extends RoomDatabase {
+    private static final String DATABASE_NAME = "sudo-ku";
+    private static DatabaseHolder singleton;
 
     /**
      * Create and return singleton instance of the database.
      *
      * @return Singleton instance of the database
      */
-    public static GameDatabase getInstance() {
+    public static DatabaseHolder getInstance() {
         if (singleton == null) {
-            singleton = Room.databaseBuilder(MyApplication.getInstance(), GameDatabase.class, DATABASE_NAME).fallbackToDestructiveMigration().build();
+            singleton = Room.databaseBuilder(MyApplication.getInstance(), DatabaseHolder.class, DATABASE_NAME).fallbackToDestructiveMigration().build();
         }
 
         return singleton;
@@ -34,5 +32,5 @@ public abstract class GameDatabase extends RoomDatabase {
     /**
      * @return Data access object for saved games
      */
-    public abstract SavedGameDAO savedGameDAO();
+    public abstract GameDao gameDao();
 }
