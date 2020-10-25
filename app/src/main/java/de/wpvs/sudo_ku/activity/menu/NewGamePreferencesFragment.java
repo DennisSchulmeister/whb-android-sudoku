@@ -186,10 +186,10 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
             }
 
             @Override
-            public void onErrorsFound(Map<GameEntity.Error, String> errors) {
-                if (errors.containsKey(GameEntity.Error.ERROR_CHARSET_SIZE)) {
+            public void onErrorsFound(Map<StorageUtils.Error, String> errors) {
+                if (errors.containsKey(StorageUtils.Error.ERROR_CHARSET_SIZE)) {
                     // Snackbar to shuffle character set, in case not enough characters were selected
-                    String message = errors.get(GameEntity.Error.ERROR_CHARSET_SIZE);
+                    String message = errors.get(StorageUtils.Error.ERROR_CHARSET_SIZE);
                     Snackbar snackbar = Snackbar.make(NewGamePreferencesFragment.this.getView(), message, Snackbar.LENGTH_LONG);
 
                     snackbar.setAction(R.string.new_game_error_wrong_amount_fix, v -> {

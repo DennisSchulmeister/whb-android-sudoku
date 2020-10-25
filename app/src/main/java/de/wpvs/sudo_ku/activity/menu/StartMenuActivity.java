@@ -161,7 +161,7 @@ public class StartMenuActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onErrorsFound(Map<GameEntity.Error, String> errors) {
+            public void onErrorsFound(Map<StorageUtils.Error, String> errors) {
                 // Shouldn't happen, but anyway …
                 String messages = "";
 

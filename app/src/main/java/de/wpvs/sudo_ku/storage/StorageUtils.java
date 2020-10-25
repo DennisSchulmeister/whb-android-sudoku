@@ -16,6 +16,12 @@ import de.wpvs.sudo_ku.R;
  * Static utility method to simplify or outsource some often needed functions.
  */
 public class StorageUtils {
+    /**
+     * Error codes, why a game is inconsistent and should not be saved.
+     */
+    public enum Error {
+        ERROR_CHARSET_SIZE,
+    }
 
     /**
      * Factory method for a new game with random configuration. The returned object can directly
@@ -101,8 +107,8 @@ public class StorageUtils {
      * @return A list of all found errors
      * @param gameEntity
      */
-    public static Map<GameEntity.Error, String> checkGameConsistency(GameEntity gameEntity) {
-        Map<GameEntity.Error, String> errors = new HashMap<>();
+    public static Map<Error, String> checkGameConsistency(GameEntity gameEntity) {
+        Map<Error, String> errors = new HashMap<>();
         Context context = MyApplication.getInstance();
 
         if (gameEntity.characterSet == null || gameEntity.characterSet.size() != gameEntity.size) {
@@ -117,7 +123,7 @@ public class StorageUtils {
                     break;
             }
 
-            errors.put(GameEntity.Error.ERROR_CHARSET_SIZE, message);
+            errors.put(Error.ERROR_CHARSET_SIZE, message);
         }
 
         return errors;

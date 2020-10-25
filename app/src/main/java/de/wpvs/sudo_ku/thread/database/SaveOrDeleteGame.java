@@ -47,7 +47,7 @@ public class SaveOrDeleteGame implements Runnable {
          *
          * @param errors Found errors
          */
-        void onErrorsFound(Map<GameEntity.Error, String> errors);
+        void onErrorsFound(Map<StorageUtils.Error, String> errors);
     };
 
     /**
@@ -78,7 +78,7 @@ public class SaveOrDeleteGame implements Runnable {
     public void run() {
         // Check consistency, in case the game shall be saved
         if (this.operation == Operation.INSERT || this.operation == Operation.UPDATE) {
-            Map<GameEntity.Error, String> errors = StorageUtils.checkGameConsistency(this.gameEntity);
+            Map<StorageUtils.Error, String> errors = StorageUtils.checkGameConsistency(this.gameEntity);
 
             if (!errors.isEmpty()) {
                 if (this.callback != null) {

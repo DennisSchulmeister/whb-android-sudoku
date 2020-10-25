@@ -41,11 +41,4 @@ public class GameEntity {
         NUMBER_GAME,
         LETTER_GAME,
     }
-
-    /**
-     * Error codes, why a game is inconsistent and should not be saved.
-     */
-    public enum Error {
-        ERROR_CHARSET_SIZE,
-    }
 }
