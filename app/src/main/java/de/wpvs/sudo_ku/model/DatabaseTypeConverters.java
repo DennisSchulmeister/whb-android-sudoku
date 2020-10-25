@@ -63,7 +63,7 @@ public class DatabaseTypeConverters {
      * @return Serialized string
      */
     @TypeConverter
-    public static String stringLostToString(List<String> list) {
+    public static String stringListToString(List<String> list) {
         String joined = "";
 
         for (String value : list) {
