@@ -24,7 +24,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
 
-        // Prefill database with all known words
+        // Preload database with all known words
         DatabaseThread.getInstance().post(new PreloadKnownWords());
     }
 }
