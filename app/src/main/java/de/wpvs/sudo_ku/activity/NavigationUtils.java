@@ -65,6 +65,10 @@ public class NavigationUtils {
     }
 
     public static void gotoManPage(Context context, String command) {
-        gotoWebsite(context, "http://man.he.net/?topic=" + command + "&section=all");
+        gotoWebsite(context, "http://man.he.net/" + command + "&section=all");
+    }
+
+    public static void gotoTldrPage(Context context, String command) {
+        gotoWebsite(context, "https://tldr.ostera.io/" + command);
     }
 }

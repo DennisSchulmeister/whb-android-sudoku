@@ -13,7 +13,7 @@
     <!-- Information -->
     <group>
         <item
-            android:id    = "@+id/action_start_menu_man_sudo"
+            android:id    = "@+id/action_start_menu_tldr_sudo"
             android:title = "@string/start_menu_man_sudo_label" />
 
         <item

@@ -133,8 +133,8 @@ public class StartMenuActivity extends AppCompatActivity {
             case R.id.action_start_menu_delete_all:
                 this.deleteAllGames();
                 break;
-            case R.id.action_start_menu_man_sudo:
-                NavigationUtils.gotoManPage(this, "sudo");
+            case R.id.action_start_menu_tldr_sudo:
+                NavigationUtils.gotoTldrPage(this, "sudo");
                 break;
             case R.id.action_start_menu_website:
                 NavigationUtils.gotoWebsite(this, "https://www.wpvs.de");
