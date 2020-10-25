@@ -3,6 +3,9 @@ package de.wpvs.sudo_ku.thread.clock;
 import android.os.Handler;
 import android.os.Message;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import de.wpvs.sudo_ku.thread.BackgroundThread;
 import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
@@ -19,7 +22,7 @@ public class ClockThread extends BackgroundThread {
     private static final int MESSAGE_TICK = 3;
 
     private boolean running = false;
-    private Callback callback = null;
+    private List<Callback> callbacks = new ArrayList<>();
 
     /**
      * Callback interface used to run some code every second. Note, that the callback will be
@@ -58,12 +61,18 @@ public class ClockThread extends BackgroundThread {
     }
 
     /**
-     * Set callback object.
+     * Add a callback object.
      *
      * @param callback Callback object
      */
-    public void setCallback(Callback callback) {
-        this.callback = callback;
+    public synchronized void addCallback(Callback callback) {
+        if (!this.callbacks.contains(callback)) {
+            this.callbacks.add(callback);
+        }
+    }
+
+    public synchronized void removeCallback(Callback callback) {
+        this.callbacks.remove(callback);
     }
 
     /**
@@ -155,11 +164,13 @@ public class ClockThread extends BackgroundThread {
                 return;
             }
 
-            if (ClockThread.this.callback != null) {
-                ClockThread.this.callback.tickSecond();
-            }
-
             ClockThread.this.getHandler().sendEmptyMessageDelayed(MESSAGE_TICK, 1000);
+
+            synchronized (ClockThread.this) {
+                for (Callback callback : ClockThread.this.callbacks) {
+                    callback.tickSecond();
+                }
+            }
         }
     }
 }
