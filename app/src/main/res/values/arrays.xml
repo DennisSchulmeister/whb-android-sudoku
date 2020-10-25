@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Game types -->
+    <!-- Game types, analogous GameEntity.GameType -->
     <string-array name="game_type_keys">
         <item>NUMBER_GAME</item>
         <item>LETTER_GAME</item>

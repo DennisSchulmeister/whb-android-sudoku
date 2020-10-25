@@ -1,29 +1,21 @@
 package de.wpvs.sudo_ku.storage;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import de.wpvs.sudo_ku.MyApplication;
-import de.wpvs.sudo_ku.R;
 
 /**
  * Data transfer object for a saved game. This is used to persist a started game in the database,
- * so that it can be resumed even days or weeks after the game has started.
+ * so that it can be resumed even days or weeks after the game has started. It is also the data
+ * structure used internally by the game logic to represent the game state.
  */
 @Entity(tableName = "Game")
 public class GameEntity {
-    @NonNull
-    @PrimaryKey
-    public String id = UUID.randomUUID().toString();
+    @PrimaryKey(autoGenerate = true)
+    public int uid;
 
     public Date startDate = new Date();
     public Date saveDate = new Date();

@@ -1,0 +1,6 @@
+The wordlist has been created with the following commands
+on my Fedora Linux installation:
+
+ls --color=never /bin | grep "^[[:lower:]]\+$" > knownwords.txt
+ls --color=never /sbin | grep "^[[:lower:]]\+$" >> knownwords.txt
+

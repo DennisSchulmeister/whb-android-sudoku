@@ -10,7 +10,14 @@ import de.wpvs.sudo_ku.MyApplication;
  * Main database class which acts as an entry point for all database access objects, which can
  * be used for database access.
  */
-@Database(entities = {GameEntity.class}, version = 4)
+@Database(
+        version = 6,
+        entities = {
+                CharacterFieldEntity.class,
+                GameEntity.class,
+                KnownWordEntity.class,
+                WordEntity.class,
+        })
 @TypeConverters({DatabaseTypeConverters.class})
 public abstract class DatabaseHolder extends RoomDatabase {
     private static final String DATABASE_NAME = "sudo-ku";
@@ -33,4 +40,9 @@ public abstract class DatabaseHolder extends RoomDatabase {
      * @return Data access object for saved games
      */
     public abstract GameDao gameDao();
+
+    /**
+     * @return Data access object for the list of known words
+     */
+    public abstract KnownWordDao knownWordDao();
 }

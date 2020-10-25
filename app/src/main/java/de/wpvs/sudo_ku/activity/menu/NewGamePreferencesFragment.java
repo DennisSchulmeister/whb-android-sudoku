@@ -182,7 +182,7 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
         task.setCallback(new SaveOrDeleteGame.Callback() {
             @Override
             public void onUpdatePerformed() {
-                NavigationUtils.gotoSavedGame(NewGamePreferencesFragment.this.getActivity(), gameEntity.id);
+                NavigationUtils.gotoSavedGame(NewGamePreferencesFragment.this.getActivity(), gameEntity.uid);
             }
 
             @Override

@@ -21,7 +21,7 @@ public interface GameDao {
      * @param gameEntity Record to insert
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insert(GameEntity gameEntity);
+    void insert(GameEntity gameEntity);
 
     /**
      * Update an existing game.
@@ -29,15 +29,16 @@ public interface GameDao {
      * @param gameEntity Record to update
      */
     @Update
-    public void update(GameEntity gameEntity);
+    void update(GameEntity gameEntity);
 
     /**
      * Delete an existing game.
      *
-     * @param gameEntity Record to delete
+     @param uid ID of the game to delete.
      */
-    @Delete
-    public void delete(GameEntity gameEntity);
+    //@Delete
+    @Query("DELETE FROM Game WHERE uid = :uid")
+    void delete(int uid);
 
     /**
      * Selects all saved games.
@@ -45,7 +46,7 @@ public interface GameDao {
      * @return All saved games ordered by save data descending
      */
     @Query("SELECT * FROM Game ORDER BY saveDate DESC")
-    public LiveData<List<GameEntity>> selectAll();
+    LiveData<List<GameEntity>> selectAll();
 
     /**
      * The same as selectAll() but without wrapping the result in a LiveData object.
@@ -53,24 +54,25 @@ public interface GameDao {
      * @return All saved games ordered by save data descending
      */
     @Query("SELECT * FROM Game ORDER BY saveDate DESC")
-    public List<GameEntity> selectAllSynchronously();
+    List<GameEntity> selectAllSynchronously();
 
     /**
      * Selects a single saved game via its ID.
      *
-     * @param id ID of the searched game.
+     * @param uid ID of the searched game.
      * @return Found record or null
      */
-    @Query("SELECT * FROM Game WHERE id = :id")
-    public LiveData<GameEntity> selectSingle(String id);
+    @Query("SELECT * FROM Game WHERE uid = :uid")
+    LiveData<GameEntity> selectSingle(int uid);
 
     /**
      * The same as selectSingle() but without wrapping the result in a LiveData object.
      *
+     * @param uid ID of the searched game.
      * @return Found record or null
      */
-    @Query("SELECT * FROM Game WHERE id = :id")
-    public GameEntity selectSingleSynchronously(String id);
+    @Query("SELECT * FROM Game WHERE uid = :uid")
+    GameEntity selectSingleSynchronously(int uid);
 
     /**
      * Selects to total amount of saved games

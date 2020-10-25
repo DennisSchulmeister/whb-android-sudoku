@@ -99,7 +99,7 @@ public class SaveOrDeleteGame implements Runnable {
                 this.dao.update(this.gameEntity);
                 break;
             case DELETE:
-                this.dao.delete(this.gameEntity);
+                this.dao.delete(this.gameEntity.uid);
                 break;
         }
 

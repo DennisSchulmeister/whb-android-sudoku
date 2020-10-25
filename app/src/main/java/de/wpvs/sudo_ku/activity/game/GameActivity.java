@@ -2,6 +2,8 @@ package de.wpvs.sudo_ku.activity.game;
 
 import androidx.appcompat.app.AppCompatActivity;
 import de.wpvs.sudo_ku.R;
+import de.wpvs.sudo_ku.thread.database.DatabaseThread;
+import de.wpvs.sudo_ku.thread.database.PreloadKnownWords;
 
 import android.os.Bundle;
 
@@ -21,5 +23,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
+
+        // Prefill database with all known words
+        DatabaseThread.getInstance().post(new PreloadKnownWords());
     }
 }

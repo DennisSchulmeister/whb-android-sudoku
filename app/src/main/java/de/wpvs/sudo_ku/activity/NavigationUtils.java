@@ -41,11 +41,11 @@ public class NavigationUtils {
      * Go to the activity running a game.
      *
      * @param activity Calling activity
-     * @param savedGameId Database ID of the game (the game must already exist in the database)
+     * @param gameUid Database ID of the game (the game must already exist in the database)
      */
-    public static void gotoSavedGame(Activity activity, String savedGameId) {
+    public static void gotoSavedGame(Activity activity, int gameUid) {
         Intent intent = new Intent(activity, GameActivity.class);
-        intent.putExtra("SavedGameId", savedGameId);
+        intent.putExtra("gameUid", gameUid);
         activity.startActivity(intent);
     }
 

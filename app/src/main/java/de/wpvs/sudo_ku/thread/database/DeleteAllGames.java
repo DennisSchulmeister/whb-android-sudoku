@@ -141,7 +141,7 @@ public class DeleteAllGames implements Runnable {
         List<GameEntity> gameEntities = this.dao.selectAllSynchronously();
 
         for (GameEntity gameEntity : gameEntities) {
-            this.dao.delete(gameEntity);
+            this.dao.delete(gameEntity.uid);
         }
 
         if (this.callback != null) {

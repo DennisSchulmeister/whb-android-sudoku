@@ -49,4 +49,10 @@
     <string name="task_deleteAllGames_confirm_message">Do you really want to delete all saved games?</string>
     <string name="task_deleteAllGames_success">All saved games have been deleted</string>
     <string name="task_deleteAllGames_undone">Luckily we found an old backup copy. Let\'s hope it\'s still good.</string>
+
+    <string name="task_preloadKnownWords_error">
+        An error occurred while loading the list of known words.
+        You can still play the game, but not all words will be recognized correctly.
+        The underlying error was: %1s
+    </string>
 </resources>

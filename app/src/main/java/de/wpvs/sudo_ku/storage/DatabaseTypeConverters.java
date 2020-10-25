@@ -80,11 +80,52 @@ public class DatabaseTypeConverters {
     /**
      * Deserialize a string with zero characters back into a string list.
      *
-     * @param joined Seralized string
+     * @param joined Serialized string
      * @return Deserialized list
      */
     @TypeConverter
     public List<String> stringToStringList(String joined) {
         return new ArrayList<String>(Arrays.asList(joined.split("\0")));
+    }
+
+
+
+
+    /**
+     * Serialize an integer list into a string, using the zero character to split values.
+     *
+     * @param list Integer list
+     * @return Serialized string
+     */
+    @TypeConverter
+    public static String integerListToString(List<Integer> list) {
+        String joined = "";
+
+        for (int value : list) {
+            if (joined.isEmpty()) {
+                joined += value;
+            } else {
+                joined += "\0" + value;
+            }
+        }
+
+        return joined;
+    }
+
+    /**
+     * Deserialize a string with zero characters back into an integer list.
+     *
+     * @param joined Serialized string
+     * @return Deserialized list
+     */
+    @TypeConverter
+    public List<Integer> stringToIntegerList(String joined) {
+        List<Integer> list = new ArrayList<>();
+
+        for (String value : joined.split("\0")) {
+            list.add(Integer.parseInt(value));
+        }
+
+        return list;
     }
 }
