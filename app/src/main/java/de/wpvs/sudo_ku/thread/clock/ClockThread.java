@@ -48,9 +48,9 @@ public class ClockThread extends BackgroundThread {
      *
      * @return background thread for periodic clock ticks
      */
-    public static BackgroundThread getInstance() {
+    public static ClockThread getInstance() {
         BackgroundThreadHolder backgroundThreadHolder = BackgroundThreadHolder.getInstance();
-        BackgroundThread instance = backgroundThreadHolder.getThread(NAME);
+        ClockThread instance = (ClockThread) backgroundThreadHolder.getThread(NAME);
 
         if (instance == null) {
             instance = new ClockThread();

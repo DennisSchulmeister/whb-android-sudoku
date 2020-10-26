@@ -2,6 +2,7 @@ package de.wpvs.sudo_ku.thread;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Singleton object to manage all background threads used by the application. This is used by the
@@ -11,7 +12,7 @@ import java.util.Map;
  */
 public class BackgroundThreadHolder {
     private static BackgroundThreadHolder instance;
-    private Map<String, BackgroundThread> threads = new HashMap<>();
+    private Map<String, BackgroundThread> threads = new ConcurrentHashMap<>();
 
     /**
      * Don't allow direct instantiation.

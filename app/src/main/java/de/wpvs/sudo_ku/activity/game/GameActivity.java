@@ -2,6 +2,8 @@ package de.wpvs.sudo_ku.activity.game;
 
 import androidx.appcompat.app.AppCompatActivity;
 import de.wpvs.sudo_ku.R;
+import de.wpvs.sudo_ku.thread.BackgroundThreadHolder;
+import de.wpvs.sudo_ku.thread.clock.ClockThread;
 import de.wpvs.sudo_ku.thread.database.DatabaseThread;
 import de.wpvs.sudo_ku.thread.database.PreloadKnownWords;
 
@@ -26,5 +28,23 @@ public class GameActivity extends AppCompatActivity {
 
         // Preload database with all known words
         DatabaseThread.getInstance().post(new PreloadKnownWords());
+    }
+
+    /**
+     * Start game clock, when the activity becomes visible.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ClockThread.getInstance().startClock();
+    }
+
+    /**
+     * Pause game clock, when the activity becomes invisible.
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ClockThread.getInstance().pauseClock();
     }
 }
