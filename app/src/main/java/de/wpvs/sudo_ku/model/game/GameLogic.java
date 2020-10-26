@@ -137,8 +137,10 @@ public class GameLogic {
         CharacterFieldEntity characterField = this.characterFields[xPos][yPos];
 
         if ((flags & GameState.FLAG_PENCIL) != 0) {
-            characterField.pencil.add(character);
-        } else if (!characterField.pencil.contains(character)) {
+            if (!characterField.pencil.contains(character)) {
+                characterField.pencil.add(character);
+            }
+        } else if (!characterField.locked || (flags & GameState.FLAG_LOCKED) != 0) {
             characterField.character = character;
         }
 
