@@ -94,8 +94,49 @@ public class GameUtils {
      * When a new game is started, prepopulate hte character fields with characters, according
      * to the chosen difficulty. The difficulty here simply is the percentage of fields that are
      * not tried to be filled.
+     *
+     * NOTE: the algorithm here is not very clever. It is more of a brute-force attack, simply
+     * picking random fields and then assigning random characters that are valid for those fields.
+     * This should hopefully work in most cases. But to be very sure, the algorithm is time boxed.
+     * It might thus be, that some fields remain unfilled or a game cannot be won.
      */
     public static void prepopulateCharacterFields(GameState gameState) {
-        // TODO
+        // Prepare list of so far unset fields, to simplify picking a new random field
+        List<CharacterFieldEntity> remainingCharacterFields = new ArrayList<>(gameState.characterFields.size());
+
+        for (CharacterFieldEntity characterField : gameState.characterFields) {
+            remainingCharacterFields.add(characterField);
+        }
+
+        // Spend the given amount of tries to fill some random fields
+        GameLogic gameLogic = gameState.getGameLogic();
+        int flags = GameState.FLAG_LOCKED;
+
+        int amountOfCharactersToSet = (int) (gameState.characterFields.size() * (100 - gameState.game.difficulty) / 100);
+        int maxTries = amountOfCharactersToSet * 3;
+        int successfulTries = 0;
+        int totalTries = 0;
+
+        while (successfulTries <= amountOfCharactersToSet && totalTries <= maxTries) {
+            totalTries += 1;
+
+            if (remainingCharacterFields.isEmpty()) {
+                break;
+            }
+
+            int index1 = (int) Math.floor(Math.random() * remainingCharacterFields.size());
+            CharacterFieldEntity characterField = remainingCharacterFields.remove(index1);
+
+            List<String> allowedCharacters = gameLogic.getAllowedCharacters(characterField.xPos, characterField.yPos, flags);
+
+            if (!allowedCharacters.isEmpty()) {
+                successfulTries += 1;
+
+                int index2 = (int) Math.floor(Math.random() * allowedCharacters.size());
+                String character = allowedCharacters.get(index2);
+
+                gameLogic.changeCharacter(characterField.xPos, characterField.yPos, flags, character);
+            }
+        }
     }
 }

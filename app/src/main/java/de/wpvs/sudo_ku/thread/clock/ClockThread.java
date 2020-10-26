@@ -8,7 +8,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import de.wpvs.sudo_ku.thread.BackgroundThread;
-import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
+import de.wpvs.sudo_ku.thread.BackgroundThreadHolder;
 
 /**
  * Background thread that acts as the game clock by periodically calling its callback every
@@ -49,12 +49,12 @@ public class ClockThread extends BackgroundThread {
      * @return background thread for periodic clock ticks
      */
     public static BackgroundThread getInstance() {
-        BackgroundThreadManager backgroundThreadManager = BackgroundThreadManager.getInstance();
-        BackgroundThread instance = backgroundThreadManager.getThread(NAME);
+        BackgroundThreadHolder backgroundThreadHolder = BackgroundThreadHolder.getInstance();
+        BackgroundThread instance = backgroundThreadHolder.getThread(NAME);
 
         if (instance == null) {
             instance = new ClockThread();
-            backgroundThreadManager.addThread(instance);
+            backgroundThreadHolder.addThread(instance);
         }
 
         return instance;

@@ -20,8 +20,8 @@ public class GameEntity {
     public GameType gameType = GameType.NUMBER_GAME;
     public int size = 9;
     public List<String> characterSet = new ArrayList<>();
-    public float difficulty = 0.5f;
-    public float progress = 0.0f;
+    public int difficulty = 75;
+    public int progress = 0;
     public long seconds = 0;
 
     /**

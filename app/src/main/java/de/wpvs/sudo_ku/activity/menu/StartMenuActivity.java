@@ -26,7 +26,7 @@ import de.wpvs.sudo_ku.model.game.GameEntity;
 import de.wpvs.sudo_ku.model.game.GameState;
 import de.wpvs.sudo_ku.thread.database.DatabaseThread;
 import de.wpvs.sudo_ku.thread.database.DeleteAllGames;
-import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
+import de.wpvs.sudo_ku.thread.BackgroundThreadHolder;
 import de.wpvs.sudo_ku.thread.database.SaveOrDeleteGame;
 
 /**
@@ -97,7 +97,7 @@ public class StartMenuActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        BackgroundThreadManager.getInstance().quitSafely();
+        BackgroundThreadHolder.getInstance().quitSafely();
     }
 
     /**

@@ -15,7 +15,7 @@ import de.wpvs.sudo_ku.activity.AppDialogFragmentBuilder;
 import de.wpvs.sudo_ku.model.DatabaseHolder;
 import de.wpvs.sudo_ku.model.game.GameDao;
 import de.wpvs.sudo_ku.thread.BackgroundThread;
-import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
+import de.wpvs.sudo_ku.thread.BackgroundThreadHolder;
 
 /**
  * Background operation to delete all saved games. If there are no saved games, a toast message
@@ -92,7 +92,7 @@ public class DeleteAllGames implements Runnable {
         }
 
         // Ask user if we really shall delete
-        BackgroundThread thread = BackgroundThreadManager.getInstance().getCurrentThread();
+        BackgroundThread thread = BackgroundThreadHolder.getInstance().getCurrentThread();
         AppDialogFragmentBuilder appDialogFragmentBuilder = new AppDialogFragmentBuilder(this.activity, this.savedInstanceState);
 
         AlertDialog.Builder builder = appDialogFragmentBuilder.getAlertDialogBuilder();

@@ -29,4 +29,5 @@ public class CharacterFieldEntity {
     public String character = "";
     public List<String> pencil = new ArrayList<>();
     public List<Integer> words = new ArrayList<>();
+    public boolean locked = false;
 }

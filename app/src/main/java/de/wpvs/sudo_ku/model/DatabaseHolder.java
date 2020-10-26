@@ -17,7 +17,7 @@ import de.wpvs.sudo_ku.model.game.WordEntity;
  * be used for database access.
  */
 @Database(
-        version = 7,
+        version = 9,
         entities = {
                 CharacterFieldEntity.class,
                 GameEntity.class,

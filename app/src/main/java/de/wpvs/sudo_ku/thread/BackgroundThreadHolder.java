@@ -9,14 +9,14 @@ import java.util.Map;
  * access to (and thus starting) the threads. Depending on the thread implementation, usually a
  * Runnable or a Message can then be posted to be processed by the thread.
  */
-public class BackgroundThreadManager {
-    private static BackgroundThreadManager instance;
+public class BackgroundThreadHolder {
+    private static BackgroundThreadHolder instance;
     private Map<String, BackgroundThread> threads = new HashMap<>();
 
     /**
      * Don't allow direct instantiation.
      */
-    private BackgroundThreadManager() {
+    private BackgroundThreadHolder() {
     }
 
     /**
@@ -24,9 +24,9 @@ public class BackgroundThreadManager {
      *
      * @return Singleton instance of this class
      */
-    public static BackgroundThreadManager getInstance() {
+    public static BackgroundThreadHolder getInstance() {
         if (instance == null) {
-            instance = new BackgroundThreadManager();
+            instance = new BackgroundThreadHolder();
         }
 
         return instance;

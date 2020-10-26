@@ -179,7 +179,7 @@ public class NewGamePreferencesFragment extends PreferenceFragmentCompat {
         // Get all parameters
         GameEntity.GameType gameType = GameEntity.GameType.valueOf(this.preferenceGameType.getValue());
         int boardSize = Integer.parseInt(this.preferenceBoardSize.getValue());
-        float difficulty = this.preferenceDifficulty.getValue() / 100.0f;
+        int difficulty = this.preferenceDifficulty.getValue();
         Set<String> characterSet = this.preferenceCharacterSet.getValues();
 
         // Try to save and start game

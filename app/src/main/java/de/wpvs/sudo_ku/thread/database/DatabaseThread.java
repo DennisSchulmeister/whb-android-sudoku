@@ -1,7 +1,7 @@
 package de.wpvs.sudo_ku.thread.database;
 
 import de.wpvs.sudo_ku.thread.BackgroundThread;
-import de.wpvs.sudo_ku.thread.BackgroundThreadManager;
+import de.wpvs.sudo_ku.thread.BackgroundThreadHolder;
 
 /**
  * Background thread to be used for all database operations, that are not automatically put in
@@ -30,12 +30,12 @@ public class DatabaseThread extends BackgroundThread {
      * @return background thread for database operations
      */
     public static BackgroundThread getInstance() {
-        BackgroundThreadManager backgroundThreadManager = BackgroundThreadManager.getInstance();
-        BackgroundThread instance = backgroundThreadManager.getThread(NAME);
+        BackgroundThreadHolder backgroundThreadHolder = BackgroundThreadHolder.getInstance();
+        BackgroundThread instance = backgroundThreadHolder.getThread(NAME);
 
         if (instance == null) {
             instance = new DatabaseThread();
-            backgroundThreadManager.addThread(instance);
+            backgroundThreadHolder.addThread(instance);
         }
 
         return instance;
