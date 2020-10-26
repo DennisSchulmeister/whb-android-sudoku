@@ -1,0 +1,16 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id       = "@+id/action_game_elapsed_time"
+        android:title    = ""
+        android:enabled  = "false"
+        app:showAsAction = "always" />
+
+    <item
+        android:id          = "@+id/action_game_progress"
+        android:title       = ""
+        android:enabled     = "false"
+        app:showAsAction    = "always" />
+</menu>

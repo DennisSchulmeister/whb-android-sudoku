@@ -34,4 +34,21 @@ public class WordEntity {
     public int wordNumber = -1;
 
     public String word = "";
+
+    /**
+     * Default constructor.
+     */
+    public WordEntity() {
+    }
+
+    /**
+     * Copy constructor. Creates a deep clone of the given entity.
+     *
+     * @param that Entity to copy
+     */
+    public WordEntity(WordEntity that) {
+        this.gameUid    = that.gameUid;
+        this.wordNumber = that.wordNumber;
+        this.word       = that.word;
+    }
 }

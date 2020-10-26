@@ -65,6 +65,30 @@ public class GameState {
     private ThreadMutex threadMutex = null;
 
     /**
+     * Default constructor.
+     */
+    public GameState() {
+    }
+
+    /**
+     * Copy constructor. Creates a deep clone of the given game state, including copies of all
+     * contained entities, excluding all other objects like the game logic and thread mutex.
+     *
+     * @param that Entity to copy
+     */
+    public GameState(GameState that) {
+        this.game = new GameEntity(that.game);
+
+        for (CharacterFieldEntity characterField : that.characterFields) {
+            this.characterFields.add(new CharacterFieldEntity(characterField));
+        }
+
+        for (WordEntity word : that.words) {
+            this.words.add(new WordEntity(word));
+        }
+    }
+
+    /**
      * Factory method for a new game with random configuration. The returned object will be
      * consistent in all regards and can directly be saved.
      *

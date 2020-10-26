@@ -23,7 +23,7 @@ public class DatabaseTypeConverters {
      */
     @TypeConverter
     public static Long dateToLongTimestamp(Date date) {
-        return date == null ? null : date.getTime();
+        return date == null ? 0 : date.getTime();
     }
 
     /**
@@ -34,7 +34,7 @@ public class DatabaseTypeConverters {
      */
     @TypeConverter
     public static Date longTimestampToDate(Long value) {
-        return value == null ? null : new Date(value);
+        return value == null ? new Date(0L) : new Date(value);
     }
 
     /**
@@ -45,7 +45,7 @@ public class DatabaseTypeConverters {
      */
     @TypeConverter
     public String gameTypeToString(GameEntity.GameType gameType) {
-        return gameType == null ? null : gameType.name();
+        return gameType == null ? "" : gameType.name();
     }
 
     /**
@@ -56,7 +56,7 @@ public class DatabaseTypeConverters {
      */
     @TypeConverter
     public GameEntity.GameType stringToGameType(String name) {
-        return name == null ? null : GameEntity.GameType.valueOf(name);
+        return name == null || name.isEmpty() ? GameEntity.GameType.NUMBER_GAME : GameEntity.GameType.valueOf(name);
     }
 
     /**
@@ -68,7 +68,7 @@ public class DatabaseTypeConverters {
     @TypeConverter
     public static String stringListToString(List<String> list) {
         if (list == null || list.isEmpty()) {
-            return null;
+            return "";
         }
 
         String joined = "";
@@ -93,7 +93,7 @@ public class DatabaseTypeConverters {
     @TypeConverter
     public List<String> stringToStringList(String joined) {
         if (joined == null || joined.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
 
         List<String> list = new ArrayList<String>(Arrays.asList(joined.split("\0")));
@@ -109,7 +109,7 @@ public class DatabaseTypeConverters {
     @TypeConverter
     public static String integerListToString(List<Integer> list) {
         if (list == null || list.isEmpty()) {
-            return null;
+            return "";
         }
 
         String joined = "";
@@ -134,7 +134,7 @@ public class DatabaseTypeConverters {
     @TypeConverter
     public List<Integer> stringToIntegerList(String joined) {
         if (joined == null || joined.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
 
         List<Integer> list = new ArrayList<>();

@@ -31,4 +31,28 @@ public class GameEntity {
         NUMBER_GAME,
         LETTER_GAME,
     }
+
+    /**
+     * Default constructor.
+     */
+    public GameEntity () {
+    }
+
+    /**
+     * Copy constructor. Creates a deep clone of the given entity.
+     *
+     * @param that Entity to copy
+     */
+    public GameEntity(GameEntity that) {
+        this.uid        = that.uid;
+        this.startDate  = new Date(that.startDate.getTime());
+        this.saveDate   = new Date(that.saveDate.getTime());
+        this.gameType   = that.gameType;
+        this.size       = that.size;
+        this.difficulty = that.difficulty;
+        this.progress   = that.progress;
+        this.seconds    = that.seconds;
+
+        this.characterSet.addAll(that.characterSet);
+    }
 }

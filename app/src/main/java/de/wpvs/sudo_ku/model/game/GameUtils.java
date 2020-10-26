@@ -2,6 +2,7 @@ package de.wpvs.sudo_ku.model.game;
 
 import android.content.Context;
 
+import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +15,84 @@ import de.wpvs.sudo_ku.R;
  * Static utility method to simplify or outsource some often needed functions.
  */
 public class GameUtils {
+    /**
+     * Returns a localized string to properly format the game type, e.g. "4×4 Letter Game".
+     *
+     * @param gameEntity The game whose type shall be formated
+     * @returns Localized string containing size and type of the game
+     */
+    public static String formatGameType(GameEntity gameEntity) {
+        Context context = MyApplication.getInstance();
+
+        StringBuilder text = new StringBuilder();
+        text.append(gameEntity.size);
+        text.append("×");
+        text.append(gameEntity.size);
+        text.append(" ");
+
+        switch (gameEntity.gameType) {
+            case NUMBER_GAME:
+                text.append(context.getString(R.string.game_type_number));
+                break;
+            case LETTER_GAME:
+                text.append(context.getString(R.string.game_type_letter));
+                break;
+        }
+
+        return text.toString();
+    }
+
+    /**
+     * Returns a formatted string with the hours (optional), minutes and seconds the game
+     * already has been running.
+     *
+     * @param gameEntity The game whose duration shall be formatted
+     * @return String containing hours, minutes and seconds
+     */
+    public static String formatElapsedTime(GameEntity gameEntity) {
+        StringBuilder text = new StringBuilder();
+        long time = gameEntity.seconds;
+        int hours, minutes, seconds;
+
+        hours   = (int) Math.floor(time / 3600f);
+        minutes = (int) Math.floor((time - (3600 * hours)) / 60f);
+        seconds = (int) (time - (3600 * hours)) % 60;
+
+        if (hours != 0) {
+            if (hours < 10) {
+                text.append("0");
+            }
+
+            text.append(hours);
+            text.append(":");
+        }
+
+        if (minutes < 10) {
+            text.append("0");
+        }
+
+        text.append(minutes);
+        text.append(":");
+
+        if (seconds < 10) {
+            text.append("0");
+        }
+
+        text.append(seconds);
+
+        return text.toString();
+    }
+
+    /**
+     * Returns a formatted string with the game progress in percent.
+     *
+     * @param gameEntity The game whose progress shall be formatted
+     * @return String the progress in percent
+     */
+    public static String formatProgress(GameEntity gameEntity) {
+        return (int) Math.floor(gameEntity.progress) + "%";
+    }
+
     /**
      * Create a new character set for a game. In case of a number game, this simply contains
      * all numbers [1, size]. In case of a letter game random letters will be chosen.

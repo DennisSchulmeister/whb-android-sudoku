@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.databinding.StartGameListitemBinding;
 import de.wpvs.sudo_ku.model.game.GameEntity;
+import de.wpvs.sudo_ku.model.game.GameUtils;
 
 /**
  * Adapter class to display GameEntity instances in a RecyclerView.
@@ -121,20 +122,9 @@ public class StartMenuSavedGameRecyclerViewAdapter extends RecyclerView.Adapter<
         GameEntity gameEntity = this.gameEntities.get(position);
         holder.binding.setGameEntity(gameEntity);
 
-        String gameType = gameEntity.size + "×" + gameEntity.size;
-
-        switch (gameEntity.gameType) {
-            case NUMBER_GAME:
-                gameType +=  " " + holder.context.getString(R.string.game_type_number);
-                break;
-            case LETTER_GAME:
-                gameType +=  " " + holder.context.getString(R.string.game_type_letter);
-                break;
-        }
-
-        holder.binding.setGameType(gameType);
-        holder.binding.setElapsedTime((int) Math.floor(gameEntity.seconds / 60) + ":" + (gameEntity.seconds % 60));
-        holder.binding.setProgress((int) Math.floor(gameEntity.progress) + "%");
+        holder.binding.setGameType(GameUtils.formatGameType(gameEntity));
+        holder.binding.setElapsedTime(GameUtils.formatElapsedTime(gameEntity));
+        holder.binding.setProgress(GameUtils.formatProgress(gameEntity));
 
         holder.binding.executePendingBindings();
     }

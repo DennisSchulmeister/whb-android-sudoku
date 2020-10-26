@@ -1,5 +1,7 @@
 package de.wpvs.sudo_ku.model.game;
 
+import android.transition.ChangeTransform;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,4 +32,26 @@ public class CharacterFieldEntity {
     public List<String> pencil = new ArrayList<>();
     public List<Integer> words = new ArrayList<>();
     public boolean locked = false;
+
+    /**
+     * Default constructor.
+     */
+    public CharacterFieldEntity() {
+    }
+
+    /**
+     * Copy constructor. Creates a deep clone of the given entity.
+     *
+     * @param that Entity to copy
+     */
+    public CharacterFieldEntity(CharacterFieldEntity that) {
+        this.gameUid   = that.gameUid;
+        this.xPos      = that.xPos;
+        this.yPos      = that.yPos;
+        this.character = that.character;
+        this.locked    = that.locked;
+
+        this.pencil.addAll(that.pencil);
+        this.words.addAll(that.words);
+    }
 }
