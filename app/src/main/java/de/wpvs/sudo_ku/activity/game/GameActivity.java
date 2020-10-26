@@ -133,7 +133,12 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
         // Set up callback for the database thread to get exclusive access on the game state,
         // when matched words have been found. See comments on setThreadMutexCallback() about
         // the reasoning and why that sounds worse than it is.
-        this.gameState.setThreadMutexCallback(this::runOnUiThread);
+        this.gameState.setThreadMutexCallback(blockThread -> {
+            this.runOnUiThread(() -> {
+                blockThread.run();
+                this.gameMessageExchange.sendEmptyMessage(GameStateClient.MESSAGE_REFRESH_VIEWS);
+            });
+        });
 
         // Hand over the game state to the fragments
         FragmentManager fragmentManager = this.getSupportFragmentManager();
@@ -148,6 +153,8 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
 
             gameStateClient.setGameState(this.gameState, this.gameMessageExchange);
         }
+
+        this.gameMessageExchange.sendEmptyMessage(GameStateClient.MESSAGE_REFRESH_VIEWS);
     }
 
     /**
