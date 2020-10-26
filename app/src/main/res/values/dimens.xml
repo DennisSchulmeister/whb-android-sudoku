@@ -9,4 +9,8 @@
     <dimen name="logo_margin">16dp</dimen>
     <dimen name="slogan_size">20sp</dimen>
     <dimen name="message_size">16sp</dimen>
+
+    <dimen name="activity_game_finished_padding">32dp</dimen>
+    <dimen name="activity_game_finished_congratulations_max_width">300dp</dimen>
+    <dimen name="activity_game_finished_penguins_max_width">350dp</dimen>
 </resources>

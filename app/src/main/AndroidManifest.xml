@@ -12,7 +12,6 @@
         android:supportsRtl = "true"
         android:theme       = "@style/Theme.Sudoku">
 
-        <!-- Start activity / game menu -->
         <activity
             android:name  = ".activity.menu.StartMenuActivity"
             android:label = "@string/start_menu_label">
@@ -22,7 +21,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Second activity: Choose type of game -->
         <activity
             android:name  = ".activity.menu.NewGameActivity"
             android:label = "@string/new_game_label">
@@ -30,7 +28,6 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".activity.menu.StartMenuActivity"/>
         </activity>
 
-        <!-- Third activity: The game itself -->
         <activity
             android:name  = ".activity.game.GameActivity"
             android:label = "@string/game_label">
@@ -38,12 +35,11 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".activity.menu.StartMenuActivity"/>
         </activity>
 
-        <!-- Fourth activity: Web browser to show man page of a command -->
         <activity
-            android:name  = ".activity.browser.HtmlBrowserActivity"
-            android:label = "@string/browser_label">
+            android:name  = ".activity.game.GameFinishedActivity"
+            android:label = "@string/game_finished_label">
 
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".activity.menu.GameActivity"/>
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".activity.menu.StartMenuActivity"/>
         </activity>
     </application>
 </manifest>

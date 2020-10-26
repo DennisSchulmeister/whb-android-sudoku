@@ -37,8 +37,11 @@
     <!-- Game Activity -->
     <string name="game_label">@string/app_name</string>
 
-    <!-- Browser Activity -->
-    <string name="browser_label">Man Page</string>
+    <!-- Game Finished Activity -->
+    <string name="game_finished_label">Game Finished</string>
+    <string name="game_finished_congratulations">Congratulations!</string>
+    <string name="game_finished_well_done">Well done!</string>
+    <string name="game_finished_finish">Finish</string>
 
     <!-- Background tasks -->
     <string name="yes">Yes</string>

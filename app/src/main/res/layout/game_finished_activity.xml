@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android          = "http://schemas.android.com/apk/res/android"
+    xmlns:app              = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools            = "http://schemas.android.com/tools"
+    android:layout_width   = "match_parent"
+    android:layout_height  = "match_parent"
+    android:orientation    = "vertical"
+    android:padding        = "@dimen/activity_game_finished_padding"
+    android:background     = "@color/logo_background"
+    tools:context          = ".activity.game.GameFinishedActivity">
+
+    <ImageView
+        android:layout_width        = "wrap_content"
+        android:layout_height       = "wrap_content"
+        android:layout_gravity      = "top|center_horizontal"
+        android:maxWidth            = "@dimen/activity_game_finished_congratulations_max_width"
+        android:adjustViewBounds    = "true"
+        android:scaleType           = "centerInside"
+        android:contentDescription  = "@string/game_finished_congratulations"
+        android:src                 = "@drawable/congratulations" />
+
+    <ImageView
+        android:layout_width        = "wrap_content"
+        android:layout_height       = "wrap_content"
+        android:layout_gravity      = "center_horizontal"
+        android:maxWidth            = "@dimen/activity_game_finished_penguins_max_width"
+        android:layout_weight       = "1"
+        android:adjustViewBounds    = "true"
+        android:scaleType           = "centerInside"
+        android:contentDescription  = "@string/game_finished_well_done"
+        android:src                 = "@drawable/penguin" />
+
+    <Button
+        android:id             = "@+id/game_finished_finish_button"
+        android:layout_width   = "wrap_content"
+        android:layout_height  = "wrap_content"
+        android:layout_gravity = "bottom|center_horizontal"
+        android:text           = "@string/game_finished_finish"/>
+</LinearLayout>

@@ -10,6 +10,7 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.game.GameActivity;
+import de.wpvs.sudo_ku.activity.game.GameFinishedActivity;
 import de.wpvs.sudo_ku.activity.menu.NewGameActivity;
 import de.wpvs.sudo_ku.activity.menu.StartMenuActivity;
 
@@ -50,6 +51,16 @@ public class NavigationUtils {
     }
 
     /**
+     * Go to the activity shown after a games has been successfully solved.
+     *
+     * @param activity Calling activity
+     */
+    public static void gotoGameFinished(Activity activity) {
+        Intent intent = new Intent(activity, GameFinishedActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
      * Go to the browser activity to display a given website.
      *
      * @param context Calling context
@@ -64,10 +75,22 @@ public class NavigationUtils {
 
     }
 
+    /**
+     * Open a web browser (via Android's custom tabs API) to display the man page of a command.
+     *
+     * @param context Calling context
+     * @param command Searched command
+     */
     public static void gotoManPage(Context context, String command) {
         gotoWebsite(context, "http://man.he.net/" + command + "&section=all");
     }
 
+    /**
+     * Open a web browser (via Android's custom tabs API) to display the TLDR page of a command.
+     *
+     * @param context Calling context
+     * @param command Searched command
+     */
     public static void gotoTldrPage(Context context, String command) {
         gotoWebsite(context, "https://tldr.ostera.io/" + command);
     }
