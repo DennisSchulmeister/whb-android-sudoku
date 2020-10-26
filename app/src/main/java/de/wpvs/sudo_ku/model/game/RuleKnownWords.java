@@ -96,7 +96,7 @@ class RuleKnownWords extends Rule {
         Map<String, List<CharacterFieldEntity>> searchedWords = new HashMap<>();
 
         for (int yStart = 0; yStart <= yPos; yStart++) {
-            for (int yStop = this.gameState.game.size; yStop >= yPos; yStop--) {
+            for (int yStop = this.gameState.game.size - 1; yStop >= yPos; yStop--) {
                 StringBuilder word = new StringBuilder();
                 List<CharacterFieldEntity> characterFields = new ArrayList<>(yStop - yStart + 1);
 
@@ -116,7 +116,7 @@ class RuleKnownWords extends Rule {
 
         // Collect words to search along horizontal axis
         for (int xStart = 0; xStart <= xPos; xStart++) {
-            for (int xStop = this.gameState.game.size; xStop >= xPos; xStop--) {
+            for (int xStop = this.gameState.game.size - 1; xStop >= xPos; xStop--) {
                 StringBuilder word = new StringBuilder();
                 List<CharacterFieldEntity> characterFields = new ArrayList<>(xStop - xStart + 1);
 

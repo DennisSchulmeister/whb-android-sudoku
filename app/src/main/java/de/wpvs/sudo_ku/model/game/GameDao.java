@@ -53,11 +53,11 @@ public abstract class GameDao {
 
     @Transaction
     @Query("SELECT * FROM Game WHERE uid = :uid")
-    public abstract LiveData<GameState> selectSingleGameState(int uid);
+    public abstract LiveData<GameState> selectSingleGameState(long uid);
 
     @Transaction
     @Query("SELECT * FROM Game WHERE uid = :uid")
-    public abstract GameState selectSingleGameStateSynchronously(int uid);
+    public abstract GameState selectSingleGameStateSynchronously(long uid);
 
     @Query("SELECT * FROM Game ORDER BY saveDate DESC")
     public abstract LiveData<List<GameEntity>> selectAllGameEntities();

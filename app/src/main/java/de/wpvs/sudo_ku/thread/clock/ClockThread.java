@@ -3,8 +3,7 @@ package de.wpvs.sudo_ku.thread.clock;
 import android.os.Handler;
 import android.os.Message;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import androidx.annotation.NonNull;
 import de.wpvs.sudo_ku.thread.BackgroundThread;
@@ -17,23 +16,12 @@ import de.wpvs.sudo_ku.thread.BackgroundThreadHolder;
 public class ClockThread extends BackgroundThread {
     private static final String NAME = "clock";
 
-    private static final int MESSAGE_START = 1;
-    private static final int MESSAGE_PAUSE = 2;
-    private static final int MESSAGE_TICK = 3;
+    private static final int MESSAGE_START = 3001;
+    private static final int MESSAGE_PAUSE = 3002;
+    public static final int MESSAGE_TICK = 3003;
 
     private boolean running = false;
-    private List<Callback> callbacks = new ArrayList<>();
-
-    /**
-     * Callback interface used to run some code every second. Note, that the callback will be
-     * running in the clock thread.
-     */
-    public interface Callback {
-        /**
-         * Called every second as long as the clock is running.
-         */
-        void tickSecond();
-    }
+    private ConcurrentLinkedQueue<Handler> clientHandlers = new ConcurrentLinkedQueue<>();
 
     /**
      * Don't allow direct instantiation of this class from clients. We rather want to use the
@@ -61,18 +49,23 @@ public class ClockThread extends BackgroundThread {
     }
 
     /**
-     * Add a callback object.
+     * Add a handler object.
      *
-     * @param callback Callback object
+     * @param clientHandler Handler object to receive clock ticks
      */
-    public synchronized void addCallback(Callback callback) {
-        if (!this.callbacks.contains(callback)) {
-            this.callbacks.add(callback);
+    public synchronized void addClientHandler(Handler clientHandler) {
+        if (!this.clientHandlers.contains(clientHandler)) {
+            this.clientHandlers.add(clientHandler);
         }
     }
 
-    public synchronized void removeCallback(Callback callback) {
-        this.callbacks.remove(callback);
+    /**
+     * Remove a handler object.
+     *
+     * @param clientHandler Handler object to not receive clock ticks anymire
+     */
+    public synchronized void removeClientHandler(Handler clientHandler) {
+        this.clientHandlers.remove(clientHandler);
     }
 
     /**
@@ -166,11 +159,17 @@ public class ClockThread extends BackgroundThread {
 
             ClockThread.this.getHandler().sendEmptyMessageDelayed(MESSAGE_TICK, 1000);
 
+            for (Handler clientHandler : ClockThread.this.clientHandlers) {
+                clientHandler.sendEmptyMessage(ClockThread.MESSAGE_TICK);
+            }
+            /*
             synchronized (ClockThread.this) {
                 for (Callback callback : ClockThread.this.callbacks) {
                     callback.tickSecond();
                 }
             }
+            */
+
         }
     }
 }

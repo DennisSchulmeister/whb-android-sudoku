@@ -61,7 +61,7 @@ public class NavigationUtils {
     }
 
     /**
-     * Go to the browser activity to display a given website.
+     * Open a web browser (via Android's custom tabs API) to display a given website.
      *
      * @param context Calling context
      * @param url URL of the website to show

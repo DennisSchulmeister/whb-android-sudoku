@@ -1,5 +1,7 @@
 package de.wpvs.sudo_ku.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -65,6 +67,10 @@ public class DatabaseTypeConverters {
      */
     @TypeConverter
     public static String stringListToString(List<String> list) {
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+
         String joined = "";
 
         for (String value : list) {
@@ -86,11 +92,13 @@ public class DatabaseTypeConverters {
      */
     @TypeConverter
     public List<String> stringToStringList(String joined) {
-        return new ArrayList<String>(Arrays.asList(joined.split("\0")));
+        if (joined == null || joined.isEmpty()) {
+            return null;
+        }
+
+        List<String> list = new ArrayList<String>(Arrays.asList(joined.split("\0")));
+        return list;
     }
-
-
-
 
     /**
      * Serialize an integer list into a string, using the zero character to split values.
@@ -100,6 +108,10 @@ public class DatabaseTypeConverters {
      */
     @TypeConverter
     public static String integerListToString(List<Integer> list) {
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+
         String joined = "";
 
         for (int value : list) {
@@ -121,6 +133,10 @@ public class DatabaseTypeConverters {
      */
     @TypeConverter
     public List<Integer> stringToIntegerList(String joined) {
+        if (joined == null || joined.isEmpty()) {
+            return null;
+        }
+
         List<Integer> list = new ArrayList<>();
 
         for (String value : joined.split("\0")) {
