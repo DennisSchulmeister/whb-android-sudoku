@@ -38,6 +38,7 @@ import java.util.concurrent.Semaphore;
 public class GameActivity extends AppCompatActivity implements Handler.Callback {
     private static final int SAVE_GAME_STATE_INTERVAL = 30;
     private int savedGameStateAge = 0;
+    private long lastFullSecond = 0;
 
     private ActionBar actionBar;
     private MenuItem elapsedTimeMenuItem;
@@ -156,6 +157,8 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
     @Override
     protected void onResume() {
         super.onResume();
+
+        this.lastFullSecond = System.currentTimeMillis();
         ClockThread.getInstance().addClientHandler(this.handler);
         ClockThread.getInstance().startClock();
     }
@@ -200,7 +203,10 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
         }
 
         // Update time and progress
-        this.gameState.game.seconds += 1;
+        long deltaSeconds = (long) Math.floor((System.currentTimeMillis() - this.lastFullSecond) / 1000);
+        this.gameState.game.seconds += deltaSeconds;
+        this.lastFullSecond += deltaSeconds * 1000;
+
         this.updateTimeAndProgressUi();
 
         // Save game every SAVE_GAME_STATE_INTERVAL seconds
