@@ -80,8 +80,6 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
         LiveData<GameState> gameStateLiveData = this.dao.selectSingleGameState(gameUid);
 
         gameStateLiveData.observe(this, gameState -> {
-            Log.d("GameActivity", "gameStateLiveData.observe: " + gameState);
-
             if (gameState != null) {
                 this.gameState = gameState;
                 this.onGameStateLoaded();

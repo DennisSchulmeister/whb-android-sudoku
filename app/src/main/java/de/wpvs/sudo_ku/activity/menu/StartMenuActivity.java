@@ -82,7 +82,11 @@ public class StartMenuActivity extends AppCompatActivity {
 
         // Start existing game on click on the list
         this.startMenuSavedGameRecyclerViewAdapter.setClickListener(savedGame -> {
-            NavigationUtils.gotoSavedGame(this, savedGame.uid);
+            if (savedGame.progress < 100) {
+                NavigationUtils.gotoSavedGame(this, savedGame.uid);
+            } else {
+                NavigationUtils.gotoGameFinished(this, savedGame.uid);
+            }
         });
 
         // Start new game on click on the floating action button

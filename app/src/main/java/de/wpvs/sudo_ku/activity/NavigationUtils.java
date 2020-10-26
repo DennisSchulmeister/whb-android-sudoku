@@ -42,7 +42,7 @@ public class NavigationUtils {
      * Go to the activity running a game.
      *
      * @param activity Calling activity
-     * @param gameUid Database ID of the game (the game must already exist in the database)
+     * @param gameUid Database ID of the game
      */
     public static void gotoSavedGame(Activity activity, long gameUid) {
         Intent intent = new Intent(activity, GameActivity.class);
@@ -54,9 +54,11 @@ public class NavigationUtils {
      * Go to the activity shown after a games has been successfully solved.
      *
      * @param activity Calling activity
+     * @param gameUid Database ID of the game
      */
-    public static void gotoGameFinished(Activity activity) {
+    public static void gotoGameFinished(Activity activity, long gameUid) {
         Intent intent = new Intent(activity, GameFinishedActivity.class);
+        intent.putExtra("gameUid", gameUid);
         activity.startActivity(intent);
     }
 

@@ -41,7 +41,8 @@
     <!-- Game Finished Activity -->
     <string name="game_finished_label">Spiel zu Ende</string>
     <string name="game_finished_congratulations">Glückwunsch!</string>
-    <string name="game_finished_restart_button">Neustarten</string>
+    <string name="game_finished_new_game_button">Neues Spiel</string>
+    <string name="game_finished_back_to_game_button">Zurück zum Spiel</string>
 
     <!-- Background tasks -->
     <string name="yes">Ja</string>

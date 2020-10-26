@@ -40,7 +40,8 @@
     <!-- Game Finished Activity -->
     <string name="game_finished_label">Game Finished</string>
     <string name="game_finished_congratulations">Congratulations!</string>
-    <string name="game_finished_restart_button">Restart</string>
+    <string name="game_finished_new_game_button">New Game</string>
+    <string name="game_finished_back_to_game_button">Back to the Game</string>
 
     <!-- Background tasks -->
     <string name="yes">Yes</string>

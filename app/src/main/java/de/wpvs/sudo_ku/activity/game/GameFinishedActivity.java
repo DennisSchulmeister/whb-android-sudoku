@@ -1,10 +1,10 @@
 package de.wpvs.sudo_ku.activity.game;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavGraph;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.NavigationUtils;
 
@@ -13,8 +13,6 @@ import de.wpvs.sudo_ku.activity.NavigationUtils;
  * message as well as a button to return to the start menu.
  */
 public class GameFinishedActivity extends AppCompatActivity {
-    private Button finishButton;
-
     /**
      * System callback that will be used to inflate the UI, after the activity has been created.
      *
@@ -26,10 +24,18 @@ public class GameFinishedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_finished_activity);
 
-        this.finishButton = this.findViewById(R.id.game_finished_restart_button);
+        Intent intent = this.getIntent();
+        long gameUid = intent.getLongExtra("gameUid", -1);
 
-        this.finishButton.setOnClickListener(v -> {
+        Button newGameButton = this.findViewById(R.id.game_finished_new_game_button);
+        Button backToGameButton = this.findViewById(R.id.game_finished_back_to_game_button);
+
+        newGameButton.setOnClickListener(v -> {
             NavigationUtils.gotoStartMenu(this);
+        });
+
+        backToGameButton.setOnClickListener(v -> {
+            NavigationUtils.gotoSavedGame(this, gameUid);
         });
     }
 }

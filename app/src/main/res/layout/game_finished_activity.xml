@@ -31,10 +31,26 @@
         android:src                 = "@drawable/penguin"
         tools:ignore                = "ContentDescription" />
 
-    <Button
-        android:id             = "@+id/game_finished_restart_button"
-        android:layout_width   = "wrap_content"
+    <LinearLayout
+        android:layout_width   = "match_parent"
         android:layout_height  = "wrap_content"
         android:layout_gravity = "bottom|center_horizontal"
-        android:text           = "@string/game_finished_restart_button" />
+        android:orientation    = "horizontal">
+
+        <Button
+            android:id             = "@+id/game_finished_new_game_button"
+            android:layout_width   = "0dp"
+            android:layout_height  = "wrap_content"
+            android:layout_weight  = "1"
+            android:layout_gravity = "center"
+            android:text           = "@string/game_finished_new_game_button" />
+
+        <Button
+            android:id             = "@+id/game_finished_back_to_game_button"
+            android:layout_width   = "0dp"
+            android:layout_height  = "wrap_content"
+            android:layout_weight  = "1"
+            android:layout_gravity = "center"
+            android:text           = "@string/game_finished_back_to_game_button" />
+    </LinearLayout>
 </LinearLayout>
