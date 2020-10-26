@@ -80,7 +80,8 @@ public class GameLogic {
     /**
      * Get a list of all characters that are allowed on the given field. The list is assembled
      * by repeatedly calling isCharacterAllowed() for each possible character in the game. Thus,
-     * can rely on the validity of the character without calling isCharacterAllowed() oneself.
+     * the client can rely on the validity of the character without calling isCharacterAllowed()
+     * a second time.
      *
      * @param xPos Row
      * @param yPos Column
