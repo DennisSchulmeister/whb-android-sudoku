@@ -36,7 +36,7 @@
         </activity>
 
         <activity
-            android:name  = ".activity.game.GameFinishedActivity"
+            android:name  = ".activity.game.FinishedActivity"
             android:label = "@string/game_finished_label">
 
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".activity.menu.StartMenuActivity"/>

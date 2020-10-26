@@ -12,7 +12,7 @@ import de.wpvs.sudo_ku.activity.NavigationUtils;
  * Activity to show after a game has been completely solved. It shows a nice congratuliations
  * message as well as a button to return to the start menu.
  */
-public class GameFinishedActivity extends AppCompatActivity {
+public class FinishedActivity extends AppCompatActivity {
     /**
      * System callback that will be used to inflate the UI, after the activity has been created.
      *
@@ -22,7 +22,7 @@ public class GameFinishedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_finished_activity);
+        setContentView(R.layout.finished_activity);
 
         Intent intent = this.getIntent();
         long gameUid = intent.getLongExtra("gameUid", -1);

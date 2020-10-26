@@ -85,7 +85,7 @@ public class StartMenuActivity extends AppCompatActivity {
             if (savedGame.progress < 100) {
                 NavigationUtils.gotoSavedGame(this, savedGame.uid);
             } else {
-                NavigationUtils.gotoGameFinished(this, savedGame.uid);
+                NavigationUtils.gotoFinished(this, savedGame.uid);
             }
         });
 

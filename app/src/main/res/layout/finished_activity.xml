@@ -8,7 +8,7 @@
     android:orientation    = "vertical"
     android:padding        = "@dimen/activity_game_finished_padding"
     android:background     = "@color/logo_background"
-    tools:context          = ".activity.game.GameFinishedActivity">
+    tools:context          = ".activity.game.FinishedActivity">
 
     <ImageView
         android:layout_width        = "wrap_content"

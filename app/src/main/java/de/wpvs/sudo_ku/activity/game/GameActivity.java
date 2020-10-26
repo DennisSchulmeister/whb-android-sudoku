@@ -1,8 +1,21 @@
 package de.wpvs.sudo_ku.activity.game;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import de.wpvs.sudo_ku.R;
@@ -10,30 +23,24 @@ import de.wpvs.sudo_ku.model.DatabaseHolder;
 import de.wpvs.sudo_ku.model.game.GameDao;
 import de.wpvs.sudo_ku.model.game.GameState;
 import de.wpvs.sudo_ku.model.game.GameUtils;
-import de.wpvs.sudo_ku.thread.BackgroundThreadHolder;
 import de.wpvs.sudo_ku.thread.clock.ClockThread;
 import de.wpvs.sudo_ku.thread.database.DatabaseThread;
 import de.wpvs.sudo_ku.thread.database.PreloadKnownWords;
 import de.wpvs.sudo_ku.thread.database.SaveOrDeleteGame;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Date;
-import java.util.concurrent.Semaphore;
-
 /**
- * Main activity of an ongoing game. It shows the game board and handles the UI part of the
- * game logic.
+ * Main activity of an ongoing game. This is the top-level user interface for a running game.
+ * But rather than handling all UI interactions itself, most tasks are delegated to a set of
+ * loosely coupled fragments interconnected through the shared game logic object and the
+ * possibility to send exchange simple messages amongst each other.
+ *
+ * The most important things driven by this class are:
+ *
+ *   » Displaying the game name in the application header
+ *   » Displaying the elapsed time and progress in the application header
+ *   » Updating the game state to advance the elapsed time every second
+ *   » Regularly persisting the current game state in the database
+ *   » Providing an opaque implementation for message exchange with the fragments
  */
 public class GameActivity extends AppCompatActivity implements Handler.Callback {
     private static final int SAVE_GAME_STATE_INTERVAL = 30;
@@ -44,11 +51,36 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
     private MenuItem elapsedTimeMenuItem;
     private MenuItem progressMenuItem;
 
-    private GameBoardFragment gameBoardFragment;
-    private GameMatchedWordsFragment gameMatchedWordsFragment;
-    private GameControlsFragment gameControlsFragment;
+    private final List<GameStateClient> gameStateClients = new LinkedList<>();
 
-    private GameDao dao;
+    private final GameStateClient.GameMessageExchange gameMessageExchange = new GameStateClient.GameMessageExchange() {
+        /**
+         * Send empty message to all fragments.
+         *
+         * @param what Message code (see constants)
+         */
+        @Override
+        public void sendEmptyMessage(int what) {
+            for (GameStateClient gameStateClient : GameActivity.this.gameStateClients) {
+                gameStateClient.onGameStateMessage(what, -1, -1);
+            }
+        }
+
+        /**
+         * Send a message with field coordinates to all fragments.
+         *
+         * @param what Message code (see constants)
+         * @param xPos Horizontal coordinate
+         * @param yPos Vertical coordinate
+         */
+        @Override
+        public void sendFieldMessage(int what, int xPos, int yPos) {
+            for (GameStateClient gameStateClient : GameActivity.this.gameStateClients) {
+                gameStateClient.onGameStateMessage(what, xPos, yPos);
+            }
+        }
+    };
+
     private GameState gameState;
     private Handler handler;
 
@@ -67,17 +99,12 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
         // Retrieve often needed view instances
         this.actionBar = this.getSupportActionBar();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        this.gameBoardFragment = (GameBoardFragment) fragmentManager.findFragmentById(R.id.game_activity_game_board_fragment);
-        this.gameMatchedWordsFragment = (GameMatchedWordsFragment) fragmentManager.findFragmentById(R.id.game_activity_game_matched_words_fragment);
-        this.gameControlsFragment = (GameControlsFragment) fragmentManager.findFragmentById(R.id.game_activity_game_controls_fragment);
-
         // Set up game state
         Intent intent = this.getIntent();
         long gameUid = intent.getLongExtra("gameUid", -1);
 
-        this.dao = DatabaseHolder.getInstance().gameDao();
-        LiveData<GameState> gameStateLiveData = this.dao.selectSingleGameState(gameUid);
+        GameDao dao = DatabaseHolder.getInstance().gameDao();
+        LiveData<GameState> gameStateLiveData = dao.selectSingleGameState(gameUid);
 
         gameStateLiveData.observe(this, gameState -> {
             if (gameState != null) {
@@ -107,13 +134,27 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
         // when matched words have been found. See comments on setThreadMutexCallback() about
         // the reasoning and why that sounds worse than it is.
         this.gameState.setThreadMutexCallback(this::runOnUiThread);
+
+        // Hand over the game state to the fragments
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            if (!(fragment instanceof GameStateClient)) {
+                continue;
+            }
+
+            GameStateClient gameStateClient = (GameStateClient) fragment;
+            this.gameStateClients.add(gameStateClient);
+
+            gameStateClient.setGameState(this.gameState, this.gameMessageExchange);
+        }
     }
 
     /**
      * Create options menu for this activity.
      *
      * @param menu The menu to extend
-     * @returns always true
+     * @return always true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -127,7 +168,7 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
     /**
      * Get menu items that are used to display the current progress and elapsed time.
      * @param menu Options menu
-     * @returns always true
+     * @return always true
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -182,10 +223,9 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
      */
     @Override
     public boolean handleMessage(@NonNull Message msg) {
-        switch (msg.what) {
-            case ClockThread.MESSAGE_TICK:
-                this.onClockTick();
-                return true;
+        if (msg.what == ClockThread.MESSAGE_TICK) {
+            this.onClockTick();
+            return true;
         }
 
         return false;
@@ -201,7 +241,7 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
         }
 
         // Update time and progress
-        long deltaSeconds = (long) Math.floor((System.currentTimeMillis() - this.lastFullSecond) / 1000);
+        long deltaSeconds = (long) Math.floor((System.currentTimeMillis() - this.lastFullSecond) / 1000.0);
         this.gameState.game.seconds += deltaSeconds;
         this.lastFullSecond += deltaSeconds * 1000;
 

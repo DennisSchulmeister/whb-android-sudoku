@@ -3,14 +3,13 @@ package de.wpvs.sudo_ku.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.activity.game.GameActivity;
-import de.wpvs.sudo_ku.activity.game.GameFinishedActivity;
+import de.wpvs.sudo_ku.activity.game.FinishedActivity;
 import de.wpvs.sudo_ku.activity.menu.NewGameActivity;
 import de.wpvs.sudo_ku.activity.menu.StartMenuActivity;
 
@@ -56,8 +55,8 @@ public class NavigationUtils {
      * @param activity Calling activity
      * @param gameUid Database ID of the game
      */
-    public static void gotoGameFinished(Activity activity, long gameUid) {
-        Intent intent = new Intent(activity, GameFinishedActivity.class);
+    public static void gotoFinished(Activity activity, long gameUid) {
+        Intent intent = new Intent(activity, FinishedActivity.class);
         intent.putExtra("gameUid", gameUid);
         activity.startActivity(intent);
     }
