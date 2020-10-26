@@ -16,6 +16,8 @@
         <!-- Application title bar -->
         <item name="titleTextColor">@color/secondaryTextColor</item>
         <item name="subtitleTextColor">@color/secondaryTextColor</item>
+        <item name="actionMenuTextColor">@color/secondaryTextColor</item>
+        <item name="android:actionMenuTextColor">@color/secondaryTextColor</item>
         <item name="actionOverflowButtonStyle">@style/Theme.Sudoku.ActionOverflowButton</item>
         <item name="toolbarNavigationButtonStyle">@style/Theme.Sudoku.ToolbarButtonNavigation</item>
     </style>

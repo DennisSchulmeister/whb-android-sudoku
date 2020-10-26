@@ -26,7 +26,7 @@ public class GameFinishedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_finished_activity);
 
-        this.finishButton = this.findViewById(R.id.game_finished_finish_button);
+        this.finishButton = this.findViewById(R.id.game_finished_restart_button);
 
         this.finishButton.setOnClickListener(v -> {
             NavigationUtils.gotoStartMenu(this);

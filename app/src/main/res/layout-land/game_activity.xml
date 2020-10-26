@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android         = "http://schemas.android.com/apk/res/android"
+    xmlns:app             = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools           = "http://schemas.android.com/tools"
+    android:layout_width  = "match_parent"
+    android:layout_height = "match_parent"
+    tools:context         = ".activity.game.GameActivity">
+
+    <!-- Background image -->
+    <ImageView
+        android:layout_width       = "wrap_content"
+        android:layout_height      = "wrap_content"
+        android:layout_gravity     = "bottom|end"
+        android:layout_margin      = "@dimen/activity_padding"
+        android:adjustViewBounds   = "true"
+        android:maxHeight          = "@dimen/activity_game_gandalf_max_height"
+        android:scaleType          = "centerInside"
+        android:alpha              = "0.05"
+        android:src                = "@drawable/gandalf"
+        tools:ignore               = "ContentDescription" />
+
+    <!-- Main Content -->
+    <RelativeLayout
+        android:layout_width  = "match_parent"
+        android:layout_height = "match_parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id                       = "@+id/game_activity_game_board_fragment"
+            android:layout_width             = "match_parent"
+            android:layout_height            = "match_parent"
+            android:layout_alignParentTop    = "true"
+            android:layout_alignParentBottom = "true"
+            android:layout_alignParentStart  = "true"
+            android:name                     = "de.wpvs.sudo_ku.activity.game.GameBoardFragment" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id                    = "@+id/game_activity_game_matched_words_fragment"
+            android:layout_width          = "wrap_content"
+            android:layout_height         = "match_parent"
+            android:layout_alignParentTop = "true"
+            android:layout_alignParentEnd = "true"
+            android:layout_toEndOf        = "@+id/game_activity_game_board_fragment"
+            android:layout_alignStart     = "@+id/game_activity_game_controls_fragment"
+            android:layout_above          = "@id/game_activity_game_controls_fragment"
+            android:name                  = "de.wpvs.sudo_ku.activity.game.GameMatchedWordsFragment" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id                       = "@+id/game_activity_game_controls_fragment"
+            android:layout_width             = "wrap_content"
+            android:layout_height            = "wrap_content"
+            android:layout_alignParentBottom = "true"
+            android:layout_alignParentEnd    = "true"
+            android:name                     = "de.wpvs.sudo_ku.activity.game.GameControlsFragment" />
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

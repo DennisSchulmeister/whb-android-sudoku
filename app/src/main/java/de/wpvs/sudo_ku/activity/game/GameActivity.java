@@ -3,6 +3,7 @@ package de.wpvs.sudo_ku.activity.game;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import de.wpvs.sudo_ku.R;
 import de.wpvs.sudo_ku.model.DatabaseHolder;
@@ -42,6 +43,10 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
     private MenuItem elapsedTimeMenuItem;
     private MenuItem progressMenuItem;
 
+    private GameBoardFragment gameBoardFragment;
+    private GameMatchedWordsFragment gameMatchedWordsFragment;
+    private GameControlsFragment gameControlsFragment;
+
     private GameDao dao;
     private GameState gameState;
     private Handler handler;
@@ -60,6 +65,11 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
 
         // Retrieve often needed view instances
         this.actionBar = this.getSupportActionBar();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        this.gameBoardFragment = (GameBoardFragment) fragmentManager.findFragmentById(R.id.game_activity_game_board_fragment);
+        this.gameMatchedWordsFragment = (GameMatchedWordsFragment) fragmentManager.findFragmentById(R.id.game_activity_game_matched_words_fragment);
+        this.gameControlsFragment = (GameControlsFragment) fragmentManager.findFragmentById(R.id.game_activity_game_controls_fragment);
 
         // Set up game state
         Intent intent = this.getIntent();
