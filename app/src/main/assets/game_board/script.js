@@ -8,12 +8,6 @@
  * @param {Integer] sectionSize How many fields make up one section (2, 3 or 4).
  */
 function createGameBoard(size, sectionSize) {
-    // Avoid race condition on page load
-    if (document.readyState !== "complete") {
-        window.addTimeout(() => createGameBoard(size, sectionSize), 1000);
-        return;
-    }
-
     // Delete old fields, if any
     let gameBoardElement = document.querySelector("#game-board");
     gameBoardElement.innerHTML = "";
@@ -98,12 +92,6 @@ function createGameBoard(size, sectionSize) {
  * @param {List<CharacterFieldEntity>} All game board fields
  */
 function updateCharacterFields(characterFields) {
-    // Avoid race condition on page load
-    if (document.readyState !== "complete") {
-        window.addTimeout(() => updateCharacterFields(characterFields), 1000);
-        return;
-    }
-
     characterFields.forEach(characterField => {
         let xPos = characterField.xPos, yPos = characterField.yPos;
 
@@ -138,12 +126,6 @@ function updateCharacterFields(characterFields) {
  * @param {List<GameLogic.Coordinate>} Coordinates to highlight
  */
 function highlightFields(coordinates) {
-    // Avoid race condition on page load
-    if (document.readyState !== "complete") {
-        window.addTimeout(() => highlightFields(coordinates), 1000);
-        return;
-    }
-
     document.querySelectorAll(".game-field.highlighted").forEach(e => e.classList.remove("highlighted"));
 
     coordinates.forEach(coordinate => {

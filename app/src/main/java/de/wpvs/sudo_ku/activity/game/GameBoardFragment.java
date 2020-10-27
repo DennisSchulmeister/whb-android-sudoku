@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +40,7 @@ public class GameBoardFragment extends Fragment implements GameStateClient {
     private WebView webView;
     private WebViewInterface webViewInterface;
     private boolean gameBoardInitialized = false;
+    private Semaphore gameStateReady = new Semaphore(0);
 
     /**
      * Callback methods called from the JavaScript code running in the web view. Note, that the
@@ -98,6 +101,25 @@ public class GameBoardFragment extends Fragment implements GameStateClient {
         this.webView.setBackgroundColor(0);
         this.webView.getSettings().setJavaScriptEnabled(true);
         this.webView.addJavascriptInterface(new WebViewInterface(this.getContext()), "Android");
+
+        this.webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // Block webview thread until the game state is available
+                // Then initialize game board
+                GameBoardFragment.this.gameStateReady.acquireUninterruptibly();
+
+                int size = GameBoardFragment.this.gameState.game.size;
+                int sectionSize = (int) Math.sqrt(size);
+
+                String javascript = "createGameBoard(" + size + ", " + sectionSize + ");";
+                view.evaluateJavascript(javascript, null);
+
+                // Refresh view to display the field numbers after the board has been set up
+                GameBoardFragment.this.refreshView();
+            }
+        });
+
         this.webView.loadUrl("file:///android_asset/game_board/index.html");
     }
 
@@ -139,11 +161,8 @@ public class GameBoardFragment extends Fragment implements GameStateClient {
      */
     private void refreshView() {
         if (!this.gameBoardInitialized) {
-            int size = this.gameState.game.size;
-            int sectionSize = (int) Math.sqrt(size);
-
-            String javascript = "createGameBoard(" + size + ", " + sectionSize + ");";
-            this.webView.evaluateJavascript(javascript, null);
+            this.gameBoardInitialized = true;
+            this.gameStateReady.release(1);
         }
 
         String characterFieldsJson = new Gson().toJson(this.gameState.characterFields);
