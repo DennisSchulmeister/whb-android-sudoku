@@ -1,15 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<GridLayout
     xmlns:android         = "http://schemas.android.com/apk/res/android"
+    xmlns:app             = "http://schemas.android.com/apk/res-auto"
     xmlns:tools           = "http://schemas.android.com/tools"
     android:layout_width  = "match_parent"
     android:layout_height = "match_parent"
-    android:padding       = "@dimen/activity_padding"
+    android:columnCount   = "9"
+    android:rowCount      = "2"
+    android:paddingStart  = "@dimen/activity_padding"
+    android:paddingEnd    = "@dimen/activity_padding"
+    android:paddingBottom = "0dp"
+    android:paddingTop    = "0dp"
     tools:context         = ".activity.game.GameControlsFragment">
 
-    <!-- TODO: Update layout -->
-    <TextView
-        android:layout_width  = "match_parent"
-        android:layout_height = "match_parent"
-        android:text          = "Game Controls Fragment" />
-</FrameLayout>
+    <Button
+        android:id            = "@+id/game_controls_character_button_1"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_2"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_3"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_4"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_5"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_6"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_7"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_8"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_9"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_10"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_11"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_12"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_13"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_14"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_15"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Button
+        android:id            = "@+id/game_controls_character_button_16"
+        style                 = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width  = "@dimen/activity_game_button_size"
+        android:layout_height = "@dimen/activity_game_button_size"
+        android:enabled       = "false" />
+
+    <Space/>
+
+    <ImageButton
+        android:id                 = "@+id/game_controls_fragment_pencil_button"
+        style                      = "@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width       = "@dimen/activity_game_button_size"
+        android:layout_height      = "@dimen/activity_game_button_size"
+        android:contentDescription = "@string/game_pencil_button_description"
+        android:src                = "@drawable/ic_pencil" />
+</GridLayout>

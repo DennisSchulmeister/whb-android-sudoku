@@ -152,11 +152,21 @@ public class GameLogic {
      */
     public void changeCharacter(int xPos, int yPos, int flags, String character) {
         // Put character on the board
-        CharacterFieldEntity characterField = this.characterFields[xPos][yPos];
+        CharacterFieldEntity characterField;
+
+        try {
+            characterField = this.characterFields[xPos][yPos];
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            return;
+        }
 
         if ((flags & GameState.FLAG_PENCIL) != 0) {
-            if (!characterField.pencil.contains(character)) {
-                characterField.pencil.add(character);
+            if (!character.isEmpty()) {
+                if (!characterField.pencil.contains(character)) {
+                    characterField.pencil.add(character);
+                }
+            } else {
+                characterField.pencil.remove(character);
             }
         } else if (!characterField.locked || (flags & GameState.FLAG_LOCKED) != 0) {
             characterField.character = character;

@@ -11,4 +11,11 @@
   <color name="secondaryTextColor">#ffffff</color>
   <color name="logo_background">#282828</color>
   <color name="list_field_label">#909090</color>
+
+  <color name="game_pencil_button_active">#004c8c</color>
+  <color name="game_pencil_button_inactive">#a7a7a7</color>
+  <color name="game_character_button_active">#004c8c</color>
+  <color name="game_character_button_inactive">#a7a7a7</color>
+  <color name="game_character_button_not_allowed">#e0e0e0</color>
+  <color name="game_character_button_locked">#ce303a</color>
 </resources>

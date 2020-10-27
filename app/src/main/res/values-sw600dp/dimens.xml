@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="activity_game_gandalf_max_height">400dp</dimen>
+    <dimen name="activity_game_button_size">60dp</dimen>
 
     <dimen name="activity_game_finished_congratulations_max_width">650dp</dimen>
     <dimen name="activity_game_finished_penguins_max_width">800dp</dimen>
