@@ -212,13 +212,14 @@ public class GameState {
      * @param yPos Column
      * @param flags Special flags on how to treat the character (see constants)
      * @param character The character to set (must be one of the characters of the game)
+     * @param set True to set and false to erase the character
      * @return true, when the character has been accepted
      */
-    public boolean setCharacter(int xPos, int yPos, int flags, String character) {
+    public boolean setCharacter(int xPos, int yPos, int flags, String character, boolean set) {
         GameLogic gameLogic = this.getGameLogic();
 
-        if (gameLogic.isCharacterAllowed(xPos, yPos, flags, character)) {
-            gameLogic.changeCharacter(xPos, yPos, flags, character);
+        if (gameLogic.isCharacterAllowed(xPos, yPos, flags, character, set)) {
+            gameLogic.changeCharacter(xPos, yPos, flags, character, set);
             return true;
         }
 

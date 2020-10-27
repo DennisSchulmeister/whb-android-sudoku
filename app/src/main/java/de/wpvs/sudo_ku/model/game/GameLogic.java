@@ -110,7 +110,7 @@ public class GameLogic {
         List<String> allowedCharacters = new ArrayList<>(this.gameState.game.size);
 
         for (String character : this.gameState.game.characterSet) {
-            if (this.isCharacterAllowed(xPos, yPos, flags, character)) {
+            if (this.isCharacterAllowed(xPos, yPos, flags, character, true)) {
                 allowedCharacters.add(character);
             }
         }
@@ -125,11 +125,12 @@ public class GameLogic {
      * @param yPos Column
      * @param flags Special flags on how to treat the character (see constants)
      * @param character The character to set (must be one of the characters of the game)
+     * @param set True to set and false to erase the character
      * @return true, when the character is allowed
      */
-    public boolean isCharacterAllowed(int xPos, int yPos, int flags, String character) {
+    public boolean isCharacterAllowed(int xPos, int yPos, int flags, String character, boolean set) {
         for (Rule rule : this.rules) {
-            if (!rule.isCharacterAllowed(xPos, yPos, flags, character)) {
+            if (!rule.isCharacterAllowed(xPos, yPos, flags, character, set)) {
                 return false;
             }
         }
@@ -149,8 +150,9 @@ public class GameLogic {
      * @param yPos Column
      * @param flags Special flags on how to treat the character (see constants)
      * @param character The character to set (must be one of the characters of the game)
+     * @param set True to set and false to erase the character
      */
-    public void changeCharacter(int xPos, int yPos, int flags, String character) {
+    public void changeCharacter(int xPos, int yPos, int flags, String character, boolean set) {
         // Put character on the board
         CharacterFieldEntity characterField;
 
@@ -161,7 +163,7 @@ public class GameLogic {
         }
 
         if ((flags & GameState.FLAG_PENCIL) != 0) {
-            if (!character.isEmpty()) {
+            if (set) {
                 if (!characterField.pencil.contains(character)) {
                     characterField.pencil.add(character);
                 }
@@ -169,7 +171,11 @@ public class GameLogic {
                 characterField.pencil.remove(character);
             }
         } else if (!characterField.locked || (flags & GameState.FLAG_LOCKED) != 0) {
-            characterField.character = character;
+            if (set) {
+                characterField.character = character;
+            } else {
+                characterField.character = "";
+            }
         }
 
         if ((flags & GameState.FLAG_LOCKED) != 0) {
@@ -178,7 +184,7 @@ public class GameLogic {
 
         // Execute additional rule logic
         for (Rule rule : this.rules) {
-            rule.onCharacterChanged(xPos, yPos, flags, character);
+            rule.onCharacterChanged(xPos, yPos, flags, character, set);
         }
     }
 }

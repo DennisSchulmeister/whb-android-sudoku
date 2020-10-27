@@ -214,7 +214,7 @@ public class GameUtils {
                 int index2 = (int) Math.floor(Math.random() * allowedCharacters.size());
                 String character = allowedCharacters.get(index2);
 
-                gameLogic.changeCharacter(characterField.xPos, characterField.yPos, flags, character);
+                gameLogic.changeCharacter(characterField.xPos, characterField.yPos, flags, character, true);
             }
         }
     }

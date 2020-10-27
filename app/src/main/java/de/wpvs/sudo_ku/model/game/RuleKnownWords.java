@@ -36,16 +36,17 @@ class RuleKnownWords extends Rule {
      * @param yPos Column
      * @param flags Special flags on how to treat the character (see constants)
      * @param character The character to set (must be one of the characters of the game)
+     * @param set True to set and false to erase the character
      */
     @Override
-    public void onCharacterChanged(int xPos, int yPos, int flags, String character) {
+    public void onCharacterChanged(int xPos, int yPos, int flags, String character, boolean set) {
         if ((flags & GameState.FLAG_PENCIL) != 0) {
             return;
         }
 
         this.eraseMatchedWords(xPos, yPos);
 
-        if (!character.isEmpty()) {
+        if (set) {
             this.matchKnownWords(xPos, yPos);
         }
     }

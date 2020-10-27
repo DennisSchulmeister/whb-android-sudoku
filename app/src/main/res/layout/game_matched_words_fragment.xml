@@ -10,7 +10,9 @@
     <TextView
         android:id             = "@+id/game_matched_words_fragment_textview"
         android:layout_width   = "match_parent"
-        android:layout_height  = "match_parent"
+        android:layout_height  = "wrap_content"
         android:textAppearance = "@style/TextAppearance.AppCompat.Large"
+        android:maxLines       = "3"
+        android:ellipsize     = "end"
         android:textColor      = "@color/primaryTextColor" />
 </FrameLayout>

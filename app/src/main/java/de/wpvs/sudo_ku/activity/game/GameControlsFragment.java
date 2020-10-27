@@ -103,12 +103,13 @@ public class GameControlsFragment extends Fragment implements GameStateClient {
 
         // Toggle pencil flag via pencil button
         this.pencilButton = view.findViewById(R.id.game_controls_fragment_pencil_button);
-        this.updatePencilButton();
 
         this.pencilButton.setOnClickListener(v -> {
             this.pencil = !this.pencil;
             this.flags ^= GameState.FLAG_PENCIL;
+
             this.updatePencilButton();
+            this.updateCharacterButtons();
         });
     }
 
@@ -138,6 +139,7 @@ public class GameControlsFragment extends Fragment implements GameStateClient {
             this.characterButtons.put(character, button);
         }
 
+        this.updatePencilButton();
         this.updateCharacterButtons();
     }
 
@@ -196,12 +198,14 @@ public class GameControlsFragment extends Fragment implements GameStateClient {
                 Button button = this.characterButtons.get(character);
                 assert button != null;
 
-                if (character.equals(characterField.character)) {
+                if (!this.pencil && character.equals(characterField.character)) {
                     if (!characterField.locked) {
                         button.setTextColor(this.characterColorActive);
                     } else {
                         button.setTextColor(this.characterColorLocked);
                     }
+                } else if (this.pencil && characterField.pencil.contains(character)) {
+                    button.setTextColor(this.characterColorActive);
                 } else {
                     button.setTextColor(this.characterColorInactive);
                 }
@@ -222,16 +226,17 @@ public class GameControlsFragment extends Fragment implements GameStateClient {
     private void onCharacterButtonClick(String character) {
         GameLogic gameLogic = this.gameState.getGameLogic();
         CharacterFieldEntity characterField = gameLogic.getCharacterField(this.xPosSelected, this.yPosSelected);
+        boolean set = true;
 
         if (characterField == null) {
             return;
         } else if (!pencil && characterField.character.equals(character)) {
-            character = "";
+            set = false;
         } else if (pencil && characterField.pencil.contains(character)) {
-            character = "";
+            set = false;
         }
 
-        boolean accepted = this.gameState.setCharacter(this.xPosSelected, this.yPosSelected, this.flags, character);
+        boolean accepted = this.gameState.setCharacter(this.xPosSelected, this.yPosSelected, this.flags, character, set);
 
         if (accepted) {
             this.gameMessageExchange.sendEmptyMessage(GameStateClient.MESSAGE_REFRESH_VIEWS);

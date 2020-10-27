@@ -46,7 +46,7 @@ public class GameMatchedWordsFragment extends Fragment implements GameStateClien
      * word.
      */
     private class TldrClickableSpan extends ClickableSpan {
-        private String word;
+        private final String word;
 
         /**
          * Constructor

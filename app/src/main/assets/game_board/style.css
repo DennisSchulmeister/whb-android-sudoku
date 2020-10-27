@@ -128,16 +128,8 @@ html {
     color: #d0d0d0;
 }
 
-.game-field.size-4 .pencil {
-    font-size: 8vw;
-}
-
-.game-field.size-9 .pencil {
-    font-size: 4vw;
-}
-
-.game-field.size-16 .pencil {
-    font-size: 1.8vw;
+.game-field .pencil {
+    font-size: 70%;
 }
 
 .game-field .character {
