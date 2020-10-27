@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import de.wpvs.sudo_ku.R;
+import de.wpvs.sudo_ku.activity.NavigationUtils;
 import de.wpvs.sudo_ku.model.DatabaseHolder;
 import de.wpvs.sudo_ku.model.game.GameDao;
 import de.wpvs.sudo_ku.model.game.GameState;
@@ -64,6 +65,8 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
             for (GameStateClient gameStateClient : GameActivity.this.gameStateClients) {
                 gameStateClient.onGameStateMessage(what, -1, -1);
             }
+
+            GameActivity.this.onGameStateMessage(what, -1, -1);
         }
 
         /**
@@ -78,6 +81,8 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
             for (GameStateClient gameStateClient : GameActivity.this.gameStateClients) {
                 gameStateClient.onGameStateMessage(what, xPos, yPos);
             }
+
+            GameActivity.this.onGameStateMessage(what, xPos, yPos);
         }
     };
 
@@ -155,6 +160,21 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
         }
 
         this.gameMessageExchange.sendEmptyMessage(GameStateClient.MESSAGE_REFRESH_VIEWS);
+    }
+
+    /**
+     * Handle messages indicating changes to the game state. Usually the activity doesn't
+     * participate in the game logic. We need the event however, to detect when the game
+     * has been won.
+     *
+     * @param what Message code (see constants)
+     * @param xPos Horizontal field number or -1
+     * @param yPos Vertical field number or -1
+     */
+    public void onGameStateMessage(int what, int xPos, int yPos) {
+        if (this.gameState.game.progress == 100) {
+            NavigationUtils.gotoFinished(this, this.gameState.game.uid);
+        }
     }
 
     /**

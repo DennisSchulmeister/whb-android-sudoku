@@ -225,7 +225,7 @@ public class GameControlsFragment extends Fragment implements GameStateClient {
 
         if (characterField == null) {
             return;
-        } else if (!pencil && characterField.character == character) {
+        } else if (!pencil && characterField.character.equals(character)) {
             character = "";
         } else if (pencil && characterField.pencil.contains(character)) {
             character = "";
