@@ -200,7 +200,7 @@ public class GameUtils {
         int successfulTries = 0;
         int totalTries = 0;
 
-        while (successfulTries <= amountOfCharactersToSet && totalTries <= maxTries) {
+        while (successfulTries < amountOfCharactersToSet && totalTries <= maxTries) {
             totalTries += 1;
 
             if (remainingCharacterFields.isEmpty()) {
