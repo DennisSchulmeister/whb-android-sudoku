@@ -56,6 +56,24 @@ public class GameLogic {
     }
 
     /**
+     * Utility method for fast access to a searched field, since we already have the game fields
+     * decomposed into a two-dimensional array, here.
+     *
+     * @param xPos Row
+     * @param yPos Column
+     * @return Searched field or null
+     */
+    public CharacterFieldEntity getCharacterField(int xPos, int yPos) {
+        if ((xPos >= 0 && xPos < this.characterFields.length)
+            && (yPos >= 0 && yPos < this.characterFields[xPos].length)) {
+
+            return this.characterFields[xPos][yPos];
+        }
+
+        return null;
+    }
+
+    /**
      * For a given position on the game board get the coordinates of all fields, that may not
      * contain duplicate characters.
      *

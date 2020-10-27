@@ -1,6 +1,10 @@
 The wordlist has been created with the following commands
 on my Fedora Linux installation:
 
-ls --color=never /bin | grep "^[[:lower:]]\+$" > knownwords.txt
-ls --color=never /sbin | grep "^[[:lower:]]\+$" >> knownwords.txt
+git@github.com:tldr-pages/tldr.git
+cd tldr/pages/commin
+ls --color=never | grep "^[[:lower:]]\+.md$" > ../knownwords.txt
+ls --color=never /sbin | grep "^[[:lower:]]\+.md$" >> ../knownwords.txt
+
+Then removing the .md suffix from all commands in a text editor.
 

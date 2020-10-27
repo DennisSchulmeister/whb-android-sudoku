@@ -7,9 +7,10 @@
     android:padding       = "@dimen/activity_padding"
     tools:context         = ".activity.game.GameControlsFragment">
 
-    <!-- TODO: Update layout -->
     <TextView
-        android:layout_width  = "match_parent"
-        android:layout_height = "match_parent"
-        android:text          = "Game Matched Words Fragment" />
+        android:id             = "@+id/game_matched_words_fragment_textview"
+        android:layout_width   = "match_parent"
+        android:layout_height  = "match_parent"
+        android:textAppearance = "@style/TextAppearance.AppCompat.Large"
+        android:textColor      = "@color/primaryTextColor" />
 </FrameLayout>
