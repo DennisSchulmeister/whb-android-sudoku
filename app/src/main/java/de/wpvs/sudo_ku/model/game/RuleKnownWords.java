@@ -99,11 +99,22 @@ class RuleKnownWords extends Rule {
             for (int yStop = this.gameState.game.size - 1; yStop >= yPos; yStop--) {
                 StringBuilder word = new StringBuilder();
                 List<CharacterFieldEntity> characterFields = new ArrayList<>(yStop - yStart + 1);
+                boolean skip = false;
 
                 for (int y = yStart; y <= yStop; y++) {
                     CharacterFieldEntity characterField = this.characterFields[xPos][y];
+
+                    if (characterField.character.isEmpty()) {
+                        skip = true;
+                        break;
+                    }
+
                     characterFields.add(characterField);
                     word.append(characterField.character);
+                }
+
+                if (skip) {
+                    continue;
                 }
 
                 if (searchedWords.containsKey(word.toString())) {
@@ -119,11 +130,22 @@ class RuleKnownWords extends Rule {
             for (int xStop = this.gameState.game.size - 1; xStop >= xPos; xStop--) {
                 StringBuilder word = new StringBuilder();
                 List<CharacterFieldEntity> characterFields = new ArrayList<>(xStop - xStart + 1);
+                boolean skip = false;
 
                 for (int x = xStart; x <= xStop; x++) {
                     CharacterFieldEntity characterField = this.characterFields[x][yPos];
+
+                    if (characterField.character.isEmpty()) {
+                        skip = true;
+                        break;
+                    }
+
                     characterFields.add(characterField);
                     word.append(characterField.character);
+                }
+
+                if (skip) {
+                    continue;
                 }
 
                 if (searchedWords.containsKey(word.toString())) {
