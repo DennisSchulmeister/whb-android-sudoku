@@ -38,6 +38,10 @@
     <!-- Game Activity -->
     <string name="game_label">@string/app_name</string>
     <string name="game_pencil_button_description">Pencil in character</string>
+    <string name="game_discard_game">Discard Game</string>
+    <string name="game_discard_game_confirm">Do you really want to discard this game?</string>
+    <string name="game_discard_game_abort">Phew! I really thought you mean it.</string>
+    <string name="game_discard_game_success">The game has been discarded.</string>
 
     <!-- Game Finished Activity -->
     <string name="game_finished_label">Game Finished</string>

@@ -7,18 +7,22 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import de.wpvs.sudo_ku.R;
+import de.wpvs.sudo_ku.activity.AppDialogFragmentBuilder;
 import de.wpvs.sudo_ku.activity.NavigationUtils;
 import de.wpvs.sudo_ku.model.DatabaseHolder;
 import de.wpvs.sudo_ku.model.game.GameDao;
@@ -44,9 +48,12 @@ import de.wpvs.sudo_ku.thread.database.SaveOrDeleteGame;
  *   » Providing an opaque implementation for message exchange with the fragments
  */
 public class GameActivity extends AppCompatActivity implements Handler.Callback {
+    private Bundle savedInstanceState;
+
     private static final int SAVE_GAME_STATE_INTERVAL = 30;
     private int savedGameStateAge = 0;
     private long lastFullSecond = 0;
+    private boolean saveOnExit = true;
 
     private ActionBar actionBar;
     private MenuItem elapsedTimeMenuItem;
@@ -100,6 +107,8 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
         // Inflate UI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
+
+        this.savedInstanceState = savedInstanceState;
 
         // Retrieve often needed view instances
         this.actionBar = this.getSupportActionBar();
@@ -205,6 +214,26 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
     }
 
     /**
+     * Perform action selected in the options menu.
+     *
+     * @param item Selected menu item
+     * @returns true, if the item has been handled
+     *
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_game_discard:
+                this.deleteGameStateAndLeave();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        return true;
+    }
+
+    /**
      * Display the elapsed time and game progress in the action bar.
      */
     private void updateTimeAndProgressUi() {
@@ -238,7 +267,9 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
         ClockThread.getInstance().removeClientHandler(this.handler);
         ClockThread.getInstance().pauseClock();
 
-        this.saveGameState();
+        if (this.saveOnExit) {
+            this.saveGameState();
+        }
     }
 
     /**
@@ -290,5 +321,33 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
         this.gameState.game.saveDate = new Date();
         GameState persistedGameState = new GameState(this.gameState);
         DatabaseThread.getInstance().post(new SaveOrDeleteGame(persistedGameState, SaveOrDeleteGame.Operation.UPDATE));
+    }
+
+    /**
+     * Delete the current game and go back to start menu.
+     */
+    private void deleteGameStateAndLeave() {
+        AppDialogFragmentBuilder appDialogFragmentBuilder = new AppDialogFragmentBuilder(this, this.savedInstanceState);
+        AlertDialog.Builder builder = appDialogFragmentBuilder.getAlertDialogBuilder();
+        builder.setMessage(R.string.game_discard_game_confirm);
+
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            // Stop clock, delete game
+            ClockThread.getInstance().pauseClock();
+
+            SaveOrDeleteGame task = new SaveOrDeleteGame(this.gameState, SaveOrDeleteGame.Operation.DELETE);
+            DatabaseThread.getInstance().post(task);
+            this.saveOnExit = false;
+
+            Toast.makeText(GameActivity.this, R.string.game_discard_game_success, Toast.LENGTH_LONG).show();
+            NavigationUtils.gotoStartMenu(GameActivity.this);
+        });
+
+        builder.setNegativeButton(R.string.no, (dialog, which) -> {
+            // Continue game
+            Toast.makeText(this, R.string.game_discard_game_abort, Toast.LENGTH_LONG).show();
+        });
+
+        appDialogFragmentBuilder.create().show(this.getSupportFragmentManager(), "confirm_deletion");
     }
 }

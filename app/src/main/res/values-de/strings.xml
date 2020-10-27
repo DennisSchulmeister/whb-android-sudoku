@@ -39,6 +39,10 @@
     <!-- Game Activity -->
     <string name="game_label">@string/app_name</string>
     <string name="game_pencil_button_description">Zeichen vormerken</string>
+    <string name="game_discard_game">Spiel verwerfen</string>
+    <string name="game_discard_game_confirm">Wollen Sie das Spiel wirklich verwerfen?</string>
+    <string name="game_discard_game_abort">Puh! Ich dachte wirklich, Sie meinen es ernst.</string>
+    <string name="game_discard_game_success">Das Spiel wurde verworfen.</string>
 
     <!-- Game Finished Activity -->
     <string name="game_finished_label">Spiel zu Ende</string>

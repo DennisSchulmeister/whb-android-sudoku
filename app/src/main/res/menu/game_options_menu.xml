@@ -13,4 +13,9 @@
         android:title       = ""
         android:enabled     = "false"
         app:showAsAction    = "always" />
+
+    <item
+        android:id       = "@+id/action_game_discard"
+        android:title    = "@string/game_discard_game"
+        app:showAsAction = "ifRoom" />
 </menu>

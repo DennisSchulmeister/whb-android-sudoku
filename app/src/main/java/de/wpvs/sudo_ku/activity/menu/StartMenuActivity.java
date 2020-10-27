@@ -128,8 +128,6 @@ public class StartMenuActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        DatabaseHolder databaseHolder = this.startMenuSavedGameViewModel.getDatabaseHolder();
-
         switch (item.getItemId()) {
             case R.id.action_start_menu_create_random:
                 this.startRandomGame();
