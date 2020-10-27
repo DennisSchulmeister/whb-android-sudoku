@@ -57,6 +57,9 @@ public class StartMenuActivity extends AppCompatActivity {
 
         this.savedInstanceState = savedInstanceState;
 
+        // Change application title in the titlebar to "main menu"
+        this.getSupportActionBar().setTitle(R.string.start_menu_label);
+
         // Retrieve often needed view instances
         this.noSavedGamesMessage = this.findViewById(R.id.start_menu_no_saved_games_message);
         this.gameEntityList = this.findViewById(R.id.start_menu_game_entity_list);
