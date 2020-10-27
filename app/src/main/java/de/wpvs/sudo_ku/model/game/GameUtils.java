@@ -189,9 +189,13 @@ public class GameUtils {
 
         // Spend the given amount of tries to fill some random fields
         GameLogic gameLogic = gameState.getGameLogic();
-        int flags = GameState.FLAG_LOCKED;
+        int flags = GameState.FLAG_NONE;
 
-        int amountOfCharactersToSet = (int) (gameState.characterFields.size() * (100 - gameState.game.difficulty) / 100);
+        if (gameState.game.lockPrefilled) {
+            flags |= GameState.FLAG_LOCKED;
+        }
+
+        int amountOfCharactersToSet = (int) (gameState.characterFields.size() * (gameState.game.prefill) / 100);
         int maxTries = amountOfCharactersToSet * 3;
         int successfulTries = 0;
         int totalTries = 0;

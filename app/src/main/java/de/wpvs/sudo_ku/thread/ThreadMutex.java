@@ -14,9 +14,9 @@ import java.util.concurrent.Semaphore;
  * thread.
  */
 public class ThreadMutex {
-    private Semaphore backgroundThreadMayStart = new Semaphore(0);
-    private Semaphore foregroundThreadMyContinue = new Semaphore(0);
-    private Callback callback;
+    private final Semaphore backgroundThreadMayStart = new Semaphore(0);
+    private final Semaphore foregroundThreadMyContinue = new Semaphore(0);
+    private final Callback callback;
 
     /**
      * Callback interface that needs to be implemented by the foreground activity. The implementing

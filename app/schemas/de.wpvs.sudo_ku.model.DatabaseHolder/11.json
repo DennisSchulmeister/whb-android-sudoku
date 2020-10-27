@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 9,
-    "identityHash": "4f16548ee5ee158cfa4164ef2da520ad",
+    "version": 11,
+    "identityHash": "11b56d5e0b8a014adc5ef0e2a5f5a97c",
     "entities": [
       {
         "tableName": "CharacterField",
@@ -76,7 +76,7 @@
       },
       {
         "tableName": "Game",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `startDate` INTEGER, `saveDate` INTEGER, `gameType` TEXT, `size` INTEGER NOT NULL, `characterSet` TEXT, `difficulty` INTEGER NOT NULL, `lockPrepopulated` INTEGER NOT NULL, `progress` INTEGER NOT NULL, `seconds` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `startDate` INTEGER, `saveDate` INTEGER, `gameType` TEXT, `size` INTEGER NOT NULL, `characterSet` TEXT, `prefill` INTEGER NOT NULL, `lockPrefilled` INTEGER NOT NULL, `progress` INTEGER NOT NULL, `seconds` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -115,14 +115,14 @@
             "notNull": false
           },
           {
-            "fieldPath": "difficulty",
-            "columnName": "difficulty",
+            "fieldPath": "prefill",
+            "columnName": "prefill",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "lockPrepopulated",
-            "columnName": "lockPrepopulated",
+            "fieldPath": "lockPrefilled",
+            "columnName": "lockPrefilled",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -217,7 +217,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4f16548ee5ee158cfa4164ef2da520ad')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '11b56d5e0b8a014adc5ef0e2a5f5a97c')"
     ]
   }
 }

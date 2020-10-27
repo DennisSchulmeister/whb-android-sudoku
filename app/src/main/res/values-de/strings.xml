@@ -28,7 +28,8 @@
     <string name="new_game_param_character_set_numbers">Zahlenvorrat</string>
     <string name="new_game_param_character_set_letters">Buchstabenvorrat</string>
     <string name="new_game_param_character_set_none_selected">Keine ausgewählt</string>
-    <string name="new_game_param_character_difficulty">Schwierigkeit</string>
+    <string name="new_game_param_prefill">Vorgaben</string>
+    <string name="new_game_param_lock_prefilled">Vorgegebene Felder sperren</string>
     <string name="new_game_action_start_game">Spiel starten</string>
 
     <string name="new_game_error_wrong_amount_of_numbers">Wählen Sie exakt %d Zahlen aus</string>

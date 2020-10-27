@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:key   = "CATEGORY_GAME_SETTINGS">
 
@@ -27,12 +28,19 @@
             android:persistent   = "false"/>
 
         <SeekBarPreference
-            android:key          = "PARAM_DIFFICULTY"
-            android:title        = "@string/new_game_param_character_difficulty"
-            android:icon         = "@drawable/ic_difficulty"
-            android:min          = "33"
-            android:max          = "100"
-            android:defaultValue = "75" />
+            android:key          = "PARAM_PREFILL"
+            android:title        = "@string/new_game_param_prefill"
+            android:icon         = "@drawable/ic_prefill"
+            android:min          = "0"
+            android:max          = "25"
+            android:defaultValue = "5"
+            tools:targetApi      = "o" />
+
+        <SwitchPreference
+            android:key          = "PARAM_LOCK_PREFILLED"
+            android:title        = "@string/new_game_param_lock_prefilled"
+            android:icon         = "@drawable/ic_lock"
+            android:defaultValue = "true"/>
     </PreferenceCategory>
 
     <PreferenceCategory

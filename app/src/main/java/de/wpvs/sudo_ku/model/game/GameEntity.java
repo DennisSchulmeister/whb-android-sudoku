@@ -20,7 +20,8 @@ public class GameEntity {
     public GameType gameType = GameType.NUMBER_GAME;
     public int size = 9;
     public List<String> characterSet = new ArrayList<>();
-    public int difficulty = 75;
+    public int prefill = 5;
+    public boolean lockPrefilled = true;
     public int progress = 0;
     public long seconds = 0;
 
@@ -44,14 +45,15 @@ public class GameEntity {
      * @param that Entity to copy
      */
     public GameEntity(GameEntity that) {
-        this.uid        = that.uid;
-        this.startDate  = new Date(that.startDate.getTime());
-        this.saveDate   = new Date(that.saveDate.getTime());
-        this.gameType   = that.gameType;
-        this.size       = that.size;
-        this.difficulty = that.difficulty;
-        this.progress   = that.progress;
-        this.seconds    = that.seconds;
+        this.uid           = that.uid;
+        this.startDate     = new Date(that.startDate.getTime());
+        this.saveDate      = new Date(that.saveDate.getTime());
+        this.gameType      = that.gameType;
+        this.size          = that.size;
+        this.prefill       = that.prefill;
+        this.lockPrefilled = that.lockPrefilled;
+        this.progress      = that.progress;
+        this.seconds       = that.seconds;
 
         this.characterSet.addAll(that.characterSet);
     }

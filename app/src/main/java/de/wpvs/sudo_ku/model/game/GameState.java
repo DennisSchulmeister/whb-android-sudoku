@@ -104,10 +104,11 @@ public class GameState {
         int gameTypeIndex  = (int) Math.floor(Math.random() * gameTypes.length);
         int boardSizeIndex = (int) Math.floor(Math.random() * boardSizes.length);
 
-        gameState.game.gameType     = GameEntity.GameType.valueOf(gameTypes[gameTypeIndex]);
-        gameState.game.size         = Integer.parseInt(boardSizes[boardSizeIndex]);
-        gameState.game.characterSet = GameUtils.createCharacterSet(gameState.game.gameType, gameState.game.size);
-        gameState.game.difficulty   = Math.max(33, (int) Math.floor(Math.random() * 101));
+        gameState.game.gameType      = GameEntity.GameType.valueOf(gameTypes[gameTypeIndex]);
+        gameState.game.size          = Integer.parseInt(boardSizes[boardSizeIndex]);
+        gameState.game.characterSet  = GameUtils.createCharacterSet(gameState.game.gameType, gameState.game.size);
+        gameState.game.prefill       = Math.max(25, (int) Math.floor(Math.random() * 26));
+        gameState.game.lockPrefilled = Math.random() >= 0.5;
 
         gameState.characterFields = GameUtils.createCharacterFields(gameState.game.size);
         GameUtils.prepopulateCharacterFields(gameState);

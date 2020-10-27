@@ -27,7 +27,8 @@
     <string name="new_game_param_character_set_numbers">Available Numbers</string>
     <string name="new_game_param_character_set_letters">Available Letters</string>
     <string name="new_game_param_character_set_none_selected">None selected</string>
-    <string name="new_game_param_character_difficulty">Difficulty</string>
+    <string name="new_game_param_prefill">Prefilled Fields</string>
+    <string name="new_game_param_lock_prefilled">Lock Prefilled Fields</string>
     <string name="new_game_action_start_game">Start Game</string>
 
     <string name="new_game_error_wrong_amount_of_numbers">Choose exactly %d numbers</string>
