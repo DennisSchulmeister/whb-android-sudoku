@@ -7,9 +7,8 @@
     android:padding       = "@dimen/activity_padding"
     tools:context         = ".activity.game.GameBoardFragment">
 
-    <!-- TODO: Update layout -->
-    <TextView
+    <WebView
+        android:id            = "@+id/game_board_fragment_webview"
         android:layout_width  = "match_parent"
-        android:layout_height = "match_parent"
-        android:text          = "Game Board Fragment" />
+        android:layout_height = "match_parent"/>
 </FrameLayout>

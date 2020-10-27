@@ -54,10 +54,10 @@ class RuleNoDuplicates extends Rule {
         }
 
         // Section
-        int xMin = (int) (Math.floor(xPos / this.sectionSize) * sectionSize);
-        int xMax = (int) (Math.ceil(xPos / this.sectionSize) * sectionSize) - 1;
-        int yMin = (int) (Math.floor(yPos / this.sectionSize) * sectionSize);
-        int yMax = (int) (Math.ceil(yPos / this.sectionSize) * sectionSize) - 1;
+        int xMin = (int) (Math.floor(xPos / this.sectionSize) * this.sectionSize);
+        int yMin = (int) (Math.floor(yPos / this.sectionSize) * this.sectionSize);
+        int xMax = xMin + (int) this.sectionSize - 1;
+        int yMax = yMin + (int) this.sectionSize - 1;
 
         for (int x = xMin; x <= xMax; x++) {
             for (int y = yMin; y <= yMax; y++) {

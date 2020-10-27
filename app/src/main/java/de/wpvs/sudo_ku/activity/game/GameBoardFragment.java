@@ -1,23 +1,72 @@
 package de.wpvs.sudo_ku.activity.game;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import de.wpvs.sudo_ku.R;
+import de.wpvs.sudo_ku.model.game.GameLogic;
 import de.wpvs.sudo_ku.model.game.GameState;
 
 /**
  * View fragment with the game board. This paints the fields and handles all direct UI interactions
  * with them (selecting a field, unselecting a field, highlighting related fields, ...).
+ *
+ * This implementation is using a webview to render the game board in HTML. While this definitely
+ * is not the most efficient thing to do, it saves us from writing a full custom widget for the
+ * time being.
  */
 public class GameBoardFragment extends Fragment implements GameStateClient {
-    GameState gameState;
-    GameMessageExchange gameMessageExchange;
+    private GameState gameState;
+    private GameMessageExchange gameMessageExchange;
+
+    private WebView webView;
+    private WebViewInterface webViewInterface;
+    private boolean gameBoardInitialized = false;
+
+    /**
+     * Callback methods called from the JavaScript code running in the web view. Note, that the
+     * methods of this class will not run on the UI thread.
+     */
+    private class WebViewInterface {
+        private Context context;
+
+        /**
+         * Constructor
+         * @param context Parent context
+         */
+        public WebViewInterface(Context context) {
+            this.context = context;
+        }
+
+        /**
+         * Inform all fragments that a field has been selected or unselected.
+         *
+         * @param xPos Horizontal coordinate
+         * @param yPos Vertical coordinate
+         */
+        @JavascriptInterface
+        public void onFieldSelected(int xPos, int yPos) {
+            GameBoardFragment.this.getActivity().runOnUiThread(() -> {
+                GameBoardFragment.this.gameMessageExchange.sendFieldMessage(GameStateClient.MESSAGE_FIELD_SELECTED, xPos, yPos);
+            });
+        }
+    }
 
     /**
      * Callback to inflate the view hierarchy. To prevent crashes new views can be created here,
@@ -40,9 +89,16 @@ public class GameBoardFragment extends Fragment implements GameStateClient {
      * @param view Root view
      * @param savedInstanceState Saved instance state
      */
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        this.webView = view.findViewById(R.id.game_board_fragment_webview);
+        this.webView.setBackgroundColor(0);
+        this.webView.getSettings().setJavaScriptEnabled(true);
+        this.webView.addJavascriptInterface(new WebViewInterface(this.getContext()), "Android");
+        this.webView.loadUrl("file:///android_asset/game_board/index.html");
     }
 
     /**
@@ -55,6 +111,7 @@ public class GameBoardFragment extends Fragment implements GameStateClient {
     public void setGameState(GameState gameState, GameMessageExchange gameMessageExchange) {
         this.gameState = gameState;
         this.gameMessageExchange = gameMessageExchange;
+        this.gameBoardInitialized = false;
     }
 
     /**
@@ -68,11 +125,47 @@ public class GameBoardFragment extends Fragment implements GameStateClient {
     public void onGameStateMessage(int what, int xPos, int yPos) {
         switch (what) {
             case GameStateClient.MESSAGE_REFRESH_VIEWS:
-                // TODO
+                this.refreshView();
                 break;
             case GameStateClient.MESSAGE_FIELD_SELECTED:
-                // TODO
+                this.highlightRelatedFields(xPos, yPos);
                 break;
         }
+    }
+
+    /**
+     * Update the game board after the game state has changed. Also create the game board HTML
+     * structure, if this has not been done, already.
+     */
+    private void refreshView() {
+        if (!this.gameBoardInitialized) {
+            int size = this.gameState.game.size;
+            int sectionSize = (int) Math.sqrt(size);
+
+            String javascript = "createGameBoard(" + size + ", " + sectionSize + ");";
+            this.webView.evaluateJavascript(javascript, null);
+        }
+
+        String characterFieldsJson = new Gson().toJson(this.gameState.characterFields);
+        String javascript = "updateCharacterFields(" + characterFieldsJson + ")";
+        this.webView.evaluateJavascript(javascript, null);
+    }
+
+    /**
+     * Respond to the player selecting a filed, by highlighting all related fields that may not
+     * contain duplication characters.
+     */
+    private void highlightRelatedFields(int xPos, int yPos) {
+        String coordinatesJson;
+
+        if (xPos >= 0 && yPos >= 0) {
+            List<GameLogic.Coordinate> coordinates = this.gameState.getGameLogic().getFieldsWithoutDuplicates(xPos, yPos);
+            coordinatesJson = new Gson().toJson(coordinates);
+        } else {
+            coordinatesJson = "[]";
+        }
+
+        String javascript = "highlightFields(" + coordinatesJson + ")";
+        this.webView.evaluateJavascript(javascript, null);
     }
 }

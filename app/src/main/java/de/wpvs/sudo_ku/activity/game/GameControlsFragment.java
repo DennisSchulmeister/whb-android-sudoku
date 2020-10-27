@@ -17,8 +17,8 @@ import de.wpvs.sudo_ku.model.game.GameState;
  * erases characters.
  */
 public class GameControlsFragment extends Fragment implements GameStateClient {
-    GameState gameState;
-    GameMessageExchange gameMessageExchange;
+    private GameState gameState;
+    private GameMessageExchange gameMessageExchange;
 
     /**
      * Callback to inflate the view hierarchy. To prevent crashes new views can be created here,

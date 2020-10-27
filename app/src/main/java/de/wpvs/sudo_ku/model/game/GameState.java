@@ -35,13 +35,13 @@ public class GameState {
      * valid characters are accepted.
      */
     @Relation(parentColumn = "uid", entityColumn = "gameUid")
-    List<CharacterFieldEntity> characterFields = new LinkedList<>();
+    public List<CharacterFieldEntity> characterFields = new LinkedList<>();
 
     /**
      * Detected words and their associated word number in the game fields.
      */
     @Relation(parentColumn = "uid", entityColumn = "gameUid")
-    List<WordEntity> words = new LinkedList<>();
+    public List<WordEntity> words = new LinkedList<>();
 
     /**
      * Error codes, why a game is inconsistent and should not be saved.
