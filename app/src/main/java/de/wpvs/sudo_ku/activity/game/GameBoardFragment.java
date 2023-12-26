@@ -3,18 +3,15 @@ package de.wpvs.sudo_ku.activity.game;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -38,16 +35,15 @@ public class GameBoardFragment extends Fragment implements GameStateClient {
     private GameMessageExchange gameMessageExchange;
 
     private WebView webView;
-    private WebViewInterface webViewInterface;
     private boolean gameBoardInitialized = false;
-    private Semaphore gameStateReady = new Semaphore(0);
+    private final Semaphore gameStateReady = new Semaphore(0);
 
     /**
      * Callback methods called from the JavaScript code running in the web view. Note, that the
      * methods of this class will not run on the UI thread.
      */
     private class WebViewInterface {
-        private Context context;
+        private final Context context;
 
         /**
          * Constructor
@@ -65,7 +61,7 @@ public class GameBoardFragment extends Fragment implements GameStateClient {
          */
         @JavascriptInterface
         public void onFieldSelected(int xPos, int yPos) {
-            GameBoardFragment.this.getActivity().runOnUiThread(() -> {
+            GameBoardFragment.this.requireActivity().runOnUiThread(() -> {
                 GameBoardFragment.this.gameMessageExchange.sendFieldMessage(GameStateClient.MESSAGE_FIELD_SELECTED, xPos, yPos);
             });
         }

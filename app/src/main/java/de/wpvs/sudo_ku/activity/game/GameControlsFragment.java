@@ -1,7 +1,6 @@
 package de.wpvs.sudo_ku.activity.game;
 
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,13 +92,13 @@ public class GameControlsFragment extends Fragment implements GameStateClient {
 
         // Resolve colors
         Resources resources = this.getResources();
-        this.pencilColorActive = resources.getColor(R.color.game_pencil_button_active);
-        this.pencilColorInactive = resources.getColor(R.color.game_pencil_button_inactive);
+        this.pencilColorActive = resources.getColor(R.color.game_pencil_button_active, getContext().getTheme());
+        this.pencilColorInactive = resources.getColor(R.color.game_pencil_button_inactive, getContext().getTheme());
 
-        this.characterColorActive = resources.getColor(R.color.game_character_button_active);
-        this.characterColorInactive = resources.getColor(R.color.game_character_button_inactive);
-        this.characterColorNotAllowed = resources.getColor(R.color.game_character_button_not_allowed);
-        this.characterColorLocked = resources.getColor(R.color.game_character_button_locked);
+        this.characterColorActive = resources.getColor(R.color.game_character_button_active, getContext().getTheme());
+        this.characterColorInactive = resources.getColor(R.color.game_character_button_inactive, getContext().getTheme());
+        this.characterColorNotAllowed = resources.getColor(R.color.game_character_button_not_allowed, getContext().getTheme());
+        this.characterColorLocked = resources.getColor(R.color.game_character_button_locked, getContext().getTheme());
 
         // Toggle pencil flag via pencil button
         this.pencilButton = view.findViewById(R.id.game_controls_fragment_pencil_button);

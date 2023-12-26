@@ -1,12 +1,12 @@
 package de.wpvs.sudo_ku.activity.menu;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import de.wpvs.sudo_ku.R;
-
-import android.os.Bundle;
-import android.view.MenuItem;
 
 /**
  * Intermediate activity that will be shown before a new game is started. Here the player is
@@ -28,7 +28,6 @@ public class NewGameActivity extends AppCompatActivity {
         this.setTheme(R.style.Theme_Sudoku_Preferences);
 
         // Display back button in the action bar
-
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

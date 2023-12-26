@@ -12,7 +12,6 @@ import android.widget.Toast;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -54,6 +53,7 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
     private int savedGameStateAge = 0;
     private long lastFullSecond = 0;
     private boolean saveOnExit = true;
+    private boolean checkGameWon = true;
 
     private ActionBar actionBar;
     private MenuItem elapsedTimeMenuItem;
@@ -168,7 +168,9 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
             gameStateClient.setGameState(this.gameState, this.gameMessageExchange);
         }
 
+        this.checkGameWon = false;
         this.gameMessageExchange.sendEmptyMessage(GameStateClient.MESSAGE_REFRESH_VIEWS);
+        this.checkGameWon = true;
     }
 
     /**
@@ -181,7 +183,7 @@ public class GameActivity extends AppCompatActivity implements Handler.Callback 
      * @param yPos Vertical field number or -1
      */
     public void onGameStateMessage(int what, int xPos, int yPos) {
-        if (this.gameState.game.progress == 100) {
+        if (this.checkGameWon && this.gameState.game.progress == 100) {
             NavigationUtils.gotoFinished(this, this.gameState.game.uid);
         }
     }
